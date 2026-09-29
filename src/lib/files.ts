@@ -1,4 +1,5 @@
 import { fullName } from "@/lib/resume/format";
+import { CV_LABELS } from "@/lib/resume/i18n";
 import type { Resume } from "@/lib/resume/types";
 
 export function downloadBlob(blob: Blob, fileName: string) {
@@ -13,7 +14,7 @@ export function downloadBlob(blob: Blob, fileName: string) {
   setTimeout(() => URL.revokeObjectURL(url), 60_000);
 }
 
-/** "Kovács Anna" → "Kovacs_Anna" – ASCII file names survive every e-mail client and ATS. */
+/** "Kovács Anna" → "Kovacs_Anna_oneletrajz" – ASCII file names survive every e-mail client and ATS. */
 export function fileBaseName(resume: Resume) {
   const name = fullName(resume.basics, resume.design.language)
     .normalize("NFD")
@@ -21,6 +22,6 @@ export function fileBaseName(resume: Resume) {
     .replace(/[^\w\s-]/g, "")
     .trim()
     .replace(/\s+/g, "_");
-  const suffix = resume.design.language === "hu" ? "oneletrajz" : "CV";
+  const suffix = CV_LABELS[resume.design.language].fileSuffix;
   return name ? `${name}_${suffix}` : suffix;
 }

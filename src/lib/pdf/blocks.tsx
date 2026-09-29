@@ -76,7 +76,7 @@ export function contactItems(basics: Basics, theme: Theme): ContactItem[] {
   if (basics.github.trim()) items.push({ icon: "github", text: profileHandle(basics.github), href: linkHref(basics.github, "url") });
   if (basics.birthDate.trim()) {
     const value = /^\d{4}-\d{2}-\d{2}$/.test(basics.birthDate)
-      ? new Date(`${basics.birthDate}T12:00:00`).toLocaleDateString(theme.language === "hu" ? "hu-HU" : "en-GB", { year: "numeric", month: "long", day: "numeric" })
+      ? new Date(`${basics.birthDate}T12:00:00`).toLocaleDateString(theme.labels.intl, { year: "numeric", month: "long", day: "numeric" })
       : basics.birthDate.trim();
     items.push({ icon: "birthDate", text: `${theme.labels.birthDate}: ${value}` });
   }

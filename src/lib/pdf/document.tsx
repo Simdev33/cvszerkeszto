@@ -1,5 +1,6 @@
 import { Document } from "@react-pdf/renderer";
 import { fullName } from "@/lib/resume/format";
+import { CV_LABELS } from "@/lib/resume/i18n";
 import type { Resume, TemplateId } from "@/lib/resume/types";
 import { ClassicTemplate } from "./templates/classic";
 import { ElegantTemplate } from "./templates/elegant";
@@ -16,9 +17,9 @@ const TEMPLATES: Record<TemplateId, (props: TemplateProps) => React.ReactElement
 };
 
 export function documentTitle(resume: Resume) {
-  const hu = resume.design.language === "hu";
+  const { documentTitle: title } = CV_LABELS[resume.design.language];
   const name = fullName(resume.basics, resume.design.language);
-  return name ? `${name} – ${hu ? "Önéletrajz" : "Résumé"}` : hu ? "Önéletrajz" : "Résumé";
+  return name ? `${name} – ${title}` : title;
 }
 
 export function ResumeDocument({ resume }: { resume: Resume }) {
@@ -32,7 +33,7 @@ export function ResumeDocument({ resume }: { resume: Resume }) {
       subject={resume.basics.headline || undefined}
       creator="CV Stúdió"
       producer="CV Stúdió"
-      language={resume.design.language === "hu" ? "hu-HU" : "en-GB"}
+      language={CV_LABELS[resume.design.language].intl}
     >
       <Template resume={resume} theme={theme} />
     </Document>

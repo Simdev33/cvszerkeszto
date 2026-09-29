@@ -4,6 +4,7 @@ import { ZoomIn, ZoomOut } from "lucide-react";
 import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
+import { useI18n } from "@/i18n/client";
 import { clamp, cn } from "@/lib/utils";
 
 const VIEW = 272;
@@ -26,8 +27,9 @@ export function PhotoDialog({
   onCancel: () => void;
   onSave: (dataUrl: string) => void;
 }) {
+  const { t: { photo: t } } = useI18n();
   const [loaded, setLoaded] = useState<Loaded | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(false);
   const [zoom, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const drag = useRef<{ x: number; y: number; start: { x: number; y: number } } | null>(null);
@@ -45,10 +47,10 @@ export function PhotoDialog({
         setLoaded({ image, url });
         setZoom(1);
         setOffset({ x: 0, y: 0 });
-        setError(null);
+        setError(false);
       })
       .catch(() => {
-        if (!cancelled) setError("Ezt a képet a böngésző nem tudja megnyitni (például HEIC). Használj JPG vagy PNG fotót.");
+        if (!cancelled) setError(true);
       });
     return () => {
       cancelled = true;
@@ -91,10 +93,10 @@ export function PhotoDialog({
   };
 
   return (
-    <Dialog open={file !== null} onClose={onCancel} label="Fotó igazítása" className="max-w-md">
+    <Dialog open={file !== null} onClose={onCancel} label={t.title} className="max-w-md">
       <div className="p-6">
-        <h2 className="text-lg font-semibold tracking-tight">Fotó igazítása</h2>
-        <p className="mt-1 text-sm text-fg-muted">Húzással igazíthatod, a csúszkával nagyíthatod.</p>
+        <h2 className="text-lg font-semibold tracking-tight">{t.title}</h2>
+        <p className="mt-1 text-sm text-fg-muted">{t.text}</p>
 
         <div className="mt-5 flex justify-center">
           <div
@@ -118,7 +120,7 @@ export function PhotoDialog({
             <div
               className={cn("pointer-events-none absolute inset-0 shadow-[0_0_0_999px_rgb(0_0_0/0.45)] ring-2 ring-white/90", shape === "circle" ? "rounded-full" : shape === "rounded" ? "rounded-[14%]" : "rounded-none")}
             />
-            {error && <p className="absolute inset-0 grid place-items-center p-6 text-center text-sm text-danger">{error}</p>}
+            {error && <p className="absolute inset-0 grid place-items-center p-6 text-center text-sm text-danger">{t.unsupported}</p>}
           </div>
         </div>
 
@@ -131,7 +133,7 @@ export function PhotoDialog({
             step={0.01}
             value={zoom}
             onChange={(event) => setZoom(Number(event.target.value))}
-            aria-label="Nagyítás"
+            aria-label={t.zoom}
             className="flex-1 accent-primary"
             disabled={!loaded}
           />
@@ -140,10 +142,10 @@ export function PhotoDialog({
 
         <div className="mt-6 flex justify-end gap-2">
           <Button variant="ghost" onClick={onCancel}>
-            Mégse
+            {t.cancel}
           </Button>
           <Button variant="primary" onClick={save} disabled={!loaded}>
-            Mentés
+            {t.save}
           </Button>
         </div>
       </div>

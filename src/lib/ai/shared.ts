@@ -3,6 +3,7 @@
  * Only the edited field and a short, anonymous context are ever sent – never
  * names, contact details or the photo.
  */
+import { CV_LANGUAGES } from "@/lib/resume/i18n";
 import type { CvLanguage } from "@/lib/resume/types";
 
 export type AiField = "summary" | "description";
@@ -18,6 +19,9 @@ export interface AiRequest {
   context: string;
 }
 
+/** Error codes returned by /api/ai (as { error }) or raised by the client; the editor translates them. */
+export type AiErrorCode = "not_configured" | "forbidden" | "rate_limited" | "invalid" | "overloaded" | "rejected" | "network" | "interrupted" | "empty" | "unknown";
+
 export const AI_LIMITS = { text: 4000, context: 6000 };
 
 /** Sent by the server when it retries mid-stream: everything before it is discarded. */
@@ -31,12 +35,12 @@ export function parseAiRequest(body: unknown): AiRequest | null {
   if (!body || typeof body !== "object") return null;
   const { field, action, language, text, context } = body as Record<string, unknown>;
   if (!FIELDS.includes(field as AiField) || !ACTIONS.includes(action as AiAction)) return null;
-  if (language !== "hu" && language !== "en") return null;
+  if (!CV_LANGUAGES.includes(language as CvLanguage)) return null;
   if (typeof text !== "string" || typeof context !== "string") return null;
   if (text.length > AI_LIMITS.text || context.length > AI_LIMITS.context) return null;
   if (action !== "write" && !text.trim()) return null;
   if (action === "bullets" && field !== "description") return null;
-  return { field: field as AiField, action: action as AiAction, language, text, context };
+  return { field: field as AiField, action: action as AiAction, language: language as CvLanguage, text, context };
 }
 
 const BULLET = /^\s*[-*•–·▪]\s+/;

@@ -6,6 +6,7 @@ import { SortableContext, sortableKeyboardCoordinates, useSortable, verticalList
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
 import type { ReactNode } from "react";
+import { useI18n } from "@/i18n/client";
 import { cn } from "@/lib/utils";
 
 /** Vertical drag-and-drop list with mouse, touch and keyboard support. */
@@ -18,6 +19,7 @@ export function SortableList<T extends { id: string }>({
   onMove: (activeId: string, overId: string) => void;
   children: (item: T, index: number) => ReactNode;
 }) {
+  const { t } = useI18n();
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
@@ -33,13 +35,13 @@ export function SortableList<T extends { id: string }>({
       onDragEnd={onDragEnd}
       accessibility={{
         screenReaderInstructions: {
-          draggable: "Felvételhez nyomd meg a szóközt, a nyilakkal mozgathatod, újabb szóközzel leteheted, Escape-pel megszakíthatod.",
+          draggable: t.sortable.instructions,
         },
         announcements: {
-          onDragStart: () => "Elem felvéve.",
-          onDragOver: () => "Elem mozgatva.",
-          onDragEnd: () => "Elem letéve.",
-          onDragCancel: () => "Mozgatás megszakítva.",
+          onDragStart: () => t.sortable.pickedUp,
+          onDragOver: () => t.sortable.moved,
+          onDragEnd: () => t.sortable.dropped,
+          onDragCancel: () => t.sortable.cancelled,
         },
       }}
     >
@@ -52,6 +54,7 @@ export function SortableList<T extends { id: string }>({
 
 /** Wraps a row: the returned handle is the only drag trigger, so inputs stay usable. */
 export function SortableRow({ id, children, className }: { id: string; children: (handle: ReactNode) => ReactNode; className?: string }) {
+  const { t } = useI18n();
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } = useSortable({ id });
   const handle = (
     <button
@@ -59,7 +62,7 @@ export function SortableRow({ id, children, className }: { id: string; children:
       ref={setActivatorNodeRef}
       {...attributes}
       {...listeners}
-      aria-label="Áthelyezés húzással"
+      aria-label={t.sortable.handle}
       className="grid h-8 w-6 shrink-0 cursor-grab touch-none place-items-center rounded-md text-fg-subtle hover:bg-surface-2 hover:text-fg active:cursor-grabbing"
     >
       <GripVertical className="size-4" />

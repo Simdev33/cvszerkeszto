@@ -19,6 +19,12 @@ describe("dates", () => {
     expect(formatRange({ start: "", end: "2020-05", current: false }, "en")).toBe("May 2020");
     expect(formatRange({ start: "2020", end: "2020", current: false }, "hu")).toBe("2020");
   });
+
+  it("follows each CV language's date conventions", () => {
+    expect(formatRange({ start: "2021-03", end: "", current: true }, "de")).toBe("03/2021 – heute");
+    expect(formatRange({ start: "2018-09", end: "2021-02", current: false }, "fr")).toBe("sept. 2018 – févr. 2021");
+    expect(formatRange({ start: "2021-03", end: "", current: true }, "es")).toBe("mar. 2021 – actualidad");
+  });
 });
 
 describe("names and links", () => {
@@ -28,6 +34,7 @@ describe("names and links", () => {
     expect(fullName(basics, "en")).toBe("Anna Kovács");
     expect(initials(basics, "hu")).toBe("KA");
     expect(fullName({ lastName: "", firstName: "Anna" }, "hu")).toBe("Anna");
+    expect(fullName(basics, "de")).toBe("Anna Kovács");
   });
 
   it("prettifies and links URLs, e-mails and phones", () => {

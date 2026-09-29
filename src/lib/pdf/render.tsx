@@ -5,10 +5,11 @@
 import { pdf } from "@react-pdf/renderer";
 import type { Resume } from "@/lib/resume/types";
 import { ResumeDocument } from "./document";
-import { registerFonts } from "./theme";
+import { registerFonts, resetGlyphCaches } from "./theme";
 
 export async function renderResumePdf(resume: Resume): Promise<Blob> {
   registerFonts((file) => new URL(`/fonts/${file}`, window.location.origin).href);
+  resetGlyphCaches();
   return pdf(<ResumeDocument resume={resume} />).toBlob();
 }
 

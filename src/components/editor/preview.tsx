@@ -4,6 +4,8 @@ import { FileWarning, Minus, Plus } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/controls";
+import { useI18n } from "@/i18n/client";
+import { fmt } from "@/i18n/format";
 import type { PreviewPage } from "@/lib/preview";
 import type { Resume } from "@/lib/resume/types";
 import { useEditor } from "@/lib/store";
@@ -33,6 +35,7 @@ interface Rendered {
 
 /** Live preview: renders the real PDF and shows its pages. */
 export function Preview({ className }: { className?: string }) {
+  const { t, plural } = useI18n();
   const resume = useEditor((state) => state.resume);
   const setDesign = useEditor((state) => state.setDesign);
   const [debounced, setDebounced] = useState(resume);
@@ -67,10 +70,10 @@ export function Preview({ className }: { className?: string }) {
     })().catch((error: unknown) => {
       console.error(error);
       if (id === sequence.current) {
-        setRendered((previous) => ({ ...previous, resume: debounced, error: "Az előnézet nem készült el. Próbáld újra, vagy válassz másik betűtípust." }));
+        setRendered((previous) => ({ ...previous, resume: debounced, error: t.preview.failed }));
       }
     });
-  }, [debounced, containerWidth, pageWidth]);
+  }, [debounced, containerWidth, pageWidth, t.preview.failed]);
 
   useEffect(() => () => rendered.pages.forEach((page) => URL.revokeObjectURL(page.url)), [rendered.pages]);
 
@@ -81,21 +84,21 @@ export function Preview({ className }: { className?: string }) {
   return (
     <div className={cn("flex min-h-0 flex-col bg-canvas", className)}>
       <div className="flex h-12 shrink-0 items-center gap-3 border-b border-border bg-surface/85 px-4 backdrop-blur">
-        <p className="text-[13px] font-medium">Előnézet</p>
-        <span className="text-xs text-fg-subtle tabular-nums">{pageCount ? `${pageCount} oldal` : ""}</span>
+        <p className="text-[13px] font-medium">{t.preview.title}</p>
+        <span className="text-xs text-fg-subtle tabular-nums">{pageCount ? plural(t.preview.pages, pageCount) : ""}</span>
         {busy && (
           <span className="flex items-center gap-1.5 text-xs text-fg-subtle">
-            <Spinner className="size-3" /> frissítés…
+            <Spinner className="size-3" /> {t.preview.updating}
           </span>
         )}
         <div className="ml-auto flex items-center gap-1">
-          <Button variant="ghost" size="icon-sm" onClick={() => setZoom(ZOOMS[Math.max(0, zoomIndex - 1)])} disabled={zoomIndex === 0} aria-label="Kicsinyítés">
+          <Button variant="ghost" size="icon-sm" onClick={() => setZoom(ZOOMS[Math.max(0, zoomIndex - 1)])} disabled={zoomIndex === 0} aria-label={t.preview.zoomOut}>
             <Minus />
           </Button>
-          <button type="button" onClick={() => setZoom(1)} className="w-12 text-center text-xs text-fg-muted tabular-nums hover:text-fg" title="Laphoz igazítás">
+          <button type="button" onClick={() => setZoom(1)} className="w-12 text-center text-xs text-fg-muted tabular-nums hover:text-fg" title={t.preview.fit}>
             {Math.round(zoom * 100)}%
           </button>
-          <Button variant="ghost" size="icon-sm" onClick={() => setZoom(ZOOMS[Math.min(ZOOMS.length - 1, zoomIndex + 1)])} disabled={zoomIndex === ZOOMS.length - 1} aria-label="Nagyítás">
+          <Button variant="ghost" size="icon-sm" onClick={() => setZoom(ZOOMS[Math.min(ZOOMS.length - 1, zoomIndex + 1)])} disabled={zoomIndex === ZOOMS.length - 1} aria-label={t.preview.zoomIn}>
             <Plus />
           </Button>
         </div>
@@ -103,9 +106,9 @@ export function Preview({ className }: { className?: string }) {
 
       {pageCount > 1 && resume.design.density !== "compact" && (
         <div className="flex items-center justify-between gap-3 border-b border-border bg-warning-soft px-4 py-2 text-xs text-warning">
-          <span>Az önéletrajzod {pageCount} oldalas. Egy oldal általában jobb benyomást kelt.</span>
+          <span>{fmt(t.preview.tooLong, { count: pageCount })}</span>
           <button type="button" className="shrink-0 font-semibold underline-offset-2 hover:underline" onClick={() => setDesign({ density: "compact" })}>
-            Kompakt méret
+            {t.preview.compact}
           </button>
         </div>
       )}
@@ -128,7 +131,7 @@ export function Preview({ className }: { className?: string }) {
             <img
               key={page.url}
               src={page.url}
-              alt={`${index + 1}. oldal`}
+              alt={fmt(t.preview.pageAlt, { page: index + 1 })}
               className={cn("w-full rounded-[2px] bg-white shadow-page transition-opacity", busy && "opacity-80")}
               style={{ aspectRatio: `${page.width} / ${page.height}` }}
             />

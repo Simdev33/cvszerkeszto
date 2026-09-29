@@ -4,7 +4,7 @@ import { fullName } from "@/lib/resume/format";
 import type { Section } from "@/lib/resume/types";
 import { Bar, contactItems, ContactColumn, languageValue, namedLanguages, namedSkills, Photo, sectionTitle, Tags } from "../blocks";
 import type { Theme } from "../theme";
-import { filledEntries, isEntrySection, NAME_PLACEHOLDER, SectionBlock, splitSections, StandardEntry, type TemplateProps } from "./shared";
+import { filledEntries, isEntrySection, SectionBlock, splitSections, StandardEntry, type TemplateProps } from "./shared";
 
 const SIDE_WIDTH = 182;
 
@@ -109,7 +109,7 @@ export function ModernTemplate({ resume, theme }: TemplateProps) {
 
       <View style={{ flex: 1, paddingLeft: 26, paddingRight: 30 }}>
         <Text style={{ fontFamily: theme.heading, fontSize: theme.size * 2.7, fontWeight: 700, lineHeight: 1.1, color: name ? theme.ink : theme.rule }}>
-          {name || NAME_PLACEHOLDER[theme.language]}
+          {name || theme.labels.namePlaceholder}
         </Text>
         {basics.headline.trim() ? (
           <Text style={{ fontSize: theme.size * 1.25, color: theme.accent, fontWeight: 600, marginTop: 4 }}>{basics.headline.trim()}</Text>

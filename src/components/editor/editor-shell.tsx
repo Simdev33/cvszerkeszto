@@ -2,6 +2,8 @@
 
 import dynamic from "next/dynamic";
 import { Spinner } from "@/components/ui/controls";
+import { I18nProvider, type ClientMessages } from "@/i18n/client";
+import type { Locale } from "@/i18n/config";
 
 // The editor reads the saved CV from localStorage, so it only renders in the browser.
 const EditorApp = dynamic(() => import("./editor-app").then((mod) => mod.EditorApp), {
@@ -13,6 +15,10 @@ const EditorApp = dynamic(() => import("./editor-app").then((mod) => mod.EditorA
   ),
 });
 
-export function EditorShell() {
-  return <EditorApp />;
+export function EditorShell({ locale, messages }: { locale: Locale; messages: ClientMessages }) {
+  return (
+    <I18nProvider locale={locale} messages={messages}>
+      <EditorApp />
+    </I18nProvider>
+  );
 }

@@ -4,7 +4,7 @@ import { formatRange, fullName } from "@/lib/resume/format";
 import type { Section } from "@/lib/resume/types";
 import { certificateDate, contactItems, ContactRow, Description, namedLanguages, namedSkills, Photo, sectionTitle, Tags } from "../blocks";
 import type { Theme } from "../theme";
-import { EntryLink, filledEntries, isEntrySection, NAME_PLACEHOLDER, SectionBlock, splitSections, type TemplateProps } from "./shared";
+import { EntryLink, filledEntries, isEntrySection, SectionBlock, splitSections, type TemplateProps } from "./shared";
 
 const DATE_COLUMN = 118;
 
@@ -82,7 +82,7 @@ export function MinimalTemplate({ resume, theme }: TemplateProps) {
       <View style={{ flexDirection: "row", gap: 16, alignItems: "center", marginBottom: theme.gap * 1.3 }}>
         <View style={{ flex: 1 }}>
           <Text style={{ fontFamily: theme.heading, fontSize: theme.size * 2.9, fontWeight: 700, lineHeight: 1.1, letterSpacing: -0.4, color: name ? theme.ink : theme.rule }}>
-            {name || NAME_PLACEHOLDER[theme.language]}
+            {name || theme.labels.namePlaceholder}
           </Text>
           {basics.headline.trim() ? (
             <Text style={{ fontSize: theme.size * 1.2, color: theme.accent, marginTop: 4 }}>{basics.headline.trim()}</Text>

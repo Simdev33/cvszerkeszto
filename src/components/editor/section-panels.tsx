@@ -21,9 +21,12 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/i18n/client";
+import type { Locale } from "@/i18n/config";
+import { fmt } from "@/i18n/format";
 import { entryContext } from "@/lib/ai/context";
 import { CV_LABELS } from "@/lib/resume/i18n";
-import { formatRange } from "@/lib/resume/format";
+import { formatMonth, formatRange } from "@/lib/resume/format";
 import type { Entry, EntrySectionType, LanguageLevel, Section, SectionType } from "@/lib/resume/types";
 import { useEditor } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -44,92 +47,22 @@ export const SECTION_ICONS: Record<SectionType, ReactNode> = {
   interests: <Heart />,
 };
 
-interface EntryFields {
-  title: string;
-  titlePlaceholder: string;
-  subtitle: string;
-  subtitlePlaceholder: string;
-  location?: boolean;
-  url?: boolean;
-  dates: "range" | "single";
-  description?: string;
-  descriptionPlaceholder?: string;
-  add: string;
-}
-
-const ENTRY_FIELDS: Record<EntrySectionType, EntryFields> = {
-  experience: {
-    title: "Pozíció",
-    titlePlaceholder: "pl. Értékesítési vezető",
-    subtitle: "Cég / munkáltató",
-    subtitlePlaceholder: "pl. Példa Kft.",
-    location: true,
-    dates: "range",
-    description: "Feladatok és eredmények",
-    descriptionPlaceholder: "- Új ügyfélkör kiépítése (+25% árbevétel)\n- 6 fős csapat vezetése\n- …",
-    add: "Munkahely hozzáadása",
-  },
-  education: {
-    title: "Végzettség / szak",
-    titlePlaceholder: "pl. Közgazdász BSc",
-    subtitle: "Intézmény",
-    subtitlePlaceholder: "pl. Budapesti Corvinus Egyetem",
-    location: true,
-    dates: "range",
-    description: "Részletek",
-    descriptionPlaceholder: "Szakdolgozat, kitüntetés, releváns tárgyak…",
-    add: "Tanulmány hozzáadása",
-  },
-  projects: {
-    title: "Projekt neve",
-    titlePlaceholder: "pl. Webáruház-fejlesztés",
-    subtitle: "Szerepkör",
-    subtitlePlaceholder: "pl. Projektvezető",
-    url: true,
-    dates: "range",
-    description: "Leírás",
-    descriptionPlaceholder: "Mi volt a cél, mi volt a te szereped, mi lett az eredmény?",
-    add: "Projekt hozzáadása",
-  },
-  certificates: {
-    title: "Megnevezés",
-    titlePlaceholder: "pl. ECDL, PRINCE2 Foundation",
-    subtitle: "Kiállító",
-    subtitlePlaceholder: "pl. Neumann Társaság",
-    url: true,
-    dates: "single",
-    add: "Tanúsítvány hozzáadása",
-  },
-  volunteering: {
-    title: "Szerepkör",
-    titlePlaceholder: "pl. Önkéntes mentor",
-    subtitle: "Szervezet",
-    subtitlePlaceholder: "pl. Példa Alapítvány",
-    location: true,
-    dates: "range",
-    description: "Leírás",
-    add: "Tevékenység hozzáadása",
-  },
-  custom: {
-    title: "Cím",
-    titlePlaceholder: "Megnevezés",
-    subtitle: "Alcím",
-    subtitlePlaceholder: "Szervezet, helyszín vagy kiegészítés",
-    location: true,
-    url: true,
-    dates: "range",
-    description: "Leírás",
-    add: "Tétel hozzáadása",
-  },
+/** Which fields each kind of entry has; the texts come from the dictionary. */
+const ENTRY_LAYOUT: Record<EntrySectionType, { location?: boolean; url?: boolean; dates: "range" | "single"; description: boolean }> = {
+  experience: { location: true, dates: "range", description: true },
+  education: { location: true, dates: "range", description: true },
+  projects: { url: true, dates: "range", description: true },
+  certificates: { url: true, dates: "single", description: false },
+  volunteering: { location: true, dates: "range", description: true },
+  custom: { location: true, url: true, dates: "range", description: true },
 };
 
-const LEVELS: { value: LanguageLevel; label: string }[] = (Object.entries(CV_LABELS.hu.levels) as [LanguageLevel, string][]).map(([value, label]) => ({ value, label }));
-
-const sectionName = (section: Section) => section.title.trim() || CV_LABELS.hu.sections[section.type];
+const sectionName = (section: Section, locale: Locale) => section.title.trim() || CV_LABELS[locale].sections[section.type];
 
 /* -------------------------------------------------------------------------- */
 
 function SectionActions({ section, removable }: { section: Section; removable: boolean }) {
+  const { t, locale } = useI18n();
   const updateSection = useEditor((state) => state.updateSection);
   const removeSection = useEditor((state) => state.removeSection);
   return (
@@ -138,8 +71,8 @@ function SectionActions({ section, removable }: { section: Section; removable: b
         variant="ghost"
         size="icon-sm"
         onClick={() => updateSection(section.id, { visible: !section.visible })}
-        aria-label={section.visible ? "Elrejtés az önéletrajzból" : "Megjelenítés az önéletrajzban"}
-        title={section.visible ? "Elrejtés az önéletrajzból" : "Megjelenítés"}
+        aria-label={section.visible ? t.section.hide : t.section.show}
+        title={section.visible ? t.section.hide : t.section.show}
       >
         {section.visible ? <Eye /> : <EyeOff />}
       </Button>
@@ -147,9 +80,9 @@ function SectionActions({ section, removable }: { section: Section; removable: b
         <Button
           variant="ghost"
           size="icon-sm"
-          onClick={() => window.confirm(`Biztosan törlöd a(z) „${sectionName(section)}” szakaszt?`) && removeSection(section.id)}
-          aria-label="Szakasz törlése"
-          title="Szakasz törlése"
+          onClick={() => window.confirm(fmt(t.section.confirmRemove, { name: sectionName(section, locale) })) && removeSection(section.id)}
+          aria-label={t.section.remove}
+          title={t.section.remove}
         >
           <Trash2 />
         </Button>
@@ -159,12 +92,13 @@ function SectionActions({ section, removable }: { section: Section; removable: b
 }
 
 function SectionTitleField({ section }: { section: Section }) {
+  const { t, locale } = useI18n();
   const updateSection = useEditor((state) => state.updateSection);
   return (
     <TextField
-      label="Szakasz címe"
-      hint="üresen hagyva az alapértelmezett"
-      placeholder={CV_LABELS.hu.sections[section.type]}
+      label={t.section.titleLabel}
+      hint={t.section.titleHint}
+      placeholder={CV_LABELS[locale].sections[section.type]}
       value={section.title}
       onChange={(event) => updateSection(section.id, { title: event.target.value })}
     />
@@ -174,7 +108,9 @@ function SectionTitleField({ section }: { section: Section }) {
 /* --------------------------------- entries -------------------------------- */
 
 function EntryCard({ sectionId, type, entry, handle }: { sectionId: string; type: EntrySectionType; entry: Entry; handle: ReactNode }) {
-  const fields = ENTRY_FIELDS[type];
+  const { t, locale } = useI18n();
+  const layout = ENTRY_LAYOUT[type];
+  const fields = t.entries[type];
   const focusId = useEditor((state) => state.focusId);
   const clearFocus = useEditor((state) => state.clearFocus);
   const updateEntry = useEditor((state) => state.updateEntry);
@@ -191,8 +127,8 @@ function EntryCard({ sectionId, type, entry, handle }: { sectionId: string; type
   }, [focusId, entry.id, clearFocus]);
 
   const set = (patch: Partial<Entry>) => updateEntry(sectionId, entry.id, patch);
-  const summary = [entry.title.trim(), entry.subtitle.trim()].filter(Boolean).join(" – ") || "Új tétel";
-  const dates = fields.dates === "single" ? entry.end || entry.start : formatRange(entry, "hu");
+  const summary = [entry.title.trim(), entry.subtitle.trim()].filter(Boolean).join(" – ") || t.entry.untitled;
+  const dates = layout.dates === "single" ? formatMonth(entry.end || entry.start, locale) : formatRange(entry, locale);
 
   return (
     <div ref={ref} className="rounded-xl bg-surface-2/60 ring-1 ring-border ring-inset">
@@ -202,13 +138,13 @@ function EntryCard({ sectionId, type, entry, handle }: { sectionId: string; type
           <span className="block truncate text-[13px] font-medium">{summary}</span>
           {dates && <span className="block truncate text-[11px] text-fg-subtle">{dates}</span>}
         </button>
-        <Button variant="ghost" size="icon-sm" onClick={() => duplicateEntry(sectionId, entry.id)} aria-label="Másolat" title="Másolat">
+        <Button variant="ghost" size="icon-sm" onClick={() => duplicateEntry(sectionId, entry.id)} aria-label={t.entry.duplicate} title={t.entry.duplicate}>
           <Copy />
         </Button>
-        <Button variant="ghost" size="icon-sm" onClick={() => removeEntry(sectionId, entry.id)} aria-label="Törlés" title="Törlés">
+        <Button variant="ghost" size="icon-sm" onClick={() => removeEntry(sectionId, entry.id)} aria-label={t.entry.remove} title={t.entry.remove}>
           <Trash2 />
         </Button>
-        <Button variant="ghost" size="icon-sm" onClick={() => setOpen(!open)} aria-label={open ? "Összecsukás" : "Kinyitás"}>
+        <Button variant="ghost" size="icon-sm" onClick={() => setOpen(!open)} aria-label={open ? t.entry.collapse : t.entry.expand}>
           <ChevronDown className={cn("transition-transform", open && "rotate-180")} />
         </Button>
       </div>
@@ -216,31 +152,31 @@ function EntryCard({ sectionId, type, entry, handle }: { sectionId: string; type
         <div className="grid gap-3 border-t border-border px-3 pt-3 pb-4 sm:grid-cols-2">
           <TextField label={fields.title} placeholder={fields.titlePlaceholder} value={entry.title} onChange={(e) => set({ title: e.target.value })} />
           <TextField label={fields.subtitle} placeholder={fields.subtitlePlaceholder} value={entry.subtitle} onChange={(e) => set({ subtitle: e.target.value })} />
-          {fields.location && <TextField label="Helyszín" placeholder="pl. Budapest" value={entry.location} onChange={(e) => set({ location: e.target.value })} />}
-          {fields.url && <TextField label="Link" placeholder="pl. example.com" value={entry.url} onChange={(e) => set({ url: e.target.value })} />}
-          {fields.dates === "single" ? (
-            <MonthField label="Dátum" value={entry.end || entry.start} onChange={(value) => set({ end: value, start: "" })} />
+          {layout.location && <TextField label={t.entry.location} placeholder={t.entry.locationPlaceholder} value={entry.location} onChange={(e) => set({ location: e.target.value })} />}
+          {layout.url && <TextField label={t.entry.link} placeholder={t.entry.linkPlaceholder} value={entry.url} onChange={(e) => set({ url: e.target.value })} />}
+          {layout.dates === "single" ? (
+            <MonthField label={t.entry.date} value={entry.end || entry.start} onChange={(value) => set({ end: value, start: "" })} />
           ) : (
             <>
-              <MonthField label="Kezdés" value={entry.start} onChange={(value) => set({ start: value })} />
+              <MonthField label={t.entry.start} value={entry.start} onChange={(value) => set({ start: value })} />
               <div className="space-y-2">
-                <MonthField label="Befejezés" value={entry.end} onChange={(value) => set({ end: value })} disabled={entry.current} />
-                <Checkbox label={type === "education" ? "Jelenleg is itt tanulok" : "Jelenleg is tart"} checked={entry.current} onChange={(current) => set({ current })} />
+                <MonthField label={t.entry.end} value={entry.end} onChange={(value) => set({ end: value })} disabled={entry.current} />
+                <Checkbox label={type === "education" ? t.entry.currentStudy : t.entry.current} checked={entry.current} onChange={(current) => set({ current })} />
               </div>
             </>
           )}
-          {fields.description && (
+          {layout.description && (
             <AiTextArea
               field="description"
               className="sm:col-span-2"
               label={fields.description}
-              hint="„-” jellel kezdett sor = felsorolás"
-              placeholder={fields.descriptionPlaceholder}
+              hint={t.entry.descriptionHint}
+              placeholder={fields.descriptionPlaceholder || undefined}
               value={entry.description}
               minRows={4}
               onValueChange={(description) => set({ description })}
               context={() => entryContext(useEditor.getState().resume, type, entry)}
-              writeHint={`Előbb add meg: ${fields.title.toLowerCase()} vagy ${fields.subtitle.toLowerCase()}`}
+              writeHint={fmt(t.entry.writeHint, { title: fields.title, subtitle: fields.subtitle })}
             />
           )}
         </div>
@@ -252,7 +188,8 @@ function EntryCard({ sectionId, type, entry, handle }: { sectionId: string; type
 function EntriesEditor({ section }: { section: Extract<Section, { entries: Entry[] }> }) {
   const addEntry = useEditor((state) => state.addEntry);
   const moveItem = useEditor((state) => state.moveItem);
-  const fields = ENTRY_FIELDS[section.type];
+  const { t } = useI18n();
+  const fields = t.entries[section.type];
   return (
     <div className="space-y-2">
       <SortableList items={section.entries} onMove={(a, b) => moveItem(section.id, a, b)}>
@@ -273,15 +210,16 @@ function EntriesEditor({ section }: { section: Extract<Section, { entries: Entry
 /* ---------------------------------- skills -------------------------------- */
 
 function LevelPicker({ value, onChange }: { value: number; onChange: (value: number) => void }) {
+  const { t } = useI18n();
   return (
-    <div className="flex items-center gap-1" role="radiogroup" aria-label="Szint">
+    <div className="flex items-center gap-1" role="radiogroup" aria-label={t.skills.levels}>
       {[1, 2, 3, 4, 5].map((level) => (
         <button
           key={level}
           type="button"
           role="radio"
           aria-checked={value === level}
-          aria-label={`${level}. szint`}
+          aria-label={fmt(t.skills.level, { level })}
           onClick={() => onChange(value === level ? 0 : level)}
           className={cn("size-3.5 rounded-full ring-1 transition-colors ring-inset", level <= value ? "bg-primary ring-primary" : "bg-surface ring-border-strong hover:bg-primary-soft")}
         />
@@ -292,6 +230,7 @@ function LevelPicker({ value, onChange }: { value: number; onChange: (value: num
 
 function SkillsEditor({ section }: { section: Extract<Section, { type: "skills" }> }) {
   const { addSkill, updateSkill, removeSkill, moveItem } = useEditor.getState();
+  const { t } = useI18n();
   const focusId = useEditor((state) => state.focusId);
   const clearFocus = useEditor((state) => state.clearFocus);
   const [bulk, setBulk] = useState("");
@@ -320,12 +259,12 @@ function SkillsEditor({ section }: { section: Extract<Section, { type: "skills" 
                   <input
                     data-id={skill.id}
                     value={skill.name}
-                    placeholder="Készség, pl. Excel"
+                    placeholder={t.skills.placeholder}
                     onChange={(e) => updateSkill(section.id, skill.id, { name: e.target.value })}
                     className="h-8 min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-fg-subtle"
                   />
                   <LevelPicker value={skill.level} onChange={(level) => updateSkill(section.id, skill.id, { level })} />
-                  <Button variant="ghost" size="icon-sm" onClick={() => removeSkill(section.id, skill.id)} aria-label="Törlés">
+                  <Button variant="ghost" size="icon-sm" onClick={() => removeSkill(section.id, skill.id)} aria-label={t.skills.remove}>
                     <X />
                   </Button>
                 </div>
@@ -345,16 +284,16 @@ function SkillsEditor({ section }: { section: Extract<Section, { type: "skills" 
               else addSkill(section.id);
             }
           }}
-          placeholder="Új készségek vesszővel elválasztva, majd Enter"
-          aria-label="Új készségek"
+          placeholder={t.skills.bulkPlaceholder}
+          aria-label={t.skills.bulkLabel}
           className="h-9 min-w-0 flex-1 rounded-lg bg-surface px-3 text-sm ring-1 ring-border-strong/70 outline-none ring-inset placeholder:text-fg-subtle focus:ring-2 focus:ring-primary"
         />
         <Button variant="soft" size="md" onClick={() => (bulk.trim() ? addMany() : addSkill(section.id))}>
           <Plus />
-          Hozzáadás
+          {t.skills.add}
         </Button>
       </div>
-      <p className="text-xs text-fg-subtle">A pöttyökkel adhatsz szintet (újrakattintás = szint nélkül). Szint nélkül címkeként jelennek meg.</p>
+      <p className="text-xs text-fg-subtle">{t.skills.help}</p>
     </div>
   );
 }
@@ -363,6 +302,8 @@ function SkillsEditor({ section }: { section: Extract<Section, { type: "skills" 
 
 function LanguagesEditor({ section }: { section: Extract<Section, { type: "languages" }> }) {
   const { addLanguage, updateLanguage, removeLanguage, moveItem } = useEditor.getState();
+  const { t, locale } = useI18n();
+  const levels = Object.entries(CV_LABELS[locale].levels) as [LanguageLevel, string][];
   return (
     <div className="space-y-2">
       <SortableList items={section.languages} onMove={(a, b) => moveItem(section.id, a, b)}>
@@ -373,23 +314,23 @@ function LanguagesEditor({ section }: { section: Extract<Section, { type: "langu
                 {handle}
                 <input
                   value={language.name}
-                  placeholder="Nyelv, pl. Angol"
+                  placeholder={t.languages.placeholder}
                   onChange={(e) => updateLanguage(section.id, language.id, { name: e.target.value })}
                   className="h-8 min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-fg-subtle"
                 />
                 <select
                   value={language.level}
                   onChange={(e) => updateLanguage(section.id, language.id, { level: e.target.value as LanguageLevel })}
-                  aria-label="Szint"
+                  aria-label={t.languages.level}
                   className="h-8 rounded-md bg-surface px-2 text-[13px] ring-1 ring-border outline-none ring-inset focus:ring-2 focus:ring-primary"
                 >
-                  {LEVELS.map((level) => (
-                    <option key={level.value} value={level.value}>
-                      {level.label}
+                  {levels.map(([value, label]) => (
+                    <option key={value} value={value}>
+                      {label}
                     </option>
                   ))}
                 </select>
-                <Button variant="ghost" size="icon-sm" onClick={() => removeLanguage(section.id, language.id)} aria-label="Törlés">
+                <Button variant="ghost" size="icon-sm" onClick={() => removeLanguage(section.id, language.id)} aria-label={t.languages.remove}>
                   <X />
                 </Button>
               </div>
@@ -399,7 +340,7 @@ function LanguagesEditor({ section }: { section: Extract<Section, { type: "langu
       </SortableList>
       <Button variant="soft" size="sm" className="w-full" onClick={() => addLanguage(section.id)}>
         <Plus />
-        Nyelv hozzáadása
+        {t.languages.add}
       </Button>
     </div>
   );
@@ -409,6 +350,7 @@ function LanguagesEditor({ section }: { section: Extract<Section, { type: "langu
 
 function TagsEditor({ section }: { section: Extract<Section, { type: "interests" }> }) {
   const setTags = useEditor((state) => state.setTags);
+  const { t } = useI18n();
   const [draft, setDraft] = useState("");
   const add = () => {
     const tags = draft.split(/[,;\n]/).map((tag) => tag.trim()).filter(Boolean);
@@ -425,7 +367,7 @@ function TagsEditor({ section }: { section: Extract<Section, { type: "interests"
               <button
                 type="button"
                 onClick={() => setTags(section.id, section.tags.filter((_, i) => i !== index))}
-                aria-label={`${tag} törlése`}
+                aria-label={fmt(t.interests.remove, { tag })}
                 className="grid size-5 place-items-center rounded-full hover:bg-primary/15"
               >
                 <X className="size-3" />
@@ -444,13 +386,13 @@ function TagsEditor({ section }: { section: Extract<Section, { type: "interests"
               add();
             }
           }}
-          placeholder="pl. Futás, Fotózás – Enter"
-          aria-label="Új érdeklődési kör"
+          placeholder={t.interests.placeholder}
+          aria-label={t.interests.label}
           className="h-9 min-w-0 flex-1 rounded-lg bg-surface px-3 text-sm ring-1 ring-border-strong/70 outline-none ring-inset placeholder:text-fg-subtle focus:ring-2 focus:ring-primary"
         />
         <Button variant="soft" onClick={add} disabled={!draft.trim()}>
           <Plus />
-          Hozzáadás
+          {t.interests.add}
         </Button>
       </div>
     </div>
@@ -475,6 +417,7 @@ function countOf(section: Section) {
 }
 
 export function SectionPanel({ section }: { section: Section }) {
+  const { t, locale, plural } = useI18n();
   const focusId = useEditor((state) => state.focusId);
   const [open, setOpen] = useState(focusId === section.id);
   const count = countOf(section);
@@ -484,8 +427,8 @@ export function SectionPanel({ section }: { section: Section }) {
     <Panel
       id={`section-${section.id}`}
       icon={SECTION_ICONS[section.type]}
-      title={sectionName(section)}
-      subtitle={section.visible ? (count ? `${count} tétel` : "Még üres") : "Elrejtve az önéletrajzból"}
+      title={sectionName(section, locale)}
+      subtitle={section.visible ? (count ? plural(t.section.items, count) : t.section.empty) : t.section.hidden}
       muted={!section.visible}
       open={open}
       onOpenChange={setOpen}
@@ -510,6 +453,7 @@ const ADDABLE: SectionType[] = ["projects", "certificates", "volunteering", "int
 export function AddSectionMenu() {
   const sections = useEditor((state) => state.resume.sections);
   const addSection = useEditor((state) => state.addSection);
+  const { t, locale } = useI18n();
   const [open, setOpen] = useState(false);
   const available = ADDABLE.filter((type) => type === "custom" || !sections.some((section) => section.type === type));
 
@@ -517,7 +461,7 @@ export function AddSectionMenu() {
     <div className="rounded-2xl border border-dashed border-border-strong p-3">
       <button type="button" onClick={() => setOpen(!open)} className="flex w-full items-center justify-center gap-2 py-1.5 text-sm font-medium text-fg-muted hover:text-fg">
         <ListPlus className="size-4" />
-        Szakasz hozzáadása
+        {t.section.add}
       </button>
       {open && (
         <div className="mt-2 grid gap-2 sm:grid-cols-2">
@@ -532,7 +476,7 @@ export function AddSectionMenu() {
               className="flex items-center gap-2.5 rounded-lg bg-surface px-3 py-2.5 text-left text-[13px] font-medium ring-1 ring-border ring-inset hover:bg-surface-2 [&_svg]:size-4 [&_svg]:text-primary"
             >
               {SECTION_ICONS[type]}
-              {type === "custom" ? "Egyéni szakasz" : CV_LABELS.hu.sections[type]}
+              {type === "custom" ? t.section.custom : CV_LABELS[locale].sections[type]}
             </button>
           ))}
         </div>

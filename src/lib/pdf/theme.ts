@@ -3,12 +3,12 @@ import { CV_LABELS, type CvLabels } from "@/lib/resume/i18n";
 import type { CvLanguage, Density, Design, FontId, PhotoShape } from "@/lib/resume/types";
 import { textOn, tint } from "@/lib/utils";
 
-export const FONT_FAMILIES: Record<FontId, { label: string; body: string; heading: string; description: string }> = {
-  inter: { label: "Inter", body: "Inter", heading: "Inter", description: "Modern, jól olvasható" },
-  roboto: { label: "Roboto", body: "Roboto", heading: "Roboto", description: "Semleges, letisztult" },
-  montserrat: { label: "Montserrat", body: "Montserrat", heading: "Montserrat", description: "Geometrikus, karakteres" },
-  merriweather: { label: "Merriweather", body: "Merriweather", heading: "Merriweather", description: "Talpas, hagyományos" },
-  elegant: { label: "Playfair + Inter", body: "Inter", heading: "Playfair Display", description: "Elegáns címek" },
+export const FONT_FAMILIES: Record<FontId, { label: string; body: string; heading: string }> = {
+  inter: { label: "Inter", body: "Inter", heading: "Inter" },
+  roboto: { label: "Roboto", body: "Roboto", heading: "Roboto" },
+  montserrat: { label: "Montserrat", body: "Montserrat", heading: "Montserrat" },
+  merriweather: { label: "Merriweather", body: "Merriweather", heading: "Merriweather" },
+  elegant: { label: "Playfair + Inter", body: "Inter", heading: "Playfair Display" },
 };
 
 const FILES: Record<string, { file: string; fontWeight?: number; fontStyle?: "italic" }[]> = {
@@ -39,6 +39,23 @@ export function registerFonts(resolve: (file: string) => string) {
   // Hungarian words must not be hyphenated with English rules. Only absurdly
   // long tokens may break (react-pdf then adds a hyphen), so nothing overflows.
   Font.registerHyphenationCallback((word) => (word.length > 32 ? (word.match(/.{1,16}/g) ?? [word]) : [word]));
+}
+
+type LoadedSource = { data: { _glyphs?: Record<number, unknown> } | null };
+
+/**
+ * Call before rendering each document. fontkit caches glyph objects together
+ * with the code points of their first use, and subsetting a finished PDF adds
+ * the components of composite glyphs (e.g. the ’ inside ”) with no code points.
+ * The next document would then reuse those: its text layer reads "d6expérience"
+ * and line breaks shift. A fresh cache per document avoids that.
+ */
+export function resetGlyphCaches() {
+  for (const family of Object.values(Font.getRegisteredFonts())) {
+    for (const source of (family as unknown as { sources: LoadedSource[] }).sources) {
+      if (source.data?._glyphs) source.data._glyphs = {};
+    }
+  }
 }
 
 const DENSITY: Record<Density, { size: number; line: number; gap: number; entryGap: number; page: number }> = {

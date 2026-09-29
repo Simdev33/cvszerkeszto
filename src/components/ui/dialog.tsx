@@ -1,6 +1,5 @@
 "use client";
 
-import { X } from "lucide-react";
 import { useEffect, useRef, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
@@ -47,18 +46,5 @@ export function Dialog({
     >
       {open && <div className="overflow-hidden rounded-2xl bg-surface shadow-2xl ring-1 ring-border">{children}</div>}
     </dialog>
-  );
-}
-
-export function DialogClose({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label="Bezárás"
-      className="absolute top-3.5 right-3.5 grid size-8 place-items-center rounded-lg text-fg-subtle transition-colors hover:bg-surface-2 hover:text-fg"
-    >
-      <X className="size-4" />
-    </button>
   );
 }

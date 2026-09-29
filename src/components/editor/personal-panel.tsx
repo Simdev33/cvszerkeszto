@@ -4,6 +4,8 @@ import { Camera, MessageSquareText, Trash2, UserRound } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/i18n/client";
+import { fmt } from "@/i18n/format";
 import { resumeContext } from "@/lib/ai/context";
 import { fullName, initials } from "@/lib/resume/format";
 import { useEditor } from "@/lib/store";
@@ -13,41 +15,46 @@ import { Panel } from "./panel";
 import { PhotoDialog } from "./photo-dialog";
 
 export function PersonalPanel() {
+  const { t: { personal: t }, locale } = useI18n();
   const basics = useEditor((state) => state.resume.basics);
   const design = useEditor((state) => state.resume.design);
   const setBasics = useEditor((state) => state.setBasics);
   const [pending, setPending] = useState<File | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
-  const bind = (key: Exclude<keyof typeof basics, "photo">) => ({
+  const bind = (key: Exclude<keyof typeof basics, "photo" | "summary">) => ({
+    label: t.fields[key],
+    placeholder: key === "birthDate" ? undefined : t.placeholders[key],
     value: basics[key],
     onChange: (event: { target: { value: string } }) => setBasics({ [key]: event.target.value }),
   });
-  const name = fullName(basics, "hu");
+  const name = fullName(basics, locale);
+  // Hungarian forms ask for the family name first, the others for the given name.
+  const nameFields = locale === "hu" ? (["lastName", "firstName"] as const) : (["firstName", "lastName"] as const);
 
   return (
-    <Panel icon={<UserRound />} title="Személyes adatok" subtitle={name || "Név, elérhetőségek, fotó"} defaultOpen>
+    <Panel icon={<UserRound />} title={t.title} subtitle={name || t.subtitle} defaultOpen>
       <div className="flex items-center gap-4">
         <div className="relative grid size-20 shrink-0 place-items-center overflow-hidden rounded-full bg-surface-2 text-xl font-semibold text-fg-subtle ring-1 ring-border">
           {basics.photo ? (
-            <Image src={basics.photo} alt="Profilfotó" fill sizes="80px" className="object-cover" unoptimized />
+            <Image src={basics.photo} alt={t.photoAlt} fill sizes="80px" className="object-cover" unoptimized />
           ) : (
-            initials(basics, "hu") || <Camera className="size-6" />
+            initials(basics, locale) || <Camera className="size-6" />
           )}
         </div>
         <div className="space-y-2">
           <div className="flex flex-wrap gap-2">
             <Button size="sm" variant="soft" onClick={() => fileInput.current?.click()}>
               <Camera />
-              {basics.photo ? "Fotó cseréje" : "Fotó feltöltése"}
+              {basics.photo ? t.replacePhoto : t.uploadPhoto}
             </Button>
             {basics.photo && (
               <Button size="sm" variant="ghost" onClick={() => setBasics({ photo: null })}>
                 <Trash2 />
-                Eltávolítás
+                {t.removePhoto}
               </Button>
             )}
           </div>
-          <p className="text-xs leading-relaxed text-fg-subtle">Nem kötelező. Világos hátterű, igényes portré a legjobb; a fotó csak a böngésződben tárolódik.</p>
+          <p className="text-xs leading-relaxed text-fg-subtle">{t.photoHint}</p>
         </div>
         <input
           ref={fileInput}
@@ -63,17 +70,18 @@ export function PersonalPanel() {
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <TextField label="Vezetéknév" placeholder="Kovács" autoComplete="family-name" {...bind("lastName")} />
-        <TextField label="Keresztnév" placeholder="Anna" autoComplete="given-name" {...bind("firstName")} />
-        <TextField label="Pozíció / szakmai cím" placeholder="pl. Pénzügyi elemző" className="sm:col-span-2" {...bind("headline")} />
-        <TextField label="E-mail-cím" type="email" placeholder="nev@example.com" autoComplete="email" {...bind("email")} />
-        <TextField label="Telefonszám" type="tel" placeholder="+36 30 123 4567" autoComplete="tel" {...bind("phone")} />
-        <TextField label="Lakhely" placeholder="Budapest" autoComplete="address-level2" {...bind("location")} />
-        <TextField label="Weboldal" placeholder="portfolio.hu" {...bind("website")} />
-        <TextField label="LinkedIn" placeholder="linkedin.com/in/…" {...bind("linkedin")} />
-        <TextField label="GitHub" placeholder="github.com/…" {...bind("github")} />
-        <TextField label="Születési dátum" type="date" hint="nem kötelező" {...bind("birthDate")} />
-        <TextField label="Jogosítvány" placeholder="pl. B kategória" hint="nem kötelező" {...bind("drivingLicense")} />
+        {nameFields.map((key) => (
+          <TextField key={key} autoComplete={key === "lastName" ? "family-name" : "given-name"} {...bind(key)} />
+        ))}
+        <TextField className="sm:col-span-2" {...bind("headline")} />
+        <TextField type="email" autoComplete="email" {...bind("email")} />
+        <TextField type="tel" autoComplete="tel" {...bind("phone")} />
+        <TextField autoComplete="address-level2" {...bind("location")} />
+        <TextField {...bind("website")} />
+        <TextField {...bind("linkedin")} />
+        <TextField {...bind("github")} />
+        <TextField type="date" hint={t.optional} {...bind("birthDate")} />
+        <TextField hint={t.optional} {...bind("drivingLicense")} />
       </div>
 
       <PhotoDialog
@@ -90,26 +98,25 @@ export function PersonalPanel() {
 }
 
 export function SummaryPanel() {
+  const { t: { summary: t }, plural } = useI18n();
   const summary = useEditor((state) => state.resume.basics.summary);
   const setBasics = useEditor((state) => state.setBasics);
   const length = summary.trim().length;
 
   return (
-    <Panel icon={<MessageSquareText />} title="Bemutatkozás" subtitle={length ? `${length} karakter` : "Rövid szakmai összefoglaló"}>
+    <Panel icon={<MessageSquareText />} title={t.title} subtitle={length ? plural(t.characters, length) : t.subtitle}>
       <AiTextArea
         field="summary"
-        label="Szakmai összefoglaló"
-        hint={`${length} / ideálisan 300–600`}
+        label={t.label}
+        hint={fmt(t.hint, { count: length })}
         value={summary}
         minRows={5}
-        placeholder="Pl.: 5 év tapasztalattal rendelkező könyvelő vagyok, aki… Erősségeim… Olyan pozíciót keresek, ahol…"
+        placeholder={t.placeholder}
         onValueChange={(value) => setBasics({ summary: value })}
         context={() => resumeContext(useEditor.getState().resume)}
-        writeHint="Előbb töltsd ki a szakmai címet vagy egy munkahelyet"
+        writeHint={t.aiWriteHint}
       />
-      <p className="text-xs leading-relaxed text-fg-subtle">
-        3–4 mondat elég: ki vagy szakmailag, mik a legfontosabb eredményeid, és milyen munkát keresel. Igazítsd a megpályázott állashoz.
-      </p>
+      <p className="text-xs leading-relaxed text-fg-subtle">{t.help}</p>
     </Panel>
   );
 }

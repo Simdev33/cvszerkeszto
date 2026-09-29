@@ -10,7 +10,7 @@ const ICONS = {
   error: <CircleAlert className="size-4 text-danger" />,
 };
 
-export function Toaster() {
+export function Toaster({ closeLabel }: { closeLabel: string }) {
   const toasts = useToasts((state) => state.toasts);
   return (
     <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-0 z-[70] flex flex-col items-center gap-2 p-4 sm:items-end">
@@ -25,7 +25,7 @@ export function Toaster() {
         >
           <span className="mt-0.5">{ICONS[item.tone]}</span>
           <p className="min-w-0 flex-1 leading-relaxed">{item.message}</p>
-          <button type="button" onClick={() => dismissToast(item.id)} className="-mr-1 text-fg-subtle hover:text-fg" aria-label="Bezárás">
+          <button type="button" onClick={() => dismissToast(item.id)} className="-mr-1 text-fg-subtle hover:text-fg" aria-label={closeLabel}>
             <X className="size-4" />
           </button>
         </div>

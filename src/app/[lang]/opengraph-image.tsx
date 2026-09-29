@@ -1,8 +1,13 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { SITE } from "@/config/site";
+import { FALLBACK_LOCALE, isLocale, LOCALES } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
+import { sampleResume } from "@/lib/resume/defaults";
+import { fullName } from "@/lib/resume/format";
 
-export const alt = "CV Stúdió – Profi önéletrajz-készítő, ingyen";
+export const alt = SITE.name;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -10,7 +15,15 @@ const bar = (width: number, color = "#e3e5e8", height = 10) => (
   <div style={{ width, height, borderRadius: 5, backgroundColor: color }} />
 );
 
-export default async function OpenGraphImage() {
+export function generateStaticParams() {
+  return LOCALES.map((lang) => ({ lang }));
+}
+
+export default async function OpenGraphImage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  const locale = isLocale(lang) ? lang : FALLBACK_LOCALE;
+  const { meta } = getDictionary(locale);
+  const name = fullName(sampleResume(locale).basics, locale);
   // Inter has the Hungarian double acute letters (ő, ű) the default font lacks.
   const [bold, regular] = await Promise.all([
     readFile(join(process.cwd(), "public", "fonts", "Inter-Bold.ttf")),
@@ -40,16 +53,18 @@ export default async function OpenGraphImage() {
                 <path d="M8.5 18a3.5 3.5 0 0 1 7 0" />
               </svg>
             </div>
-            <div style={{ fontSize: 36, fontWeight: 700 }}>CV Stúdió</div>
+            <div style={{ fontSize: 36, fontWeight: 700 }}>{SITE.name}</div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <div style={{ fontSize: 70, fontWeight: 700, lineHeight: 1.05, letterSpacing: -2 }}>Profi önéletrajz,</div>
-            <div style={{ fontSize: 70, fontWeight: 700, lineHeight: 1.05, letterSpacing: -2, color: "#a5a1ff" }}>percek alatt.</div>
+            <div style={{ fontSize: 70, fontWeight: 700, lineHeight: 1.05, letterSpacing: -2 }}>{meta.ogTitle1}</div>
+            <div style={{ fontSize: 70, fontWeight: 700, lineHeight: 1.05, letterSpacing: -2, color: "#a5a1ff" }}>{meta.ogTitle2}</div>
           </div>
           <div style={{ display: "flex", gap: 12, fontSize: 24, color: "#c9ccd4" }}>
-            <div style={{ padding: "8px 18px", borderRadius: 999, border: "2px solid #353843" }}>Ingyenes</div>
-            <div style={{ padding: "8px 18px", borderRadius: 999, border: "2px solid #353843" }}>Élő előnézet</div>
-            <div style={{ padding: "8px 18px", borderRadius: 999, border: "2px solid #353843" }}>PDF</div>
+            {meta.ogChips.map((chip) => (
+              <div key={chip} style={{ padding: "8px 18px", borderRadius: 999, border: "2px solid #353843" }}>
+                {chip}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -62,7 +77,7 @@ export default async function OpenGraphImage() {
             {bar(48, "rgba(255,255,255,0.35)", 7)}
           </div>
           <div style={{ display: "flex", flexDirection: "column", padding: "28px 20px", gap: 12, flex: 1 }}>
-            <div style={{ fontSize: 24, fontWeight: 700, color: "#16181d" }}>Kovács Anna</div>
+            <div style={{ fontSize: 24, fontWeight: 700, color: "#16181d" }}>{name}</div>
             {bar(110, "#1e3a8a", 8)}
             <div style={{ height: 8 }} />
             {bar(180)}

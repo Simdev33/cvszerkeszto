@@ -4,9 +4,18 @@
  */
 import { uid } from "@/lib/utils";
 import { DEFAULT_DESIGN, EMPTY_BASICS, emptyResume } from "./defaults";
+import { CV_LANGUAGES } from "./i18n";
 import type { Basics, Design, Entry, LanguageLevel, LanguageSkill, Resume, Section, SectionType, Skill } from "./types";
 
 export const EXPORT_APP = "cv-studio";
+
+/** Thrown when an imported file is valid JSON but not a CV Stúdió export. */
+export class NotACvError extends Error {
+  constructor() {
+    super("Not a CV Stúdió file");
+    this.name = "NotACvError";
+  }
+}
 
 type Json = Record<string, unknown>;
 
@@ -28,7 +37,7 @@ function normalizeDesign(input: unknown): Design {
     accent: typeof d.accent === "string" && /^#[\da-f]{6}$/i.test(d.accent) ? d.accent : DEFAULT_DESIGN.accent,
     font: oneOf(d.font, ["inter", "roboto", "montserrat", "merriweather", "elegant"], DEFAULT_DESIGN.font),
     density: oneOf(d.density, ["compact", "normal", "spacious"], DEFAULT_DESIGN.density),
-    language: oneOf(d.language, ["hu", "en"], DEFAULT_DESIGN.language),
+    language: oneOf(d.language, CV_LANGUAGES, DEFAULT_DESIGN.language),
     pageSize: oneOf(d.pageSize, ["A4", "LETTER"], DEFAULT_DESIGN.pageSize),
     photoShape: oneOf(d.photoShape, ["circle", "rounded", "square"], DEFAULT_DESIGN.photoShape),
   };
@@ -95,7 +104,7 @@ function normalizeSection(input: unknown): Section | null {
 export function normalizeResume(input: unknown): Resume {
   const data = isObject(input) && isObject(input.resume) ? input.resume : input;
   if (!isObject(data) || (!isObject(data.basics) && !Array.isArray(data.sections))) {
-    throw new Error("Ez a fájl nem CV Stúdió önéletrajz.");
+    throw new NotACvError();
   }
   const sections = Array.isArray(data.sections) ? data.sections.map(normalizeSection).filter((s): s is Section => s !== null) : emptyResume().sections;
   return { version: 1, design: normalizeDesign(data.design), basics: normalizeBasics(data.basics), sections };

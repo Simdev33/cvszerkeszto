@@ -4,7 +4,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { emptyResume, sampleResume } from "@/lib/resume/defaults";
 import type { Resume, TemplateId } from "@/lib/resume/types";
 import { ResumeDocument } from "./document";
-import { registerFonts } from "./theme";
+import { registerFonts, resetGlyphCaches } from "./theme";
 
 beforeAll(() => registerFonts((file) => join(process.cwd(), "public", "fonts", file)));
 
@@ -20,7 +20,10 @@ async function textOf(bytes: Uint8Array) {
   return pages;
 }
 
-const render = async (resume: Resume) => new Uint8Array(await renderToBuffer(<ResumeDocument resume={resume} />));
+const render = async (resume: Resume) => {
+  resetGlyphCaches();
+  return new Uint8Array(await renderToBuffer(<ResumeDocument resume={resume} />));
+};
 
 describe("ResumeDocument", () => {
   // Two-column layouts fit the sample on one page; single-column ones run a little longer.
@@ -47,6 +50,23 @@ describe("ResumeDocument", () => {
     expect(text).toContain("Anna Kovács");
     expect(text.toLowerCase().replace(/\s+/g, "")).toContain("experience");
     expect(text).toContain("Mar 2021 – Present");
+  }, 30_000);
+
+  it("renders the German sample with German labels, numeric dates and given name first", async () => {
+    const text = (await textOf(await render(sampleResume("de")))).join(" ");
+    const sample = sampleResume("de").basics;
+    expect(text).toContain(`${sample.firstName} ${sample.lastName}`);
+    expect(text.toLowerCase().replace(/\s+/g, "")).toContain("berufserfahrung");
+    expect(text).toContain("03/2021 – heute");
+  }, 30_000);
+
+  it("uses French months and apostrophes – even right after another CV was rendered", async () => {
+    // Regression: a previous document used to leave glyphs without code points in fontkit's cache.
+    await render(sampleResume("hu"));
+    const text = (await textOf(await render(sampleResume("fr")))).join(" ");
+    expect(text).toContain("mars 2021 – aujourd’hui");
+    expect(text).toContain("d’expérience");
+    expect(text.toLowerCase().replace(/\s+/g, "")).toContain("expérienceprofessionnelle");
   }, 30_000);
 
   it("flows long CVs onto more pages", async () => {

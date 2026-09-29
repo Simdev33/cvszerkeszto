@@ -3,7 +3,7 @@ import { fullName } from "@/lib/resume/format";
 import type { Section } from "@/lib/resume/types";
 import { contactItems, ContactRow, namedLanguages, namedSkills, Photo, sectionTitle } from "../blocks";
 import type { Theme } from "../theme";
-import { filledEntries, isEntrySection, NAME_PLACEHOLDER, SectionBlock, splitSections, StandardEntry, type TemplateProps } from "./shared";
+import { filledEntries, isEntrySection, SectionBlock, splitSections, StandardEntry, type TemplateProps } from "./shared";
 
 const lowerFirst = (text: string) => text.charAt(0).toLowerCase() + text.slice(1);
 
@@ -33,7 +33,7 @@ export function ClassicTemplate({ resume, theme }: TemplateProps) {
       case "skills":
         return inline(namedSkills(section.skills).map((skill) => skill.name));
       case "languages":
-        return inline(namedLanguages(section.languages).map((language) => `${language.name} – ${theme.language === "hu" ? lowerFirst(theme.labels.levels[language.level]) : theme.labels.levels[language.level]}`));
+        return inline(namedLanguages(section.languages).map((language) => `${language.name} – ${theme.labels.lowerInlineLevels ? lowerFirst(theme.labels.levels[language.level]) : theme.labels.levels[language.level]}`));
       case "interests":
         return inline(section.tags.filter((tag) => tag.trim()));
       default:
@@ -46,7 +46,7 @@ export function ClassicTemplate({ resume, theme }: TemplateProps) {
   const header = (
     <View style={{ alignItems: centred ? "center" : "flex-start", flex: 1 }}>
       <Text style={{ fontFamily: theme.heading, fontSize: theme.size * 2.6, fontWeight: 700, lineHeight: 1.15, color: name ? theme.ink : theme.rule }}>
-        {name || NAME_PLACEHOLDER[theme.language]}
+        {name || theme.labels.namePlaceholder}
       </Text>
       {basics.headline.trim() ? (
         <Text style={{ fontSize: theme.size * 1.15, color: theme.muted, marginTop: 3, letterSpacing: 0.4 }}>{basics.headline.trim()}</Text>

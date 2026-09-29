@@ -4,14 +4,17 @@
 import { CV_LABELS } from "./i18n";
 import type { Basics, CvLanguage, Entry } from "./types";
 
-/** "2021-03" → "2021. márc." / "Mar 2021"; "2021" → "2021". */
+/** "2021-03" → "2021. márc." / "Mar 2021" / "mars 2021" / "03/2021" / "mar. 2021"; "2021" → "2021". */
 export function formatMonth(value: string, language: CvLanguage) {
   const match = /^(\d{4})(?:-(\d{1,2}))?$/.exec(value.trim());
   if (!match) return value.trim();
   const [, year, month] = match;
   if (!month) return year;
-  const name = CV_LABELS[language].months[Math.min(11, Math.max(0, Number(month) - 1))];
-  return language === "hu" ? `${year}. ${name}` : `${name} ${year}`;
+  const index = Math.min(11, Math.max(0, Number(month) - 1));
+  if (language === "hu") return `${year}. ${CV_LABELS.hu.months[index]}`;
+  // German CVs conventionally use numeric months ("03/2021 – heute").
+  if (language === "de") return `${String(index + 1).padStart(2, "0")}/${year}`;
+  return `${CV_LABELS[language].months[index]} ${year}`;
 }
 
 export function formatRange(entry: Pick<Entry, "start" | "end" | "current">, language: CvLanguage) {
@@ -21,7 +24,7 @@ export function formatRange(entry: Pick<Entry, "start" | "end" | "current">, lan
   return start || end;
 }
 
-/** Hungarian puts the family name first ("Kovács Anna"), English the given name. */
+/** Hungarian puts the family name first ("Kovács Anna"), the other languages the given name. */
 export function fullName(basics: Pick<Basics, "firstName" | "lastName">, language: CvLanguage) {
   const parts = language === "hu" ? [basics.lastName, basics.firstName] : [basics.firstName, basics.lastName];
   return parts.map((part) => part.trim()).filter(Boolean).join(" ");

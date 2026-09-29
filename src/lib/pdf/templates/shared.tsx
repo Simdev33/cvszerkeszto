@@ -56,7 +56,6 @@ export function StandardEntry({ entry, section, theme, subtitleColor }: { entry:
   );
 }
 
-export const NAME_PLACEHOLDER = { hu: "Neved", en: "Your name" };
 
 /**
  * A section whose title always stays on the same page as its first item, so a

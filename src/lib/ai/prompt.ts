@@ -1,39 +1,65 @@
 /** Prompts for the AI writing assistant (used by the /api/ai route). */
+import type { CvLanguage } from "@/lib/resume/types";
 import type { AiAction, AiRequest } from "./shared";
 
-const LANGUAGE = { hu: "magyar", en: "angol" } as const;
+/** Per-language output rules, so each CV reads like one written by a native recruiter. */
+const LANGUAGES: Record<CvLanguage, { name: string; rules: string; summary: string; bullets: string }> = {
+  hu: {
+    name: "Hungarian",
+    rules: "Follow Hungarian spelling rules (e.g. 34%-kal, 40 000, Kft.) and avoid needless anglicisms.",
+    summary: "first person singular (e.g. „…termékmenedzser vagyok, aki…”)",
+    bullets: "Start every point with a noun phrase (e.g. „Új ügyfélkör kiépítése”, „Havi leltár lebonyolítása”).",
+  },
+  en: {
+    name: "English (British spelling)",
+    rules: "Use natural, concise CV English and keep proper names unchanged.",
+    summary: "the usual subject-less CV style (e.g. “Product manager with…”)",
+    bullets: "Start every point with a strong action verb (past tense for past roles, present tense for the current role).",
+  },
+  fr: {
+    name: "French",
+    rules: "Follow French typography (« guillemets », a non-breaking space before : ; ! ? and %, e.g. 34 %).",
+    summary: "the usual impersonal French CV style (e.g. « Chef de produit avec sept ans d’expérience… »)",
+    bullets: "Start every point consistently with a noun phrase (e.g. « Pilotage de… », « Mise en place de… »).",
+  },
+  de: {
+    name: "German",
+    rules: "Use the formal register and German number formatting (e.g. 34 %, 40.000).",
+    summary: "the usual German CV profile style, not starting with „Ich“ (e.g. „Produktmanagerin mit sieben Jahren Erfahrung …“)",
+    bullets: "Use a consistent nominal style (e.g. „Verantwortung für …“, „Einführung von …“).",
+  },
+  es: {
+    name: "Spanish (Spain)",
+    rules: "Use Spanish as written in Spain and Spanish number formatting (e.g. 34 %, 40.000).",
+    summary: "the usual Spanish CV style (e.g. «Product manager con siete años de experiencia…»)",
+    bullets: "Start every point consistently with a noun phrase (e.g. «Gestión de…», «Implantación de…»).",
+  },
+};
 
 function system(request: AiRequest) {
-  const language = LANGUAGE[request.language];
+  const language = LANGUAGES[request.language];
   return [
-    "Tapasztalt magyar HR-szakember és önéletrajz-szerkesztő vagy. Egy önéletrajz egyetlen mezőjének szövegét írod vagy javítod.",
+    "You are an experienced HR professional and CV editor. You write or improve the text of one field of a CV.",
     "",
-    "Szabályok:",
-    "- Csak a kész szöveget add vissza: bevezetés, magyarázat, idézőjel, címsor és markdown-formázás (félkövér, dőlt) nélkül.",
-    "- Ne találj ki tényt: se számot, százalékot, cégnevet, eszközt, eredményt vagy felelősséget, ami nem szerepel a megadott adatokban. Ami bizonytalan, azt hagyd ki.",
-    "- Ne nagyíts fel semmit: ne írj „több mint”, „számos”, „kiemelkedő” jellegű túlzást, ha az adatok nem támasztják alá; a számokat pontosan úgy vedd át, ahogy szerepelnek.",
-    `- A kimenet nyelve: ${language}. Ha a bemenet más nyelvű, fordítsd le természetesen, ne tükörfordítással.`,
-    "- Természetes, igényes szakmai nyelv. Kerüld a közhelyeket (pl. „csapatjátékos”, „dinamikus”, „motivált”, „team player”) és a túlzó reklámstílust.",
-    request.language === "hu"
-      ? "- A magyar helyesírás szabályai szerint írj (pl. 34%-kal, 40 000, Kft.), és kerüld a feleslegesen angolos kifejezéseket."
-      : "- Use natural, concise British or American CV English consistently; keep proper names unchanged.",
+    "Rules:",
+    "- Return only the finished text: no introduction, explanation, quotation marks, headings or markdown formatting (bold, italics).",
+    "- Do not invent facts: no numbers, percentages, company names, tools, results or responsibilities that are not in the given data. Leave out anything uncertain.",
+    "- Do not exaggerate: no “more than”, “numerous” or “outstanding” style inflation unless the data supports it; take numbers over exactly as given.",
+    `- Output language: ${language.name}. If the input is in another language, translate it naturally, not word for word.`,
+    "- Natural, polished professional language. Avoid clichés (e.g. “team player”, “dynamic”, “motivated”) and advertising style.",
+    `- ${language.rules}`,
   ].join("\n");
 }
 
 function format(request: AiRequest) {
+  const language = LANGUAGES[request.language];
   if (request.field === "summary") {
-    const length = request.action === "shorten" ? "2–3 mondat, legfeljebb 350 karakter" : "3–4 mondat, összesen legfeljebb 600 karakter";
-    return request.language === "hu"
-      ? `Formátum: egyetlen bekezdés, ${length}, felsorolás nélkül, egyes szám első személyben (pl. „…termékmenedzser vagyok, aki…”). A háttéradatokból csak a legfontosabb 1–2 eredményt emeld ki, ne sorold fel a teljes pályafutást.`
-      : `Formátum: egyetlen bekezdés, ${length}, felsorolás nélkül, a szokásos alany nélküli angol CV-stílusban (pl. „Product manager with…”). A háttéradatokból csak a legfontosabb 1–2 eredményt emeld ki, ne sorold fel a teljes pályafutást.`;
+    const length = request.action === "shorten" ? "2–3 sentences, at most 350 characters" : "3–4 sentences, at most 600 characters in total";
+    return `Format: a single paragraph, ${length}, no bullet points, in ${language.summary}. Highlight only the 1–2 most important achievements from the background; do not list the whole career.`;
   }
-  const bullets =
-    "Formátum: tömör felsorolás, minden pont külön sorban, „- ” jellel kezdve, 3–6 pont; pontonként egy gondolat, legfeljebb kb. 15 szó. " +
-    (request.language === "hu"
-      ? "A pontok legyenek egységesek: főnévi szerkezettel kezdődjenek (pl. „Új ügyfélkör kiépítése”, „Havi leltár lebonyolítása”)."
-      : "Start every point with a strong action verb (past tense for past roles, present tense for the current role).");
+  const bullets = `Format: a concise bullet list, every point on its own line starting with "- ", 3–6 points; one idea per point, at most about 15 words. ${language.bullets}`;
   if (request.action === "improve" || request.action === "shorten") {
-    return `Az eredeti formát tartsd meg: ha felsorolás, maradjon felsorolás („- ” jellel), ha folyó szöveg, maradjon folyó szöveg. ${bullets}`;
+    return `Keep the original form: a bullet list stays a bullet list (with "- "), running text stays running text. ${bullets}`;
   }
   return bullets;
 }
@@ -41,23 +67,23 @@ function format(request: AiRequest) {
 const TASKS: Record<AiAction, (request: AiRequest) => string> = {
   write: (request) =>
     request.field === "summary"
-      ? "Írj szakmai bemutatkozást az önéletrajz adatai alapján: ki a jelölt szakmailag, a tapasztalat hossza (ha a dátumokból kiderül), a fő szakterülete és 1–2 valódi erőssége. Ha a mezőben van vázlat vagy jegyzet, abból dolgozz."
-      : "Írj leírást ehhez a tételhez. Ha a mezőben van vázlat vagy jegyzet, abból dolgozz; ha nincs, csak a pozícióra általánosan jellemző feladatokat írd le, konkrét számok és eredmények nélkül – ezeket a jelölt később maga egészíti ki.",
-  improve: () => "Javítsd a szöveget: helyesírás, nyelvtan, gördülékenység, szakmai hangnem. A tartalom és a hossz maradjon nagyjából ugyanaz.",
+      ? "Write a professional profile based on the CV data: who the candidate is professionally, the length of their experience (if it follows from the dates), their main field and 1–2 genuine strengths. If the field contains a draft or notes, work from them."
+      : "Write a description for this item. If the field contains a draft or notes, work from them; otherwise describe only duties that are typical for the position in general, without specific numbers or results – the candidate will add those later.",
+  improve: () => "Improve the text: spelling, grammar, flow and professional tone. Keep the content and roughly the length.",
   impact: () =>
-    "Tedd meggyőzőbbé és eredményközpontúbbá: erős, cselekvő megfogalmazás, a felelősség és az elért eredmény kerüljön előtérbe. A meglévő számokat emeld ki, újakat ne találj ki.",
-  bullets: () => "Alakítsd a szöveget egységes, tömör felsorolássá úgy, hogy minden információ megmaradjon.",
-  shorten: () => "Tömörítsd a szöveget nagyjából a felére–kétharmadára úgy, hogy a legfontosabb információk megmaradjanak.",
+    "Make the text more convincing and results-oriented: strong, active wording that puts responsibility and achieved results first. Highlight existing numbers; do not invent new ones.",
+  bullets: () => "Turn the text into a consistent, concise bullet list, keeping all information.",
+  shorten: () => "Shorten the text to about half to two thirds of its length, keeping the most important information.",
 };
 
-const FIELD_NAME = { summary: "Szakmai bemutatkozás (összefoglaló)", description: "Egy tétel leírása" } as const;
+const FIELD_NAME = { summary: "Professional profile (summary)", description: "Description of one item" } as const;
 
 export function buildPrompt(request: AiRequest) {
   const user = [
-    request.context.trim() ? `Az önéletrajz adatai (háttér):\n${request.context.trim()}` : "",
-    `Mező: ${FIELD_NAME[request.field]}`,
-    `A mező jelenlegi szövege:\n"""\n${request.text.trim() || "(üres)"}\n"""`,
-    `Feladat: ${TASKS[request.action](request)}`,
+    request.context.trim() ? `CV data (background):\n${request.context.trim()}` : "",
+    `Field: ${FIELD_NAME[request.field]}`,
+    `Current text of the field:\n"""\n${request.text.trim() || "(empty)"}\n"""`,
+    `Task: ${TASKS[request.action](request)}`,
     format(request),
   ]
     .filter(Boolean)

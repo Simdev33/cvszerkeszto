@@ -1,7 +1,7 @@
 export type TemplateId = "modern" | "classic" | "minimal" | "elegant";
 export type FontId = "inter" | "roboto" | "montserrat" | "merriweather" | "elegant";
 export type Density = "compact" | "normal" | "spacious";
-export type CvLanguage = "hu" | "en";
+export type CvLanguage = "hu" | "en" | "fr" | "de" | "es";
 export type PageSize = "A4" | "LETTER";
 export type PhotoShape = "circle" | "rounded" | "square";
 

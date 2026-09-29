@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useLayoutEffect, useRef, type InputHTMLAttributes, type ReactNode, type TextareaHTMLAttributes } from "react";
+import { useI18n } from "@/i18n/client";
 import { cn } from "@/lib/utils";
 
 const inputClass =
@@ -66,10 +67,9 @@ export function TextArea({
   );
 }
 
-const MONTHS = ["jan.", "febr.", "márc.", "ápr.", "máj.", "jún.", "júl.", "aug.", "szept.", "okt.", "nov.", "dec."];
-
 /** Month + year picker producing "YYYY-MM", "YYYY" or "". */
 export function MonthField({ label, value, onChange, disabled }: { label: ReactNode; value: string; onChange: (value: string) => void; disabled?: boolean }) {
+  const { t } = useI18n();
   const id = useId();
   const [year = "", month = ""] = value.split("-");
   const update = (nextYear: string, nextMonth: string) => {
@@ -82,14 +82,14 @@ export function MonthField({ label, value, onChange, disabled }: { label: ReactN
       <Label htmlFor={id}>{label}</Label>
       <div className="flex gap-1.5">
         <select
-          aria-label="Hónap"
+          aria-label={t.entry.month}
           value={month}
           disabled={disabled}
           onChange={(event) => update(year || String(new Date().getFullYear()), event.target.value)}
           className={cn(inputClass, "h-9 w-[5.5rem] shrink-0 appearance-none px-2.5")}
         >
-          <option value="">hónap</option>
-          {MONTHS.map((name, index) => (
+          <option value="">{t.entry.monthPlaceholder}</option>
+          {t.entry.months.map((name, index) => (
             <option key={name} value={String(index + 1).padStart(2, "0")}>
               {name}
             </option>
@@ -98,7 +98,7 @@ export function MonthField({ label, value, onChange, disabled }: { label: ReactN
         <input
           id={id}
           inputMode="numeric"
-          placeholder="év"
+          placeholder={t.entry.yearPlaceholder}
           value={year}
           disabled={disabled}
           maxLength={4}

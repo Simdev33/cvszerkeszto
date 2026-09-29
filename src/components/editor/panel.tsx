@@ -2,6 +2,7 @@
 
 import { ChevronDown } from "lucide-react";
 import { useState, type ReactNode } from "react";
+import { useI18n } from "@/i18n/client";
 import { cn } from "@/lib/utils";
 
 /** Collapsible card used for every editor section. */
@@ -28,6 +29,7 @@ export function Panel({
   muted?: boolean;
   id?: string;
 }) {
+  const { t } = useI18n();
   const [innerOpen, setInnerOpen] = useState(defaultOpen);
   const open = controlledOpen ?? innerOpen;
   const toggle = () => {
@@ -46,7 +48,7 @@ export function Panel({
           </span>
         </button>
         {actions && <div className="flex shrink-0 items-center gap-1">{actions}</div>}
-        <button type="button" onClick={toggle} aria-label={open ? "Összecsukás" : "Kinyitás"} className="grid size-8 shrink-0 place-items-center rounded-lg text-fg-subtle hover:bg-surface-2 hover:text-fg">
+        <button type="button" onClick={toggle} aria-label={open ? t.entry.collapse : t.entry.expand} className="grid size-8 shrink-0 place-items-center rounded-lg text-fg-subtle hover:bg-surface-2 hover:text-fg">
           <ChevronDown className={cn("size-4 transition-transform", open && "rotate-180")} />
         </button>
       </div>

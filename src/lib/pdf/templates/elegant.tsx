@@ -4,7 +4,7 @@ import { fullName } from "@/lib/resume/format";
 import type { Section } from "@/lib/resume/types";
 import { certificateDate, contactItems, ContactRow, Dots, languageValue, namedLanguages, namedSkills, Photo, sectionTitle, Tags } from "../blocks";
 import type { Theme } from "../theme";
-import { filledEntries, isEntrySection, NAME_PLACEHOLDER, SectionBlock, splitSections, StandardEntry, type TemplateProps } from "./shared";
+import { filledEntries, isEntrySection, SectionBlock, splitSections, StandardEntry, type TemplateProps } from "./shared";
 
 const SIDE_WIDTH = 178;
 
@@ -99,7 +99,7 @@ export function ElegantTemplate({ resume, theme }: TemplateProps) {
         {basics.photo && <Photo src={basics.photo} size={92} theme={theme} border={light ? "rgba(255,255,255,0.9)" : "#ffffff"} />}
         <View style={{ flex: 1 }}>
           <Text style={{ fontFamily: theme.heading, fontSize: theme.size * 2.8, fontWeight: 700, lineHeight: 1.1, color: theme.onAccent }}>
-            {name || NAME_PLACEHOLDER[theme.language]}
+            {name || theme.labels.namePlaceholder}
           </Text>
           {basics.headline.trim() ? (
             <Text style={{ color: headerMuted, fontSize: theme.size * 1.02, letterSpacing: 1.6, textTransform: "uppercase", marginTop: 5 }}>{basics.headline.trim()}</Text>

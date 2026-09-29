@@ -5,7 +5,7 @@ import { entryContext, resumeContext } from "./context";
 import { buildPrompt } from "./prompt";
 import { AI_LIMITS, cleanAiText, parseAiRequest } from "./shared";
 
-const valid = { field: "description", action: "improve", language: "hu", text: "árut pakoltam", context: "Pozíció: Raktáros" };
+const valid = { field: "description", action: "improve", language: "hu", text: "árut pakoltam", context: "Position: Raktáros" };
 
 describe("request validation", () => {
   it("accepts a well-formed request", () => {
@@ -17,7 +17,8 @@ describe("request validation", () => {
     expect(parseAiRequest(null)).toBeNull();
     expect(parseAiRequest({ ...valid, field: "email" })).toBeNull();
     expect(parseAiRequest({ ...valid, action: "hack" })).toBeNull();
-    expect(parseAiRequest({ ...valid, language: "de" })).toBeNull();
+    expect(parseAiRequest({ ...valid, language: "it" })).toBeNull();
+    expect(parseAiRequest({ ...valid, language: "de" })).not.toBeNull();
     expect(parseAiRequest({ ...valid, text: "   " })).toBeNull();
     expect(parseAiRequest({ ...valid, field: "summary", action: "bullets" })).toBeNull();
     expect(parseAiRequest({ ...valid, text: "x".repeat(AI_LIMITS.text + 1) })).toBeNull();
@@ -39,34 +40,35 @@ describe("output cleanup", () => {
 });
 
 describe("context", () => {
-  const resume = sampleResume();
+  const resume = sampleResume("hu");
   const experience = resume.sections.find((section): section is EntrySection => section.type === "experience")!;
 
   it("never contains the name or contact details", () => {
     const text = resumeContext(resume);
     expect(text).toContain("Senior termékmenedzser");
     expect(text).toContain("Nova Digital Zrt.");
-    expect(text).toContain("Angol – felsőfok (C1)");
+    expect(text).toContain("Angol – Advanced (C1)");
     expect(text).toContain("termékfelelőse (1,2 millió aktív felhasználó); Az új onboarding");
     for (const secret of ["Kovács", "kovacs.anna@example.com", "+36 30 123 4567", "linkedin.com"]) expect(text).not.toContain(secret);
   });
 
   it("describes a single entry, or nothing when it is still blank", () => {
     const text = entryContext(resume, "experience", experience.entries[0]);
-    expect(text).toContain("Pozíció: Senior termékmenedzser");
-    expect(text).toContain("(jelenleg is tart)");
+    expect(text).toContain("Position: Senior termékmenedzser");
+    expect(text).toContain("(ongoing)");
     expect(entryContext(resume, "experience", { ...experience.entries[0], title: "", subtitle: "" })).toBe("");
   });
 });
 
 describe("prompt", () => {
   it("asks for the CV language and the right format", () => {
-    const hu = buildPrompt({ field: "description", action: "bullets", language: "hu", text: "árut pakoltam", context: "Pozíció: Raktáros" });
-    expect(hu.system).toContain("A kimenet nyelve: magyar");
-    expect(hu.user).toContain("„- ” jellel");
-    expect(hu.user).toContain("Pozíció: Raktáros");
-    const en = buildPrompt({ field: "summary", action: "write", language: "en", text: "", context: "" });
-    expect(en.system).toContain("A kimenet nyelve: angol");
-    expect(en.user).toContain("(üres)");
+    const hu = buildPrompt({ field: "description", action: "bullets", language: "hu", text: "árut pakoltam", context: "Position: Raktáros" });
+    expect(hu.system).toContain("Output language: Hungarian");
+    expect(hu.user).toContain('starting with "- "');
+    expect(hu.user).toContain("Position: Raktáros");
+    const de = buildPrompt({ field: "summary", action: "write", language: "de", text: "", context: "" });
+    expect(de.system).toContain("Output language: German");
+    expect(de.user).toContain("„Ich“");
+    expect(de.user).toContain("(empty)");
   });
 });

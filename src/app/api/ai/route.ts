@@ -3,7 +3,7 @@
  * the rewritten text back as plain text. The API key never leaves the server.
  */
 import { buildPrompt } from "@/lib/ai/prompt";
-import { AI_RESET, parseAiRequest } from "@/lib/ai/shared";
+import { AI_RESET, parseAiRequest, type AiErrorCode } from "@/lib/ai/shared";
 
 export const maxDuration = 60;
 
@@ -42,7 +42,8 @@ function rateLimited(ip: string) {
 type Prompt = { system: string; user: string };
 type Upstream = { ok: true; model: string; body: ReadableStream<Uint8Array> } | { ok: false; status: number };
 
-const fail = (message: string, status: number) => Response.json({ error: message }, { status, headers: { "cache-control": "no-store" } });
+/** Errors are codes; the editor shows them in the visitor's language. */
+const fail = (error: AiErrorCode, status: number) => Response.json({ error }, { status, headers: { "cache-control": "no-store" } });
 
 /** Opens a streaming completion on the first model that accepts the request. */
 async function openStream(key: string, prompt: Prompt, signal: AbortSignal): Promise<Upstream> {
@@ -129,17 +130,17 @@ async function relay(body: ReadableStream<Uint8Array>, send: (text: string) => v
 
 export async function POST(request: Request) {
   const key = process.env.GEMINI_API_KEY;
-  if (!key) return fail("Az AI-segéd nincs beállítva ezen a szerveren.", 503);
+  if (!key) return fail("not_configured", 503);
 
   // Only the editor itself may call this endpoint (browsers always send this header).
   const site = request.headers.get("sec-fetch-site");
-  if (site && site !== "same-origin") return fail("Tiltott kérés.", 403);
+  if (site && site !== "same-origin") return fail("forbidden", 403);
 
   const ip = request.headers.get("x-real-ip") ?? request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
-  if (rateLimited(ip)) return fail("Túl sok kérés rövid idő alatt. Próbáld újra néhány perc múlva.", 429);
+  if (rateLimited(ip)) return fail("rate_limited", 429);
 
   const body = parseAiRequest(await request.json().catch(() => null));
-  if (!body) return fail("Érvénytelen kérés.", 400);
+  if (!body) return fail("invalid", 400);
 
   const prompt = buildPrompt(body);
   const upstreamAbort = new AbortController();
@@ -147,9 +148,9 @@ export async function POST(request: Request) {
   const first = await openStream(key, prompt, signal);
   if (!first.ok) {
     if (first.status === 429 || first.status >= 500 || first.status === 0) {
-      return fail("Az AI-szolgáltatás most túlterhelt. Próbáld újra egy perc múlva.", 503);
+      return fail("overloaded", 503);
     }
-    return fail("Az AI-szolgáltatás elutasította a kérést.", 502);
+    return fail("rejected", 502);
   }
 
   const encoder = new TextEncoder();

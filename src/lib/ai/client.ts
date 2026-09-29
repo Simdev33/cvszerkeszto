@@ -1,8 +1,16 @@
-import { AI_RESET, cleanAiText, type AiRequest } from "./shared";
+import { AI_RESET, cleanAiText, type AiErrorCode, type AiRequest } from "./shared";
+
+/** A failure the editor explains in its own language. */
+export class AiError extends Error {
+  constructor(readonly code: AiErrorCode) {
+    super(code);
+    this.name = "AiError";
+  }
+}
 
 /**
  * Calls /api/ai and reports the growing text while it streams in. Resolves
- * with the cleaned final text; rejects with a user-facing Hungarian message.
+ * with the cleaned final text; rejects with an AiError.
  */
 export async function requestAi(request: AiRequest, onText: (text: string) => void, signal: AbortSignal) {
   let response: Response;
@@ -10,14 +18,14 @@ export async function requestAi(request: AiRequest, onText: (text: string) => vo
     response = await fetch("/api/ai", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(request), signal });
   } catch (error) {
     if (signal.aborted) throw error;
-    throw new Error("Nincs kapcsolat a szerverrel. Ellenőrizd az internetkapcsolatot.");
+    throw new AiError("network");
   }
   if (!response.ok || !response.body) {
-    const message = await response
+    const code = await response
       .json()
-      .then((data: { error?: string }) => data.error)
+      .then((data: { error?: AiErrorCode }) => data.error)
       .catch(() => undefined);
-    throw new Error(message ?? "Az AI-segéd most nem érhető el.");
+    throw new AiError(code ?? "unknown");
   }
 
   const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
@@ -33,10 +41,10 @@ export async function requestAi(request: AiRequest, onText: (text: string) => vo
     }
   } catch (error) {
     if (signal.aborted) throw error;
-    throw new Error("A válasz megszakadt. Próbáld újra.");
+    throw new AiError("interrupted");
   }
 
   const result = cleanAiText(text);
-  if (!result) throw new Error("Az AI nem adott vissza szöveget. Próbáld újra, vagy fogalmazd át a mezőt.");
+  if (!result) throw new AiError("empty");
   return result;
 }
