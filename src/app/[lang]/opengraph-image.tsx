@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { SITE } from "@/config/site";
-import { FALLBACK_LOCALE, isLocale, LOCALES } from "@/i18n/config";
+import { DEFAULT_LOCALE, isLocale, LOCALES } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { sampleResume } from "@/lib/resume/defaults";
 import { fullName } from "@/lib/resume/format";
@@ -21,14 +21,16 @@ export function generateStaticParams() {
 
 export default async function OpenGraphImage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  const locale = isLocale(lang) ? lang : FALLBACK_LOCALE;
+  const locale = isLocale(lang) ? lang : DEFAULT_LOCALE;
   const { meta } = getDictionary(locale);
   const name = fullName(sampleResume(locale).basics, locale);
   // Inter has the Hungarian double acute letters (ő, ű) the default font lacks.
-  const [bold, regular] = await Promise.all([
+  const [bold, regular, icon] = await Promise.all([
     readFile(join(process.cwd(), "public", "fonts", "Inter-Bold.ttf")),
     readFile(join(process.cwd(), "public", "fonts", "Inter-Regular.ttf")),
+    readFile(join(process.cwd(), "src", "app", "icon.svg")),
   ]);
+  const mark = `data:image/svg+xml;base64,${icon.toString("base64")}`;
 
   return new ImageResponse(
     (
@@ -45,14 +47,8 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ lan
       >
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", flex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-            <div style={{ width: 64, height: 64, borderRadius: 18, background: "linear-gradient(135deg, #6d66f6, #4338ca)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
-                <path d="M14 3v5h5" />
-                <circle cx="12" cy="12.5" r="2" />
-                <path d="M8.5 18a3.5 3.5 0 0 1 7 0" />
-              </svg>
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
+            <img src={mark} width={64} height={64} alt="" />
             <div style={{ fontSize: 36, fontWeight: 700 }}>{SITE.name}</div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -70,7 +66,7 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ lan
 
         <div style={{ display: "flex", width: 330, height: 460, marginTop: 10, borderRadius: 14, backgroundColor: "#ffffff", overflow: "hidden", transform: "rotate(4deg)" }}>
           <div style={{ width: 104, backgroundColor: "#1e3a8a", display: "flex", flexDirection: "column", alignItems: "center", padding: "26px 14px", gap: 12 }}>
-            <div style={{ width: 62, height: 62, borderRadius: 31, backgroundColor: "#9fb3e8" }} />
+            <div style={{ width: 62, height: 62, borderRadius: 31, backgroundColor: "#c4b5fd" }} />
             {bar(70, "rgba(255,255,255,0.6)", 7)}
             {bar(56, "rgba(255,255,255,0.35)", 7)}
             {bar(64, "rgba(255,255,255,0.35)", 7)}

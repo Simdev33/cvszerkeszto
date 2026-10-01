@@ -1,16 +1,17 @@
-import type { Dictionary } from "./hu";
+import type { Dictionary } from "./en";
 
 const fr = {
   meta: {
-    title: "CV Stúdió – Créez un CV professionnel gratuitement",
+    title: "GetProCV – Créez un CV professionnel en quelques minutes",
     description:
-      "Créez un CV professionnel en quelques minutes : 4 modèles modernes, un aperçu en direct, un assistant IA de rédaction, cinq langues, l’ajout d’une photo et un PDF prêt à imprimer, au texte sélectionnable. Gratuit et sans inscription.",
+      "Créez un CV professionnel en quelques minutes : 4 modèles modernes, un aperçu PDF en direct, un assistant IA de rédaction, cinq langues, l’ajout d’une photo et un PDF prêt à imprimer, au texte sélectionnable. Rédaction et aperçu gratuits.",
     keywords: ["CV", "créer un CV", "modèle de CV", "CV gratuit", "CV en ligne", "CV PDF", "exemple de CV", "alternative à Europass"],
     editorTitle: "Éditeur",
     editorDescription: "Modifiez votre CV avec un aperçu PDF en direct.",
+    accountTitle: "Mon compte",
     ogTitle1: "Un CV professionnel,",
     ogTitle2: "en quelques minutes.",
-    ogChips: ["Gratuit", "Aperçu en direct", "PDF"],
+    ogChips: ["Aperçu en direct", "Assistant IA", "PDF"],
   },
 
   common: {
@@ -20,6 +21,7 @@ const fr = {
     close: "Fermer",
     terms: "CGU",
     privacy: "Confidentialité",
+    account: "Mon compte",
     dataLocal: "Votre CV reste dans votre navigateur.",
     notFound: {
       title: "Page introuvable",
@@ -31,13 +33,13 @@ const fr = {
   landing: {
     nav: { templates: "Modèles", features: "Fonctionnalités", faq: "FAQ", cta: "Créer mon CV" },
     hero: {
-      badge: "Gratuit · Sans inscription · Avec un assistant IA de rédaction",
+      badge: "Rédaction et aperçu gratuits · Assistant IA de rédaction",
       title1: "Un CV professionnel,",
       title2: "en quelques minutes.",
       text: "Choisissez un modèle épuré, renseignez vos informations et téléchargez un PDF prêt à imprimer. Avec un aperçu en direct, en cinq langues.",
       cta: "Créer mon CV",
       sample: "Voir un exemple",
-      note: "Aucun compte nécessaire – commencez tout de suite.",
+      note: "La rédaction et l’aperçu sont gratuits – vous ne payez qu’au moment du téléchargement.",
       imageAlt: "Exemple de CV avec le modèle Moderne",
     },
     templates: {
@@ -63,23 +65,39 @@ const fr = {
         { title: "Votre style", text: "4 modèles, 10 couleurs d’accent ou la couleur de votre choix, 5 associations de polices et une photo ajustable." },
         {
           title: "Enregistrement automatique et confidentialité",
-          text: "Sans inscription ; chaque modification est enregistrée dans votre navigateur. L’assistant IA n’envoie que le champ que vous modifiez – jamais votre nom ni vos coordonnées.",
+          text: "Ni inscription ni mot de passe ; chaque modification est enregistrée dans votre navigateur. L’assistant IA n’envoie que le champ que vous modifiez – jamais votre nom ni vos coordonnées.",
         },
       ],
     },
     steps: [
       { title: "Choisissez un modèle", text: "Quatre modèles épurés, prêts à imprimer – changez à tout moment sans perdre vos données." },
       { title: "Remplissez-le", text: "Des formulaires simples, avec des exemples et des conseils. La jauge de qualité vous indique ce qui manque encore." },
-      { title: "Téléchargez le PDF", text: "Un clic, et votre PDF soigné au texte sélectionnable est prêt – sans filigrane." },
+      { title: "Téléchargez le PDF", text: "Quand le résultat vous convient, téléchargez un PDF soigné, au texte sélectionnable – sans filigrane." },
     ],
     start: "C’est parti !",
+    pricing: {
+      kicker: "Tarifs",
+      title: "Une formule simple",
+      text: "Rédigez, mettez en page et prévisualisez votre CV gratuitement. Quand le résultat vous convient, débloquez le téléchargement.",
+      label: "Accès complet de {days} jours",
+      features: ["Téléchargements PDF illimités", "Les 4 modèles, toutes les couleurs et polices", "Des CV en cinq langues", "Assistant IA de rédaction"],
+      cta: "Commencer mon CV",
+      renewal: "Après {days} jours, l’abonnement se poursuit au prix de {monthly} par mois jusqu’à sa résiliation. Vous pouvez résilier à tout moment, en un clic, sur la page « Mon compte ».",
+    },
     faq: {
       title: "Questions fréquentes",
       items: [
-        { q: "Est-ce vraiment gratuit ?", a: "Oui. Ni frais cachés, ni abonnement, ni inscription, ni filigrane – le PDF téléchargé vous appartient entièrement." },
+        {
+          q: "Combien ça coûte ?",
+          a: "La rédaction, la mise en page et l’aperçu de votre CV sont gratuits. Pour le télécharger au format PDF, vous bénéficiez de {days} jours d’accès complet pour {trial} ; ensuite, l’abonnement se poursuit au prix de {monthly} par mois jusqu’à sa résiliation. Sans filigrane – le PDF téléchargé vous appartient entièrement.",
+        },
+        {
+          q: "Comment résilier mon abonnement ?",
+          a: "Sur la page « Mon compte » : connectez-vous avec le code que nous vous envoyons par e-mail, puis résiliez en un clic. Vous conservez l’accès jusqu’à la fin de la période déjà payée, et plus rien ne vous est prélevé.",
+        },
         {
           q: "Où mes données sont-elles stockées ?",
-          a: "Dans votre propre navigateur – nous n’avons ni comptes ni base de données. Si vous effacez vos données de navigation, votre CV est supprimé lui aussi : pensez donc à faire une sauvegarde avec « Fichier → Enregistrer dans un fichier ».",
+          a: "Votre CV est enregistré dans votre propre navigateur – il n’arrive jamais sur nos serveurs. Si vous effacez vos données de navigation, il est supprimé lui aussi : pensez donc à faire une sauvegarde avec « Fichier → Enregistrer dans un fichier ». Pour les abonnés, nous ne conservons, chez Stripe, que l’adresse e-mail et les données d’abonnement nécessaires à la facturation.",
         },
         {
           q: "Que fait l’assistant IA, et que voit-il de mes données ?",
@@ -108,6 +126,7 @@ const fr = {
     contents: "Sommaire",
     back: "Retour à l’accueil",
     editor: "Accéder à l’éditeur",
+    toBeCompleted: "à compléter",
   },
 
   editor: {
@@ -122,6 +141,7 @@ const fr = {
       new: "Nouveau CV vierge",
       export: "Enregistrer dans un fichier (.json)",
       import: "Charger depuis un fichier (.json)",
+      account: "Mon compte",
       download: "Télécharger le PDF",
       downloadShort: "PDF",
       confirmSample: "Les données d’exemple vont remplacer votre CV actuel. Continuer ?",
@@ -132,7 +152,7 @@ const fr = {
       exported: "Enregistré – ce fichier vous permettra de reprendre votre CV n’importe où.",
       imported: "CV chargé.",
       importFailed: "Impossible de lire ce fichier.",
-      notCv: "Ce fichier n’est pas un CV créé avec CV Stúdió.",
+      notCv: "Ce fichier n’est pas un fichier de CV GetProCV.",
     },
 
     score: {
@@ -443,6 +463,93 @@ const fr = {
         unknown: "L’assistant IA n’est pas disponible pour le moment.",
       },
     },
+  },
+
+  billing: {
+    paywall: {
+      label: "Téléchargement et paiement",
+      ready: "Votre CV est prêt",
+      title: "Téléchargez-le maintenant.",
+      includes: "L’accès complet de {days} jours comprend :",
+      features: ["Téléchargements PDF illimités", "Tous les modèles, couleurs et polices", "Des CV en cinq langues", "Assistant IA de rédaction"],
+      priceLabel: "Accès complet de {days} jours",
+      email: "Votre adresse e-mail",
+      emailHint: "Elle vous permettra ensuite de vous connecter sur d’autres appareils.",
+      emailPlaceholder: "nom@example.com",
+      continue: "Continuer vers le paiement",
+      change: "Modifier",
+      methods: "Choisissez un moyen de paiement",
+      card: "Carte de débit ou de crédit",
+      pay: "Commander avec obligation de paiement – {amount}",
+      consent:
+        "J’accepte les [Conditions générales d’utilisation](terms) et la [Politique de confidentialité](privacy), et je demande que l’exécution du service commence immédiatement.",
+      consentNeeded: "Pour payer, cochez la case ci-dessus.",
+      renewal:
+        "Si vous ne résiliez pas au cours des {days} premiers jours, votre abonnement se poursuit à partir du {next}e jour au prix de {monthly} par mois. Vous pouvez résilier à tout moment, en un clic, sur la page [Mon compte](account). Si vous vous rétractez pendant le délai de rétractation de 14 jours, vous payez un montant proportionnel à la période déjà utilisée.",
+      ssl: "SSL 256 bits",
+      stripe: "Paiements via Stripe",
+      cancelAnytime: "Résiliable à tout moment",
+      loading: "Chargement du paiement…",
+      processing: "Paiement en cours…",
+      preparing: "Préparation de votre PDF…",
+      success: "Paiement réussi ! Votre téléchargement commence.",
+      haveAccount: "Déjà abonné ?",
+      login: "Se connecter",
+      backToPay: "Retour au paiement",
+      notConfigured: "Les paiements ne sont pas encore configurés sur ce serveur.",
+      returning: "Vérification de votre paiement…",
+    },
+
+    auth: {
+      title: "Connexion",
+      intro: "Saisissez l’adresse e-mail associée à votre abonnement : nous vous enverrons un code de connexion à 6 chiffres.",
+      email: "Adresse e-mail",
+      sendCode: "Envoyer le code",
+      sent: "Si un abonnement est associé à {email}, nous y avons envoyé le code. Pensez à vérifier aussi vos courriers indésirables.",
+      code: "Code de connexion",
+      verify: "Se connecter",
+      resend: "Demander un nouveau code",
+      otherEmail: "Utiliser une autre adresse e-mail",
+      success: "Connexion réussie.",
+    },
+
+    account: {
+      title: "Mon compte",
+      signedInAs: "Connecté avec l’adresse {email}",
+      trial: "Période d’essai jusqu’au {date}. Sans résiliation de votre part, l’abonnement se poursuit ensuite à {monthly} par mois.",
+      active: "Abonnement actif. Prochain prélèvement : le {date} ({monthly}).",
+      canceling: "Abonnement résilié. Vous conservez l’accès jusqu’au {date}.",
+      pastDue: "Le dernier prélèvement a échoué. Mettez à jour votre carte pour que votre accès ne soit pas interrompu.",
+      none: "Vous n’avez pas d’abonnement actif. Rédigez votre CV : vous pourrez vous abonner au moment de le télécharger.",
+      manage: "Gérer ou résilier l’abonnement",
+      manageHint: "Sur la page sécurisée de Stripe, vous pouvez résilier votre abonnement, changer de carte et consulter vos paiements précédents.",
+      start: "Ouvrir l’éditeur",
+      logout: "Se déconnecter",
+      loading: "Chargement…",
+      error: "Impossible de charger les informations de votre compte. Veuillez réessayer plus tard.",
+    },
+
+    server: {
+      invalidEmail: "Saisissez une adresse e-mail valide.",
+      rateLimited: "Trop de tentatives. Patientez quelques minutes, puis réessayez.",
+      billingUnavailable: "Le service de paiement est momentanément indisponible. Réessayez plus tard.",
+      checkoutFailed: "Impossible de lancer le paiement. Réessayez.",
+      alreadySubscribed: "Cette adresse e-mail a déjà un abonnement actif. Connectez-vous avec le code que nous vous envoyons par e-mail.",
+      paymentIncomplete: "Le paiement n’a pas abouti.",
+      notSignedIn: "Connectez-vous pour effectuer cette action.",
+      codeInvalid: "Code incorrect. Vérifiez-le, puis réessayez.",
+      codeExpired: "Le code a expiré. Demandez-en un nouveau.",
+      codeLocked: "Trop de tentatives erronées. Demandez un nouveau code.",
+      emailFailed: "Impossible d’envoyer l’e-mail. Réessayez plus tard.",
+      unexpected: "Une erreur s’est produite. Veuillez réessayer.",
+    },
+  },
+
+  email: {
+    subject: "{code} – votre code de connexion ({site})",
+    intro: "Utilisez ce code pour vous connecter à {site} :",
+    validity: "Le code est valable {minutes} minutes.",
+    ignore: "Si vous n’êtes pas à l’origine de cette demande, vous pouvez ignorer cet e-mail sans crainte.",
   },
 } satisfies Dictionary;
 

@@ -3,7 +3,8 @@ import de from "./de";
 import en from "./en";
 import es from "./es";
 import fr from "./fr";
-import hu, { type Dictionary } from "./hu";
+import hu from "./hu";
+import type { Dictionary } from "./en";
 
 export type { Dictionary };
 

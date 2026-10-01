@@ -12,7 +12,7 @@ export const DEFAULT_DESIGN: Design = {
   accent: "#1e3a8a",
   font: "inter",
   density: "normal",
-  language: "hu",
+  language: "en",
   pageSize: "A4",
   photoShape: "circle",
 };

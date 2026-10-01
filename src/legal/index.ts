@@ -1,5 +1,8 @@
+import { COOKIES } from "@/config/cookies";
 import { SITE } from "@/config/site";
-import { LOCALE_COOKIE, type Locale } from "@/i18n/config";
+import type { Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
+import { priceVars } from "@/lib/plan";
 import de from "./de";
 import en from "./en";
 import es from "./es";
@@ -7,6 +10,9 @@ import fr from "./fr";
 import hu from "./hu";
 import type { LegalContent, LegalDocs } from "./types";
 
-const CONTENT: Record<Locale, LegalContent> = { hu, en, fr, de, es };
+const CONTENT: Record<Locale, LegalContent> = { en, hu, fr, de, es };
 
-export const getLegal = (locale: Locale): LegalDocs => CONTENT[locale](SITE, LOCALE_COOKIE);
+export function getLegal(locale: Locale): LegalDocs {
+  const email = SITE.operator.email || `[${getDictionary(locale).legal.toBeCompleted}]`;
+  return CONTENT[locale]({ site: SITE, email, price: priceVars(locale), cookies: COOKIES });
+}

@@ -1,4 +1,4 @@
-import { ShieldCheck } from "lucide-react";
+import { CircleUserRound, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "@/components/brand";
 import { LanguageSwitcher } from "@/components/language-switcher";
@@ -27,6 +27,9 @@ export function SiteHeader({ lang, dict, page, anchors = false }: { lang: Locale
             <a href="#features" className="hover:text-fg">
               {nav.features}
             </a>
+            <a href="#pricing" className="hover:text-fg">
+              {dict.landing.pricing.kicker}
+            </a>
             <a href="#faq" className="hover:text-fg">
               {nav.faq}
             </a>
@@ -35,6 +38,14 @@ export function SiteHeader({ lang, dict, page, anchors = false }: { lang: Locale
         <div className="ml-auto flex items-center gap-1">
           <LanguageSwitcher current={lang} links={pageLinks(page)} label={dict.common.language} />
           <ThemeToggle label={dict.common.theme} />
+          <Link
+            href={localePath(lang, "account")}
+            aria-label={dict.common.account}
+            title={dict.common.account}
+            className="grid size-9 place-items-center rounded-lg text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg [&_svg]:size-[18px]"
+          >
+            <CircleUserRound />
+          </Link>
           <Link
             href={localePath(lang, "editor")}
             className="ml-1 hidden h-9 items-center gap-2 rounded-lg bg-primary px-3.5 text-sm font-medium text-primary-fg shadow-sm shadow-primary/25 transition-colors hover:bg-primary-hover sm:inline-flex"
@@ -60,6 +71,9 @@ export function SiteFooter({ lang, dict }: { lang: Locale; dict: Dictionary }) {
           </Link>
           <Link href={localePath(lang, "privacy")} className="hover:text-fg">
             {dict.common.privacy}
+          </Link>
+          <Link href={localePath(lang, "account")} className="hover:text-fg">
+            {dict.common.account}
           </Link>
         </nav>
         <p className="flex items-center gap-1.5">

@@ -14,7 +14,7 @@ export function downloadBlob(blob: Blob, fileName: string) {
   setTimeout(() => URL.revokeObjectURL(url), 60_000);
 }
 
-/** "Kovács Anna" → "Kovacs_Anna_oneletrajz" – ASCII file names survive every e-mail client and ATS. */
+/** "Kovács Anna" → "Kovacs_Anna_CV" – ASCII file names survive every e-mail client and ATS. */
 export function fileBaseName(resume: Resume) {
   const name = fullName(resume.basics, resume.design.language)
     .normalize("NFD")

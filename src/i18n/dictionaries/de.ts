@@ -1,10 +1,10 @@
-import type { Dictionary } from "./hu";
+import type { Dictionary } from "./en";
 
 const de = {
   meta: {
-    title: "CV Stúdió – Professionellen Lebenslauf kostenlos erstellen",
+    title: "GetProCV – Professionellen Lebenslauf in wenigen Minuten erstellen",
     description:
-      "Erstellen Sie in wenigen Minuten einen professionellen Lebenslauf: 4 moderne Vorlagen, Live-Vorschau, KI-Schreibassistent, fünf Sprachen, Foto und ein druckfertiges PDF mit markierbarem Text. Kostenlos und ohne Anmeldung.",
+      "Erstellen Sie in wenigen Minuten einen professionellen Lebenslauf: 4 moderne Vorlagen, Live-Vorschau als PDF, KI-Schreibassistent, fünf Sprachen, Foto und ein druckfertiges PDF mit markierbarem Text. Schreiben und Vorschau kostenlos.",
     keywords: [
       "Lebenslauf erstellen",
       "Lebenslauf Vorlage",
@@ -17,9 +17,10 @@ const de = {
     ],
     editorTitle: "Editor",
     editorDescription: "Bearbeiten Sie Ihren Lebenslauf mit Live-Vorschau als PDF.",
+    accountTitle: "Mein Konto",
     ogTitle1: "Ein professioneller Lebenslauf,",
     ogTitle2: "in wenigen Minuten.",
-    ogChips: ["Kostenlos", "Live-Vorschau", "PDF"],
+    ogChips: ["Live-Vorschau", "KI-Assistent", "PDF"],
   },
 
   common: {
@@ -29,6 +30,7 @@ const de = {
     close: "Schließen",
     terms: "AGB",
     privacy: "Datenschutz",
+    account: "Mein Konto",
     dataLocal: "Ihr Lebenslauf bleibt in Ihrem Browser.",
     notFound: {
       title: "Diese Seite wurde nicht gefunden",
@@ -40,13 +42,13 @@ const de = {
   landing: {
     nav: { templates: "Vorlagen", features: "Funktionen", faq: "FAQ", cta: "Lebenslauf erstellen" },
     hero: {
-      badge: "Kostenlos · Ohne Anmeldung · Mit KI-Schreibassistent",
+      badge: "Schreiben und Vorschau kostenlos · KI-Schreibassistent",
       title1: "Ein professioneller Lebenslauf,",
       title2: "in wenigen Minuten.",
       text: "Wählen Sie eine klare Vorlage, tragen Sie Ihre Angaben ein und laden Sie ein druckfertiges PDF herunter. Mit Live-Vorschau, in fünf Sprachen.",
       cta: "Lebenslauf erstellen",
       sample: "Beispiel ansehen",
-      note: "Kein Konto nötig – Sie können sofort loslegen.",
+      note: "Schreiben und Vorschau sind kostenlos – Sie zahlen erst beim Herunterladen.",
       imageAlt: "Beispiel-Lebenslauf mit der Vorlage „Modern“",
     },
     templates: {
@@ -72,23 +74,39 @@ const de = {
         { title: "Ihr Stil", text: "4 Vorlagen, 10 Akzentfarben oder eine beliebige eigene Farbe, 5 Schriftkombinationen und ein frei anpassbares Foto." },
         {
           title: "Automatisches Speichern und Datenschutz",
-          text: "Keine Anmeldung; jede Änderung wird in Ihrem Browser gespeichert. Der KI-Assistent sendet nur das Feld, das Sie gerade bearbeiten – niemals Ihren Namen oder Ihre Kontaktdaten.",
+          text: "Keine Registrierung, kein Passwort; jede Änderung wird in Ihrem Browser gespeichert. Der KI-Assistent sendet nur das Feld, das Sie gerade bearbeiten – niemals Ihren Namen oder Ihre Kontaktdaten.",
         },
       ],
     },
     steps: [
       { title: "Vorlage wählen", text: "Vier klare, druckfertige Vorlagen – wechseln Sie jederzeit, ohne Ihre Daten zu verlieren." },
       { title: "Ausfüllen", text: "Einfache Formulare mit Beispielen und Tipps. Die Stärke-Anzeige zeigt Ihnen, was noch fehlt." },
-      { title: "Als PDF herunterladen", text: "Ein Klick, und Ihr fertiges PDF mit markierbarem Text ist bereit – ohne Wasserzeichen." },
+      { title: "Als PDF herunterladen", text: "Wenn Sie zufrieden sind, laden Sie ein fertiges PDF mit markierbarem Text herunter – ohne Wasserzeichen." },
     ],
     start: "Los geht’s!",
+    pricing: {
+      kicker: "Preise",
+      title: "Ein einfacher Tarif",
+      text: "Schreiben, gestalten und prüfen Sie Ihren Lebenslauf in der Vorschau – kostenlos. Wenn Sie zufrieden sind, schalten Sie den Download frei.",
+      label: "Voller Zugang für {days} Tage",
+      features: ["Unbegrenzt viele PDF-Downloads", "Alle 4 Vorlagen, Farben und Schriften", "Lebensläufe in fünf Sprachen", "KI-Schreibassistent"],
+      cta: "Jetzt Lebenslauf beginnen",
+      renewal: "Nach {days} Tagen läuft das Abo für {monthly} im Monat weiter, bis Sie es kündigen. Sie können jederzeit mit einem Klick auf der Seite „Mein Konto“ kündigen.",
+    },
     faq: {
       title: "Häufige Fragen",
       items: [
-        { q: "Ist das wirklich kostenlos?", a: "Ja. Keine versteckten Kosten, kein Abo, keine Anmeldung und kein Wasserzeichen – das heruntergeladene PDF gehört ganz Ihnen." },
+        {
+          q: "Was kostet das?",
+          a: "Das Schreiben, Gestalten und die Vorschau Ihres Lebenslaufs sind kostenlos. Um ihn als PDF herunterzuladen, erhalten Sie {days} Tage vollen Zugang für {trial}; danach läuft das Abo für {monthly} im Monat weiter, bis Sie es kündigen. Kein Wasserzeichen – das heruntergeladene PDF gehört ganz Ihnen.",
+        },
+        {
+          q: "Wie kann ich kündigen?",
+          a: "Auf der Seite „Mein Konto“: Melden Sie sich mit dem Code an, den wir Ihnen per E-Mail senden, und kündigen Sie mit einem Klick. Ihr Zugang bleibt bis zum Ende des bereits bezahlten Zeitraums bestehen, und es wird nichts mehr abgebucht.",
+        },
         {
           q: "Wo werden meine Daten gespeichert?",
-          a: "In Ihrem eigenen Browser – wir haben weder Benutzerkonten noch eine Datenbank. Wenn Sie Ihre Browserdaten löschen, wird auch Ihr Lebenslauf gelöscht. Legen Sie deshalb am besten mit „Datei → In Datei speichern“ eine Sicherungskopie an.",
+          a: "Ihr Lebenslauf wird in Ihrem eigenen Browser gespeichert – er gelangt nie auf unsere Server. Wenn Sie Ihre Browserdaten löschen, wird er ebenfalls gelöscht. Legen Sie deshalb am besten mit „Datei → In Datei speichern“ eine Sicherungskopie an. Von Abonnenten speichern wir nur die für die Abrechnung nötige E-Mail-Adresse und die Abodaten, bei Stripe.",
         },
         {
           q: "Was macht der KI-Assistent, und was sieht er von mir?",
@@ -120,6 +138,7 @@ const de = {
     contents: "Inhalt",
     back: "Zurück zur Startseite",
     editor: "Zum Editor",
+    toBeCompleted: "wird noch ergänzt",
   },
 
   editor: {
@@ -134,6 +153,7 @@ const de = {
       new: "Neuer, leerer Lebenslauf",
       export: "In Datei speichern (.json)",
       import: "Aus Datei laden (.json)",
+      account: "Mein Konto",
       download: "PDF herunterladen",
       downloadShort: "PDF",
       confirmSample: "Die Beispieldaten ersetzen Ihren aktuellen Lebenslauf. Möchten Sie fortfahren?",
@@ -144,7 +164,7 @@ const de = {
       exported: "Gespeichert – mit dieser Datei können Sie später überall weiterarbeiten.",
       imported: "Lebenslauf geladen.",
       importFailed: "Diese Datei kann nicht gelesen werden.",
-      notCv: "Diese Datei ist kein Lebenslauf aus CV Stúdió.",
+      notCv: "Diese Datei ist keine GetProCV-Lebenslaufdatei.",
     },
 
     score: {
@@ -456,6 +476,94 @@ const de = {
         unknown: "Der KI-Assistent ist derzeit nicht verfügbar.",
       },
     },
+  },
+
+  billing: {
+    paywall: {
+      label: "Download und Bezahlung",
+      ready: "Ihr Lebenslauf ist fertig",
+      title: "Laden Sie ihn jetzt herunter.",
+      includes: "{days} Tage voller Zugang umfassen:",
+      features: ["Unbegrenzt viele PDF-Downloads", "Alle Vorlagen, Farben und Schriften", "Lebensläufe in fünf Sprachen", "KI-Schreibassistent"],
+      priceLabel: "Voller Zugang für {days} Tage",
+      email: "Ihre E-Mail-Adresse",
+      emailHint: "Damit können Sie sich später auch auf anderen Geräten anmelden.",
+      emailPlaceholder: "name@example.com",
+      continue: "Weiter zur Zahlung",
+      change: "Ändern",
+      methods: "Wählen Sie eine Zahlungsart",
+      card: "Debit- oder Kreditkarte",
+      pay: "Zahlungspflichtig bestellen – {amount}",
+      consent:
+        "Ich akzeptiere die [AGB](terms) und die [Datenschutzerklärung](privacy) und verlange ausdrücklich, dass die Leistung sofort – noch vor Ablauf der Widerrufsfrist – beginnt.",
+      consentNeeded: "Um zu bezahlen, setzen Sie bitte oben das Häkchen.",
+      renewal:
+        "Wenn Sie nicht innerhalb der ersten {days} Tage kündigen, läuft Ihr Abo ab Tag {next} für {monthly} im Monat weiter. Sie können jederzeit auf der Seite [Mein Konto](account) mit einem Klick kündigen. Wenn Sie innerhalb der 14-tägigen Widerrufsfrist widerrufen, zahlen Sie einen anteiligen Betrag für den bereits genutzten Zeitraum.",
+      ssl: "256-Bit-SSL",
+      stripe: "Zahlung über Stripe",
+      cancelAnytime: "Jederzeit kündbar",
+      loading: "Zahlung wird geladen …",
+      processing: "Zahlung wird verarbeitet …",
+      preparing: "Ihr PDF wird vorbereitet …",
+      success: "Zahlung erfolgreich! Ihr Download startet.",
+      haveAccount: "Sie haben bereits ein Abo?",
+      login: "Anmelden",
+      backToPay: "Zurück zur Zahlung",
+      notConfigured: "Auf diesem Server sind noch keine Zahlungen eingerichtet.",
+      returning: "Ihre Zahlung wird geprüft …",
+    },
+
+    auth: {
+      title: "Anmelden",
+      intro: "Geben Sie die E-Mail-Adresse ein, die mit Ihrem Abo verknüpft ist, und wir senden Ihnen einen 6-stelligen Anmeldecode.",
+      email: "E-Mail-Adresse",
+      sendCode: "Code senden",
+      sent: "Wenn mit {email} ein Abo verknüpft ist, haben wir den Code dorthin gesendet. Sehen Sie bitte auch in Ihrem Spam-Ordner nach.",
+      code: "Anmeldecode",
+      verify: "Anmelden",
+      resend: "Neuen Code anfordern",
+      otherEmail: "Andere E-Mail-Adresse verwenden",
+      success: "Sie sind angemeldet.",
+    },
+
+    account: {
+      title: "Mein Konto",
+      signedInAs: "Angemeldet als {email}",
+      trial: "Testzeitraum, endet am {date}. Wenn Sie nicht kündigen, geht es mit {monthly}/Monat weiter.",
+      active: "Aktives Abo. Nächste Abbuchung: {date} ({monthly}).",
+      canceling: "Gekündigt. Sie haben Zugang bis zum {date}.",
+      pastDue: "Die letzte Abbuchung ist fehlgeschlagen. Aktualisieren Sie Ihre Karte, damit Ihr Zugang nicht unterbrochen wird.",
+      none: "Sie haben kein aktives Abo. Schreiben Sie Ihren Lebenslauf – beim Herunterladen können Sie ein Abo abschließen.",
+      manage: "Abo verwalten oder kündigen",
+      manageHint: "Auf der sicheren Seite von Stripe können Sie Ihr Abo kündigen, Ihre Karte ändern und Ihre bisherigen Abbuchungen ansehen.",
+      start: "Editor öffnen",
+      logout: "Abmelden",
+      loading: "Wird geladen …",
+      error: "Ihre Kontodaten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+    },
+
+    server: {
+      invalidEmail: "Geben Sie eine gültige E-Mail-Adresse ein.",
+      rateLimited: "Zu viele Versuche. Warten Sie ein paar Minuten und versuchen Sie es dann erneut.",
+      billingUnavailable: "Der Zahlungsdienst ist derzeit nicht erreichbar. Versuchen Sie es später erneut.",
+      checkoutFailed: "Die Zahlung konnte nicht gestartet werden. Versuchen Sie es erneut.",
+      alreadySubscribed: "Für diese E-Mail-Adresse gibt es bereits ein aktives Abo. Melden Sie sich mit dem Code an, den wir Ihnen per E-Mail senden.",
+      paymentIncomplete: "Die Zahlung wurde nicht abgeschlossen.",
+      notSignedIn: "Dafür müssen Sie angemeldet sein.",
+      codeInvalid: "Falscher Code. Prüfen Sie ihn und versuchen Sie es erneut.",
+      codeExpired: "Der Code ist abgelaufen. Fordern Sie einen neuen an.",
+      codeLocked: "Zu viele Fehlversuche. Fordern Sie einen neuen Code an.",
+      emailFailed: "Die E-Mail konnte nicht gesendet werden. Versuchen Sie es später erneut.",
+      unexpected: "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    },
+  },
+
+  /** The sign-in email (sent by the server). */
+  email: {
+    subject: "{code} – Ihr Anmeldecode ({site})",
+    intro: "Mit diesem Code melden Sie sich bei {site} an:",
+    validity: "Der Code ist {minutes} Minuten lang gültig.",
+    ignore: "Wenn Sie ihn nicht angefordert haben, können Sie diese E-Mail einfach ignorieren.",
   },
 } satisfies Dictionary;
 

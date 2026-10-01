@@ -3,17 +3,25 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { SITE } from "@/config/site";
-import { localePath, type Locale } from "@/i18n/config";
+import { localePath, type Locale, type PageKey } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { fmt } from "@/i18n/format";
 import type { LegalDoc } from "@/legal/types";
 
-const TOKEN = /(\*\*[^*]+\*\*|https?:\/\/[^\s,;)]*[^\s,;).:]|[\w.+-]+@[\w-]+(?:\.[\w-]+)+)/g;
+const TOKEN = /(\*\*[^*]+\*\*|\[[^\]]+\]\((?:terms|privacy|account)\)|https?:\/\/[^\s,;)]*[^\s,;).:]|[\w.+-]+@[\w-]+(?:\.[\w-]+)+)/g;
 
-/** Plain text with **bold** parts; URLs and e-mail addresses become links. */
-function Rich({ text }: { text: string }) {
+/** Plain text with **bold** parts and [label](privacy) internal links; URLs and e-mail addresses become links. */
+function Rich({ text, lang }: { text: string; lang: Locale }) {
   return text.split(TOKEN).map((part, index): ReactNode => {
     if (part.startsWith("**") && part.endsWith("**")) return <strong key={index} className="font-semibold text-fg">{part.slice(2, -2)}</strong>;
+    const internal = /^\[([^\]]+)\]\((terms|privacy|account)\)$/.exec(part);
+    if (internal) {
+      return (
+        <Link key={index} href={localePath(lang, internal[2] as PageKey)} className="text-primary underline-offset-2 hover:underline">
+          {internal[1]}
+        </Link>
+      );
+    }
     if (/^https?:\/\//.test(part)) {
       return (
         <a key={index} href={part} target="_blank" rel="noopener noreferrer" className="text-primary underline-offset-2 hover:underline">
@@ -48,7 +56,7 @@ export function LegalPage({ lang, dict, doc, page }: { lang: Locale; dict: Dicti
           <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-fg-muted">
             {doc.intro.map((text) => (
               <p key={text}>
-                <Rich text={text} />
+                <Rich text={text} lang={lang} />
               </p>
             ))}
           </div>
@@ -77,13 +85,13 @@ export function LegalPage({ lang, dict, doc, page }: { lang: Locale; dict: Dicti
                 {section.blocks.map((block, blockIndex) =>
                   typeof block === "string" ? (
                     <p key={blockIndex}>
-                      <Rich text={block} />
+                      <Rich text={block} lang={lang} />
                     </p>
                   ) : (
                     <ul key={blockIndex} className="list-disc space-y-1.5 pl-5 marker:text-fg-subtle">
                       {block.list.map((item) => (
                         <li key={item}>
-                          <Rich text={item} />
+                          <Rich text={item} lang={lang} />
                         </li>
                       ))}
                     </ul>

@@ -1,16 +1,21 @@
-import type { Dictionary } from "./hu";
-
+/**
+ * English UI texts – the main language and the master dictionary. Every other
+ * language must have exactly the same keys (enforced by the Dictionary type and
+ * i18n.test.ts). Placeholders look like {count}; plural forms are { one, other }
+ * objects; [label](terms|privacy|account) is an internal link.
+ */
 const en = {
   meta: {
-    title: "CV Stúdió – Free professional CV builder",
+    title: "GetProCV – Build a professional CV in minutes",
     description:
-      "Build a professional CV in minutes: 4 modern templates, live preview, an AI writing assistant, five languages, photo support and a print-ready PDF with selectable text. Free, no sign-up.",
+      "Build a professional CV in minutes: 4 modern templates, a live PDF preview, an AI writing assistant, five languages, photo support and a print-ready PDF with selectable text. Write and preview for free.",
     keywords: ["CV builder", "resume builder", "CV template", "resume template", "CV maker", "CV PDF", "free CV builder", "Europass alternative"],
     editorTitle: "Editor",
     editorDescription: "Edit your CV with a live PDF preview.",
+    accountTitle: "My account",
     ogTitle1: "A professional CV,",
     ogTitle2: "in minutes.",
-    ogChips: ["Free", "Live preview", "PDF"],
+    ogChips: ["Live preview", "AI assistant", "PDF"],
   },
 
   common: {
@@ -20,6 +25,7 @@ const en = {
     close: "Close",
     terms: "Terms",
     privacy: "Privacy",
+    account: "My account",
     dataLocal: "Your CV stays in your browser.",
     notFound: {
       title: "This page could not be found",
@@ -31,13 +37,13 @@ const en = {
   landing: {
     nav: { templates: "Templates", features: "Features", faq: "FAQ", cta: "Create my CV" },
     hero: {
-      badge: "Free · No sign-up · With an AI writing assistant",
+      badge: "Write and preview for free · AI writing assistant",
       title1: "A professional CV,",
       title2: "in minutes.",
       text: "Pick a clean template, fill in your details and download a print-ready PDF. With a live preview, in five languages.",
       cta: "Create my CV",
       sample: "See an example",
-      note: "No account needed – start right away.",
+      note: "Writing and previewing are free – you only pay when you download.",
       imageAlt: "Example CV with the Modern template",
     },
     templates: {
@@ -63,23 +69,39 @@ const en = {
         { title: "Your style", text: "4 templates, 10 accent colours or any custom colour, 5 font pairings and an adjustable photo." },
         {
           title: "Auto-save and privacy",
-          text: "No sign-up; every change is saved in your browser. The AI assistant only sends the field you are editing – never your name or contact details.",
+          text: "No registration or password; every change is saved in your browser. The AI assistant only sends the field you are editing – never your name or contact details.",
         },
       ],
     },
     steps: [
       { title: "Pick a template", text: "Four clean, print-ready templates – switch at any time without losing your data." },
       { title: "Fill it in", text: "Simple forms with examples and tips. The strength meter shows what is still missing." },
-      { title: "Download as PDF", text: "One click and your polished PDF with selectable text is ready – no watermark." },
+      { title: "Download as PDF", text: "When you are happy with it, download a polished PDF with selectable text – no watermark." },
     ],
     start: "Let’s go!",
+    pricing: {
+      kicker: "Pricing",
+      title: "One simple plan",
+      text: "Write, design and preview your CV for free. When you are happy with it, unlock the download.",
+      label: "{days}-day full access",
+      features: ["Unlimited PDF downloads", "All 4 templates, colours and fonts", "CVs in five languages", "AI writing assistant"],
+      cta: "Start my CV",
+      renewal: "After {days} days, the subscription continues at {monthly} a month until you cancel. You can cancel anytime in one click on the “My account” page.",
+    },
     faq: {
       title: "Frequently asked questions",
       items: [
-        { q: "Is it really free?", a: "Yes. No hidden fees, subscriptions, sign-up or watermark – the downloaded PDF is entirely yours." },
+        {
+          q: "How much does it cost?",
+          a: "Writing, designing and previewing your CV is free. To download it as a PDF, you get {days} days of full access for {trial}; after that, the subscription continues at {monthly} a month until you cancel. No watermark – the downloaded PDF is entirely yours.",
+        },
+        {
+          q: "How do I cancel?",
+          a: "On the “My account” page: sign in with the code we email you, then cancel in one click. You keep access until the end of the period you have paid for, and nothing more is charged.",
+        },
         {
           q: "Where is my data stored?",
-          a: "In your own browser – we have no accounts and no database. If you clear your browsing data, your CV is deleted too, so it is worth making a backup with “File → Save to file”.",
+          a: "Your CV is stored in your own browser – it never reaches our servers. If you clear your browsing data, it is deleted too, so it is worth making a backup with “File → Save to file”. For subscribers, we only keep the email address and subscription details needed for billing, with Stripe.",
         },
         {
           q: "What does the AI assistant do, and what does it see?",
@@ -108,6 +130,7 @@ const en = {
     contents: "Contents",
     back: "Back to the home page",
     editor: "Go to the editor",
+    toBeCompleted: "to be completed",
   },
 
   editor: {
@@ -122,6 +145,7 @@ const en = {
       new: "New, empty CV",
       export: "Save to file (.json)",
       import: "Load from file (.json)",
+      account: "My account",
       download: "Download PDF",
       downloadShort: "PDF",
       confirmSample: "The example data will replace your current CV. Continue?",
@@ -132,7 +156,7 @@ const en = {
       exported: "Saved – you can continue anywhere with this file later.",
       imported: "CV loaded.",
       importFailed: "This file cannot be read.",
-      notCv: "This file is not a CV Stúdió CV.",
+      notCv: "This file is not a GetProCV CV file.",
     },
 
     score: {
@@ -444,6 +468,94 @@ const en = {
       },
     },
   },
-} satisfies Dictionary;
 
+  billing: {
+    paywall: {
+      label: "Download and payment",
+      ready: "Your CV is ready",
+      title: "Download it now.",
+      includes: "{days} days of full access include:",
+      features: ["Unlimited PDF downloads", "All templates, colours and fonts", "CVs in five languages", "AI writing assistant"],
+      priceLabel: "{days}-day full access",
+      email: "Your email address",
+      emailHint: "You can use it to sign in on other devices later.",
+      emailPlaceholder: "name@example.com",
+      continue: "Continue to payment",
+      change: "Change",
+      methods: "Choose a payment method",
+      card: "Debit or credit card",
+      pay: "Order with obligation to pay – {amount}",
+      consent: "I accept the [Terms of Service](terms) and the [Privacy Policy](privacy), and I request that the service start immediately.",
+      consentNeeded: "To pay, please tick the box above.",
+      renewal:
+        "If you don’t cancel within the first {days} days, your subscription continues from day {next} at {monthly} a month. You can cancel anytime on the [My account](account) page, in one click. If you withdraw within the 14-day withdrawal period, you pay a proportionate amount for the period already used.",
+      ssl: "256-bit SSL",
+      stripe: "Payments by Stripe",
+      cancelAnytime: "Cancel anytime",
+      loading: "Loading payment…",
+      processing: "Processing payment…",
+      preparing: "Preparing your PDF…",
+      success: "Payment successful! Your download is starting.",
+      haveAccount: "Already a subscriber?",
+      login: "Sign in",
+      backToPay: "Back to payment",
+      notConfigured: "Payments aren’t set up on this server yet.",
+      returning: "Checking your payment…",
+    },
+
+    auth: {
+      title: "Sign in",
+      intro: "Enter the email address linked to your subscription, and we’ll send you a 6-digit sign-in code.",
+      email: "Email address",
+      sendCode: "Send code",
+      sent: "If there’s a subscription linked to {email}, we’ve sent the code there. Check your spam folder too.",
+      code: "Sign-in code",
+      verify: "Sign in",
+      resend: "Request a new code",
+      otherEmail: "Use a different email address",
+      success: "You’re signed in.",
+    },
+
+    account: {
+      title: "My account",
+      signedInAs: "Signed in as {email}",
+      trial: "Trial period, ends on {date}. If you don’t cancel, it continues at {monthly}/month.",
+      active: "Active subscription. Next charge: {date} ({monthly}).",
+      canceling: "Cancelled. You have access until {date}.",
+      pastDue: "The last charge failed. Update your card so your access isn’t interrupted.",
+      none: "You don’t have an active subscription. Write your CV, and you can start one when you download it.",
+      manage: "Manage or cancel subscription",
+      manageHint: "On Stripe’s secure page, you can cancel your subscription, change your card and see your past charges.",
+      start: "Open the editor",
+      logout: "Sign out",
+      loading: "Loading…",
+      error: "We couldn’t load your account details. Please try again later.",
+    },
+
+    server: {
+      invalidEmail: "Enter a valid email address.",
+      rateLimited: "Too many attempts. Wait a few minutes and try again.",
+      billingUnavailable: "The payment service is currently unavailable. Try again later.",
+      checkoutFailed: "The payment couldn’t be started. Try again.",
+      alreadySubscribed: "This email address already has an active subscription. Sign in with the code we send you by email.",
+      paymentIncomplete: "The payment wasn’t completed.",
+      notSignedIn: "You need to sign in to do this.",
+      codeInvalid: "Wrong code. Check it and try again.",
+      codeExpired: "The code has expired. Request a new one.",
+      codeLocked: "Too many wrong attempts. Request a new code.",
+      emailFailed: "The email couldn’t be sent. Try again later.",
+      unexpected: "Something went wrong. Please try again.",
+    },
+  },
+
+  /** The sign-in email (sent by the server). */
+  email: {
+    subject: "{code} – your sign-in code ({site})",
+    intro: "Use this code to sign in to {site}:",
+    validity: "The code is valid for {minutes} minutes.",
+    ignore: "If you didn’t request this, you can safely ignore this email.",
+  },
+};
+
+export type Dictionary = typeof en;
 export default en;

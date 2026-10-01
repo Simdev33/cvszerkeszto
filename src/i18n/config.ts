@@ -1,36 +1,39 @@
 /**
- * Locales and localized URLs. Every page lives under /<locale>/…, and the
- * sub-pages have a translated slug (/hu/szerkeszto, /en/editor, /de/agb …).
- * Safe to import from the proxy, server and client code.
+ * Locales and localized URLs. English is the main language and lives at the
+ * root without a prefix (/editor, /terms); the others have a prefix and
+ * translated slugs (/hu/szerkeszto, /de/agb …). Safe to import from the
+ * proxy, server and client code.
  */
 import type { CvLanguage } from "@/lib/resume/types";
 
-export const LOCALES = ["hu", "en", "fr", "de", "es"] as const satisfies readonly CvLanguage[];
+export const LOCALES = ["en", "hu", "fr", "de", "es"] as const satisfies readonly CvLanguage[];
 export type Locale = (typeof LOCALES)[number];
 
-/** Used when the browser asks for none of the supported languages. */
-export const FALLBACK_LOCALE: Locale = "en";
+/** The main language: no URL prefix, and used when the browser asks for none of the supported ones. */
+export const DEFAULT_LOCALE: Locale = "en";
 export const LOCALE_COOKIE = "NEXT_LOCALE";
 
 /** Each language's own name, for the language switcher. */
-export const LOCALE_NAMES: Record<Locale, string> = { hu: "Magyar", en: "English", fr: "Français", de: "Deutsch", es: "Español" };
+export const LOCALE_NAMES: Record<Locale, string> = { en: "English", hu: "Magyar", fr: "Français", de: "Deutsch", es: "Español" };
 
 /** Open Graph locale tags. */
-export const OG_LOCALES: Record<Locale, string> = { hu: "hu_HU", en: "en_GB", fr: "fr_FR", de: "de_DE", es: "es_ES" };
+export const OG_LOCALES: Record<Locale, string> = { en: "en_GB", hu: "hu_HU", fr: "fr_FR", de: "de_DE", es: "es_ES" };
 
-export type PageKey = "editor" | "terms" | "privacy";
+export type PageKey = "editor" | "terms" | "privacy" | "account";
 
 export const PAGE_SLUGS: Record<PageKey, Record<Locale, string>> = {
-  editor: { hu: "szerkeszto", en: "editor", fr: "editeur", de: "editor", es: "editor" },
-  terms: { hu: "aszf", en: "terms", fr: "conditions", de: "agb", es: "condiciones" },
-  privacy: { hu: "adatvedelem", en: "privacy", fr: "confidentialite", de: "datenschutz", es: "privacidad" },
+  editor: { en: "editor", hu: "szerkeszto", fr: "editeur", de: "editor", es: "editor" },
+  terms: { en: "terms", hu: "aszf", fr: "conditions", de: "agb", es: "condiciones" },
+  privacy: { en: "privacy", hu: "adatvedelem", fr: "confidentialite", de: "datenschutz", es: "privacidad" },
+  account: { en: "account", hu: "fiok", fr: "compte", de: "konto", es: "cuenta" },
 };
 
-export const isLocale = (value: string | undefined): value is Locale => LOCALES.includes(value as Locale);
+export const isLocale = (value: string | null | undefined): value is Locale => LOCALES.includes(value as Locale);
 
-/** "/fr" or "/fr/editeur". */
+/** "/" or "/editor" in English, "/fr" or "/fr/editeur" in the other languages. */
 export function localePath(locale: Locale, page?: PageKey) {
-  return page ? `/${locale}/${PAGE_SLUGS[page][locale]}` : `/${locale}`;
+  const slug = page ? `/${PAGE_SLUGS[page][locale]}` : "";
+  return locale === DEFAULT_LOCALE ? slug || "/" : `/${locale}${slug}`;
 }
 
 /** Which page a slug belongs to, in any language ("agb" → "terms"). */
@@ -52,5 +55,5 @@ export function matchLocale(acceptLanguage: string | null): Locale {
     })
     .filter((item) => item.base && item.q > 0)
     .sort((a, b) => b.q - a.q);
-  return ranked.map((item) => item.base).find(isLocale) ?? FALLBACK_LOCALE;
+  return ranked.map((item) => item.base).find(isLocale) ?? DEFAULT_LOCALE;
 }

@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { AccountPage } from "@/components/account/account-page";
 import { EditorShell } from "@/components/editor/editor-shell";
 import { LegalPage } from "@/components/legal-page";
+import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { I18nProvider } from "@/i18n/client";
 import { isLocale, LOCALES, PAGE_SLUGS, type Locale, type PageKey } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { alternates } from "@/i18n/metadata";
@@ -25,10 +28,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const resolved = await resolve(params);
   if (!resolved) return {};
   const { lang, page } = resolved;
-  if (page === "editor") {
-    const { meta } = getDictionary(lang);
-    return { title: meta.editorTitle, description: meta.editorDescription, robots: { index: false }, alternates: alternates(lang, page) };
-  }
+  const { meta } = getDictionary(lang);
+  if (page === "editor") return { title: meta.editorTitle, description: meta.editorDescription, robots: { index: false }, alternates: alternates(lang, page) };
+  if (page === "account") return { title: meta.accountTitle, robots: { index: false, follow: false }, alternates: alternates(lang, page) };
   const doc = getLegal(lang)[page];
   return { title: doc.title, description: doc.description, alternates: alternates(lang, page) };
 }
@@ -38,6 +40,20 @@ export default async function Page({ params }: { params: Params }) {
   if (!resolved) notFound();
   const { lang, page } = resolved;
   const dict = getDictionary(lang);
-  if (page === "editor") return <EditorShell locale={lang} messages={{ editor: dict.editor, common: dict.common }} />;
+  const messages = { editor: dict.editor, common: dict.common, billing: dict.billing };
+  if (page === "editor") return <EditorShell locale={lang} messages={messages} />;
+  if (page === "account") {
+    return (
+      <>
+        <SiteHeader lang={lang} dict={dict} page={page} />
+        <main className="min-h-[70dvh]">
+          <I18nProvider locale={lang} messages={messages}>
+            <AccountPage />
+          </I18nProvider>
+        </main>
+        <SiteFooter lang={lang} dict={dict} />
+      </>
+    );
+  }
   return <LegalPage lang={lang} dict={dict} doc={getLegal(lang)[page]} page={page} />;
 }

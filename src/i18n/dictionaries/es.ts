@@ -1,16 +1,17 @@
-import type { Dictionary } from "./hu";
+import type { Dictionary } from "./en";
 
 const es = {
   meta: {
-    title: "CV Stúdió – Crea tu currículum profesional gratis",
+    title: "GetProCV – Crea un currículum profesional en minutos",
     description:
-      "Crea un currículum profesional en minutos: 4 plantillas modernas, vista previa en tiempo real, asistente de IA para redactar, cinco idiomas, foto y un PDF listo para imprimir con texto seleccionable. Gratis y sin registro.",
+      "Crea un currículum profesional en minutos: 4 plantillas modernas, vista previa del PDF en tiempo real, asistente de IA para redactar, cinco idiomas, foto y un PDF listo para imprimir con texto seleccionable. Redáctalo y previsualízalo gratis.",
     keywords: ["crear currículum", "plantilla de CV", "currículum vitae", "CV gratis", "hacer CV online", "currículum PDF", "modelo de currículum", "alternativa a Europass"],
     editorTitle: "Editor",
     editorDescription: "Edita tu currículum con vista previa del PDF en tiempo real.",
+    accountTitle: "Mi cuenta",
     ogTitle1: "Un currículum profesional,",
     ogTitle2: "en minutos.",
-    ogChips: ["Gratis", "Vista previa en vivo", "PDF"],
+    ogChips: ["Vista previa en vivo", "Asistente de IA", "PDF"],
   },
 
   common: {
@@ -20,6 +21,7 @@ const es = {
     close: "Cerrar",
     terms: "Términos",
     privacy: "Privacidad",
+    account: "Mi cuenta",
     dataLocal: "Tu currículum se queda en tu navegador.",
     notFound: {
       title: "No hemos encontrado esta página",
@@ -31,13 +33,13 @@ const es = {
   landing: {
     nav: { templates: "Plantillas", features: "Funciones", faq: "Preguntas frecuentes", cta: "Crear mi CV" },
     hero: {
-      badge: "Gratis · Sin registro · Con asistente de IA para redactar",
+      badge: "Redacción y vista previa gratis · Asistente de IA para redactar",
       title1: "Un currículum profesional,",
       title2: "en minutos.",
       text: "Elige una plantilla limpia, rellena tus datos y descarga un PDF listo para imprimir. Con vista previa en tiempo real y en cinco idiomas.",
       cta: "Crear mi currículum",
       sample: "Ver un ejemplo",
-      note: "No necesitas cuenta: empieza ahora mismo.",
+      note: "Redactar y previsualizar es gratis: solo pagas al descargar.",
       imageAlt: "Currículum de ejemplo con la plantilla Moderna",
     },
     templates: {
@@ -63,23 +65,39 @@ const es = {
         { title: "Tu estilo", text: "4 plantillas, 10 colores de acento o el color que tú quieras, 5 combinaciones tipográficas y una foto ajustable." },
         {
           title: "Guardado automático y privacidad",
-          text: "Sin registro: cada cambio se guarda en tu navegador. El asistente de IA solo envía el campo que estás editando, nunca tu nombre ni tus datos de contacto.",
+          text: "Sin registro ni contraseña: cada cambio se guarda en tu navegador. El asistente de IA solo envía el campo que estás editando, nunca tu nombre ni tus datos de contacto.",
         },
       ],
     },
     steps: [
       { title: "Elige una plantilla", text: "Cuatro plantillas limpias y listas para imprimir: cambia cuando quieras sin perder tus datos." },
       { title: "Rellénala", text: "Formularios sencillos con ejemplos y consejos. El indicador de calidad te muestra lo que aún falta." },
-      { title: "Descárgala en PDF", text: "Un clic y tendrás tu PDF impecable, con texto seleccionable y sin marca de agua." },
+      { title: "Descárgala en PDF", text: "Cuando te guste el resultado, descarga un PDF impecable, con texto seleccionable y sin marca de agua." },
     ],
     start: "¡Empecemos!",
+    pricing: {
+      kicker: "Precio",
+      title: "Un único plan, sin complicaciones",
+      text: "Redacta, diseña y previsualiza tu currículum gratis. Cuando te guste el resultado, desbloquea la descarga.",
+      label: "Acceso completo de {days} días",
+      features: ["Descargas ilimitadas de PDF", "Las 4 plantillas, colores y tipografías", "Currículums en cinco idiomas", "Asistente de IA para redactar"],
+      cta: "Empezar mi currículum",
+      renewal: "Pasados {days} días, la suscripción continúa por {monthly} al mes hasta que la canceles. Puedes cancelarla cuando quieras, con un solo clic, en la página «Mi cuenta».",
+    },
     faq: {
       title: "Preguntas frecuentes",
       items: [
-        { q: "¿De verdad es gratis?", a: "Sí. Sin costes ocultos, suscripciones, registro ni marca de agua: el PDF que descargas es totalmente tuyo." },
+        {
+          q: "¿Cuánto cuesta?",
+          a: "Redactar, diseñar y previsualizar tu currículum es gratis. Para descargarlo en PDF, obtienes {days} días de acceso completo por {trial}; después, la suscripción continúa por {monthly} al mes hasta que la canceles. Sin marca de agua: el PDF que descargas es totalmente tuyo.",
+        },
+        {
+          q: "¿Cómo cancelo la suscripción?",
+          a: "En la página «Mi cuenta»: inicia sesión con el código que te enviamos por correo electrónico y cancela con un solo clic. Conservas el acceso hasta el final del periodo que has pagado y no se te cobra nada más.",
+        },
         {
           q: "¿Dónde se guardan mis datos?",
-          a: "En tu propio navegador: no tenemos cuentas ni base de datos. Si borras los datos de navegación, tu currículum también se borrará, así que conviene hacer una copia de seguridad con «Archivo → Guardar en archivo».",
+          a: "Tu currículum se guarda en tu propio navegador: nunca llega a nuestros servidores. Si borras los datos de navegación, también se borrará, así que conviene hacer una copia de seguridad con «Archivo → Guardar en archivo». De los suscriptores solo guardamos, en Stripe, el correo electrónico y los datos de la suscripción necesarios para la facturación.",
         },
         {
           q: "¿Qué hace el asistente de IA y qué ve de mí?",
@@ -111,6 +129,7 @@ const es = {
     contents: "Índice",
     back: "Volver a la página de inicio",
     editor: "Ir al editor",
+    toBeCompleted: "pendiente de completar",
   },
 
   editor: {
@@ -125,6 +144,7 @@ const es = {
       new: "Nuevo currículum vacío",
       export: "Guardar en archivo (.json)",
       import: "Cargar desde archivo (.json)",
+      account: "Mi cuenta",
       download: "Descargar PDF",
       downloadShort: "PDF",
       confirmSample: "Los datos de ejemplo sustituirán a tu currículum actual. ¿Quieres continuar?",
@@ -135,7 +155,7 @@ const es = {
       exported: "Guardado: con este archivo podrás continuar más tarde desde cualquier lugar.",
       imported: "Currículum cargado.",
       importFailed: "No se puede leer este archivo.",
-      notCv: "Este archivo no es un currículum de CV Stúdió.",
+      notCv: "Este archivo no es un archivo de currículum de GetProCV.",
     },
 
     score: {
@@ -446,6 +466,93 @@ const es = {
         unknown: "El asistente de IA no está disponible en este momento.",
       },
     },
+  },
+
+  billing: {
+    paywall: {
+      label: "Descarga y pago",
+      ready: "Tu currículum está listo",
+      title: "Descárgalo ya.",
+      includes: "El acceso completo de {days} días incluye:",
+      features: ["Descargas ilimitadas de PDF", "Todas las plantillas, colores y tipografías", "Currículums en cinco idiomas", "Asistente de IA para redactar"],
+      priceLabel: "Acceso completo de {days} días",
+      email: "Tu correo electrónico",
+      emailHint: "Con él podrás iniciar sesión más adelante en otros dispositivos.",
+      emailPlaceholder: "nombre@example.com",
+      continue: "Continuar al pago",
+      change: "Cambiar",
+      methods: "Elige un método de pago",
+      card: "Tarjeta de débito o crédito",
+      pay: "Pedido con obligación de pago · {amount}",
+      consent: "Acepto los [Términos y condiciones de uso](terms) y la [Política de privacidad](privacy), y solicito que el servicio comience de inmediato.",
+      consentNeeded: "Para pagar, marca la casilla de arriba.",
+      renewal:
+        "Si no cancelas durante los primeros {days} días, tu suscripción continúa a partir del día {next} por {monthly} al mes. Puedes cancelar cuando quieras en la página [Mi cuenta](account), con un solo clic. Si desistes dentro del plazo de desistimiento de 14 días, pagas la parte proporcional al periodo ya utilizado.",
+      ssl: "SSL de 256 bits",
+      stripe: "Pagos gestionados por Stripe",
+      cancelAnytime: "Cancela cuando quieras",
+      loading: "Cargando el pago…",
+      processing: "Procesando el pago…",
+      preparing: "Preparando tu PDF…",
+      success: "¡Pago completado! Tu descarga está empezando.",
+      haveAccount: "¿Ya tienes una suscripción?",
+      login: "Iniciar sesión",
+      backToPay: "Volver al pago",
+      notConfigured: "Los pagos aún no están configurados en este servidor.",
+      returning: "Comprobando tu pago…",
+    },
+
+    auth: {
+      title: "Iniciar sesión",
+      intro: "Introduce la dirección de correo electrónico vinculada a tu suscripción y te enviaremos un código de acceso de 6 dígitos.",
+      email: "Correo electrónico",
+      sendCode: "Enviar código",
+      sent: "Si hay una suscripción vinculada a {email}, te hemos enviado allí el código. Revisa también la carpeta de spam.",
+      code: "Código de acceso",
+      verify: "Iniciar sesión",
+      resend: "Pedir un código nuevo",
+      otherEmail: "Usar otra dirección de correo",
+      success: "Has iniciado sesión.",
+    },
+
+    account: {
+      title: "Mi cuenta",
+      signedInAs: "Sesión iniciada como {email}",
+      trial: "Periodo de prueba: termina el {date}. Si no cancelas, continúa por {monthly}/mes.",
+      active: "Suscripción activa. Próximo cobro: {date} ({monthly}).",
+      canceling: "Cancelada. Tienes acceso hasta el {date}.",
+      pastDue: "El último cobro ha fallado. Actualiza tu tarjeta para no perder el acceso.",
+      none: "No tienes ninguna suscripción activa. Redacta tu currículum y podrás suscribirte al descargarlo.",
+      manage: "Gestionar o cancelar la suscripción",
+      manageHint: "En la página segura de Stripe puedes cancelar la suscripción, cambiar la tarjeta y ver tus cobros anteriores.",
+      start: "Abrir el editor",
+      logout: "Cerrar sesión",
+      loading: "Cargando…",
+      error: "No hemos podido cargar los datos de tu cuenta. Vuelve a intentarlo más tarde.",
+    },
+
+    server: {
+      invalidEmail: "Introduce una dirección de correo electrónico válida.",
+      rateLimited: "Demasiados intentos. Espera unos minutos y vuelve a intentarlo.",
+      billingUnavailable: "El servicio de pago no está disponible en este momento. Vuelve a intentarlo más tarde.",
+      checkoutFailed: "No se ha podido iniciar el pago. Vuelve a intentarlo.",
+      alreadySubscribed: "Esta dirección de correo ya tiene una suscripción activa. Inicia sesión con el código que te enviaremos por correo electrónico.",
+      paymentIncomplete: "El pago no se ha completado.",
+      notSignedIn: "Tienes que iniciar sesión para hacer esto.",
+      codeInvalid: "Código incorrecto. Compruébalo y vuelve a intentarlo.",
+      codeExpired: "El código ha caducado. Pide uno nuevo.",
+      codeLocked: "Demasiados intentos fallidos. Pide un código nuevo.",
+      emailFailed: "No se ha podido enviar el correo. Vuelve a intentarlo más tarde.",
+      unexpected: "Algo ha fallado. Vuelve a intentarlo.",
+    },
+  },
+
+  /** El correo de inicio de sesión (lo envía el servidor). */
+  email: {
+    subject: "{code} – tu código de acceso ({site})",
+    intro: "Usa este código para iniciar sesión en {site}:",
+    validity: "El código es válido durante {minutes} minutos.",
+    ignore: "Si no lo has solicitado, puedes ignorar este correo sin problema.",
   },
 } satisfies Dictionary;
 

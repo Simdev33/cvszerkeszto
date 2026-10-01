@@ -1,19 +1,17 @@
-/**
- * Hungarian UI texts – the master dictionary. Every other language must have
- * exactly the same keys (enforced by the Dictionary type and i18n.test.ts).
- * Placeholders look like {count}; plural forms are { one, other } objects.
- */
+import type { Dictionary } from "./en";
+
 const hu = {
   meta: {
-    title: "CV Stúdió – Profi önéletrajz-készítő, ingyen",
+    title: "GetProCV – Készíts profi önéletrajzot percek alatt",
     description:
-      "Készíts profi önéletrajzot percek alatt: 4 modern sablon, élő előnézet, AI-szövegsegéd, öt nyelv, fotó és nyomtatásra kész, kijelölhető szövegű PDF. Ingyenes, regisztráció nélkül.",
+      "Készíts profi önéletrajzot percek alatt: 4 modern sablon, élő PDF-előnézet, AI-szövegsegéd, öt nyelv, fotó és nyomtatásra kész, kijelölhető szövegű PDF. Az írás és az előnézet ingyenes.",
     keywords: ["önéletrajz", "önéletrajz készítő", "önéletrajz minta", "CV készítő", "CV sablon", "önéletrajz PDF", "angol önéletrajz", "Europass alternatíva"],
     editorTitle: "Szerkesztő",
     editorDescription: "Önéletrajz szerkesztése élő PDF-előnézettel.",
+    accountTitle: "Fiókom",
     ogTitle1: "Profi önéletrajz,",
     ogTitle2: "percek alatt.",
-    ogChips: ["Ingyenes", "Élő előnézet", "PDF"],
+    ogChips: ["Élő előnézet", "AI-segéd", "PDF"],
   },
 
   common: {
@@ -23,6 +21,7 @@ const hu = {
     close: "Bezárás",
     terms: "ÁSZF",
     privacy: "Adatvédelem",
+    account: "Fiókom",
     dataLocal: "Az önéletrajzod a böngésződben marad.",
     notFound: {
       title: "Ez az oldal nem található",
@@ -34,13 +33,13 @@ const hu = {
   landing: {
     nav: { templates: "Sablonok", features: "Funkciók", faq: "GYIK", cta: "Önéletrajz készítése" },
     hero: {
-      badge: "Ingyenes · Regisztráció nélkül · AI-szövegsegéddel",
+      badge: "Ingyenes írás és előnézet · AI-szövegsegéddel",
       title1: "Profi önéletrajz,",
       title2: "percek alatt.",
       text: "Válassz egy letisztult sablont, töltsd ki az adataidat, és töltsd le nyomtatásra kész PDF-ben. Élő előnézettel, öt nyelven.",
       cta: "Önéletrajz készítése",
       sample: "Minta megtekintése",
-      note: "Nem kell fiók, azonnal kezdheted.",
+      note: "Az írás és az előnézet ingyenes – csak a letöltésért fizetsz.",
       imageAlt: "Minta önéletrajz a Modern sablonnal",
     },
     templates: {
@@ -66,23 +65,39 @@ const hu = {
         { title: "A te stílusod", text: "4 sablon, 10 kiemelő szín vagy bármilyen egyéni szín, 5 betűtípus és igazítható fotó." },
         {
           title: "Automatikus mentés, adatvédelem",
-          text: "Regisztráció nélkül, minden változás a böngésződben mentődik. Az AI-segéd csak az épp szerkesztett mezőt küldi el, nevet és elérhetőséget soha.",
+          text: "Nincs regisztráció és jelszó, minden változás a böngésződben mentődik. Az AI-segéd csak az épp szerkesztett mezőt küldi el, nevet és elérhetőséget soha.",
         },
       ],
     },
     steps: [
       { title: "Válassz sablont", text: "Négy letisztult, nyomdakész sablon – bármikor válthatsz, az adataid megmaradnak." },
       { title: "Töltsd ki", text: "Egyszerű űrlapok, példákkal és tippekkel. Az erősség-mérő megmutatja, mi hiányzik még." },
-      { title: "Töltsd le PDF-ben", text: "Egy kattintás, és kész a tökéletes, kijelölhető szövegű PDF – vízjel nélkül." },
+      { title: "Töltsd le PDF-ben", text: "Ha elégedett vagy vele, töltsd le a tökéletes, kijelölhető szövegű PDF-et – vízjel nélkül." },
     ],
     start: "Kezdjük!",
+    pricing: {
+      kicker: "Árak",
+      title: "Egyetlen, egyszerű csomag",
+      text: "Az önéletrajzod megírása, megtervezése és előnézete ingyenes. Ha elégedett vagy vele, előfizetéssel töltheted le.",
+      label: "{days} napos teljes hozzáférés",
+      features: ["Korlátlan PDF-letöltés", "Mind a 4 sablon, szín és betűtípus", "Önéletrajz öt nyelven", "AI-szövegsegéd"],
+      cta: "Elkezdem az önéletrajzomat",
+      renewal: "{days} nap után az előfizetés havi {monthly} díjjal folytatódik, amíg le nem mondod. Bármikor lemondhatod egy kattintással a „Fiókom” oldalon.",
+    },
     faq: {
       title: "Gyakori kérdések",
       items: [
-        { q: "Tényleg ingyenes?", a: "Igen. Nincs rejtett díj, előfizetés, regisztráció vagy vízjel – a letöltött PDF teljesen a tiéd." },
+        {
+          q: "Mennyibe kerül?",
+          a: "Az önéletrajz megírása, megtervezése és előnézete ingyenes. A PDF-letöltéshez {days} napos teljes hozzáférést kapsz {trial} díjért; ezután az előfizetés havi {monthly} díjjal folytatódik, amíg le nem mondod. Vízjel nincs – a letöltött PDF teljesen a tiéd.",
+        },
+        {
+          q: "Hogyan mondhatom le az előfizetést?",
+          a: "A „Fiókom” oldalon: lépj be az e-mailben kapott kóddal, majd mondd le egy kattintással. A hozzáférésed a már kifizetett időszak végéig megmarad, és további terhelés nem történik.",
+        },
         {
           q: "Hol tárolódnak az adataim?",
-          a: "A saját böngésződben – nálunk nincs fiók és nincs adatbázis. Ha törlöd a böngészési adatokat, az önéletrajz is törlődik, ezért érdemes a „Fájl → Mentés fájlba” funkcióval biztonsági mentést készíteni.",
+          a: "Az önéletrajzod a saját böngésződben tárolódik – a szervereinkre sosem kerül fel. Ha törlöd a böngészési adatokat, az is törlődik, ezért érdemes a „Fájl → Mentés fájlba” funkcióval biztonsági mentést készíteni. Előfizetőinknél csak a számlázáshoz szükséges e-mail-címet és előfizetési adatokat tartjuk nyilván, a Stripe-nál.",
         },
         {
           q: "Mit csinál az AI-segéd, és mit lát belőlem?",
@@ -111,6 +126,7 @@ const hu = {
     contents: "Tartalom",
     back: "Vissza a főoldalra",
     editor: "Tovább a szerkesztőbe",
+    toBeCompleted: "kiegészítés alatt",
   },
 
   editor: {
@@ -125,6 +141,7 @@ const hu = {
       new: "Új, üres önéletrajz",
       export: "Mentés fájlba (.json)",
       import: "Betöltés fájlból (.json)",
+      account: "Fiókom",
       download: "PDF letöltése",
       downloadShort: "PDF",
       confirmSample: "A mintaadatok felülírják a jelenlegi önéletrajzodat. Folytatod?",
@@ -135,7 +152,7 @@ const hu = {
       exported: "Mentés kész – ezzel a fájllal később bárhol folytathatod.",
       imported: "Önéletrajz betöltve.",
       importFailed: "Ez a fájl nem olvasható be.",
-      notCv: "Ez a fájl nem CV Stúdió önéletrajz.",
+      notCv: "Ez a fájl nem GetProCV-önéletrajz.",
     },
 
     score: {
@@ -447,7 +464,93 @@ const hu = {
       },
     },
   },
-};
 
-export type Dictionary = typeof hu;
+  billing: {
+    paywall: {
+      label: "Letöltés és fizetés",
+      ready: "Elkészült az önéletrajzod",
+      title: "Töltsd le most.",
+      includes: "A {days} napos teljes hozzáférés tartalmazza:",
+      features: ["Korlátlan PDF-letöltés", "Minden sablon, szín és betűtípus", "Önéletrajz öt nyelven", "AI-szövegsegéd"],
+      priceLabel: "{days} napos teljes hozzáférés",
+      email: "Az e-mail-címed",
+      emailHint: "Ezzel később más eszközökön is be tudsz lépni.",
+      emailPlaceholder: "nev@example.com",
+      continue: "Tovább a fizetéshez",
+      change: "Módosítás",
+      methods: "Válassz fizetési módot",
+      card: "Bankkártya vagy hitelkártya",
+      pay: "Fizetési kötelezettséggel járó megrendelés – {amount}",
+      consent: "Elfogadom az [Általános szerződési feltételeket](terms) és az [Adatvédelmi tájékoztatót](privacy), és kérem a szolgáltatás azonnali megkezdését.",
+      consentNeeded: "A fizetéshez pipáld be a fenti jelölőnégyzetet.",
+      renewal:
+        "Ha az első {days} napban nem mondod le, az előfizetésed a {next}. naptól havi {monthly} díjjal folytatódik. Bármikor lemondhatod a [Fiókom](account) oldalon, egy kattintással. Ha a 14 napos elállási határidőn belül elállsz, a már igénybe vett időszakra arányos összeget fizetsz.",
+      ssl: "256 bites SSL",
+      stripe: "A fizetést a Stripe kezeli",
+      cancelAnytime: "Bármikor lemondható",
+      loading: "Fizetés betöltése…",
+      processing: "Fizetés feldolgozása…",
+      preparing: "Készül a PDF-ed…",
+      success: "Sikeres fizetés! Indul a letöltés.",
+      haveAccount: "Már előfizető vagy?",
+      login: "Belépés",
+      backToPay: "Vissza a fizetéshez",
+      notConfigured: "Ezen a szerveren még nincs beállítva a fizetés.",
+      returning: "Ellenőrizzük a fizetésedet…",
+    },
+
+    auth: {
+      title: "Belépés",
+      intro: "Add meg az előfizetésedhez tartozó e-mail-címet, és küldünk rá egy 6 jegyű belépési kódot.",
+      email: "E-mail-cím",
+      sendCode: "Kód küldése",
+      sent: "Ha a megadott címhez ({email}) tartozik előfizetés, elküldtük oda a kódot. Nézd meg a spam mappát is.",
+      code: "Belépési kód",
+      verify: "Belépés",
+      resend: "Új kódot kérek",
+      otherEmail: "Másik e-mail-címet adok meg",
+      success: "Beléptél.",
+    },
+
+    account: {
+      title: "Fiókom",
+      signedInAs: "Bejelentkezve: {email}",
+      trial: "Próbaidőszak, vége: {date}. Ha nem mondod le, havi {monthly} díjjal folytatódik.",
+      active: "Aktív előfizetés. Következő terhelés: {date} ({monthly}).",
+      canceling: "Lemondva. A hozzáférésed eddig tart: {date}.",
+      pastDue: "Az utolsó terhelés nem sikerült. Frissítsd a kártyádat, hogy ne szakadjon meg a hozzáférésed.",
+      none: "Nincs aktív előfizetésed. Írd meg az önéletrajzodat, és a letöltéskor elindíthatod.",
+      manage: "Előfizetés kezelése vagy lemondása",
+      manageHint: "A Stripe biztonságos oldalán lemondhatod az előfizetésedet, kártyát cserélhetsz, és megnézheted a korábbi terheléseidet.",
+      start: "Szerkesztő megnyitása",
+      logout: "Kilépés",
+      loading: "Betöltés…",
+      error: "Nem sikerült betölteni a fiókod adatait. Próbáld újra később.",
+    },
+
+    server: {
+      invalidEmail: "Adj meg egy érvényes e-mail-címet.",
+      rateLimited: "Túl sok próbálkozás. Várj pár percet, és próbáld újra.",
+      billingUnavailable: "A fizetési szolgáltatás most nem érhető el. Próbáld újra később.",
+      checkoutFailed: "Nem sikerült elindítani a fizetést. Próbáld újra.",
+      alreadySubscribed: "Ehhez az e-mail-címhez már tartozik aktív előfizetés. Lépj be az e-mailben küldött kóddal.",
+      paymentIncomplete: "A fizetés nem fejeződött be.",
+      notSignedIn: "Ehhez be kell lépned.",
+      codeInvalid: "Hibás kód. Ellenőrizd, és próbáld újra.",
+      codeExpired: "A kód lejárt. Kérj újat.",
+      codeLocked: "Túl sok hibás próbálkozás. Kérj új kódot.",
+      emailFailed: "Nem sikerült elküldeni az e-mailt. Próbáld újra később.",
+      unexpected: "Valami hiba történt. Próbáld újra.",
+    },
+  },
+
+  /** A belépési e-mail (a szerver küldi). */
+  email: {
+    subject: "{code} – a belépési kódod ({site})",
+    intro: "Ezzel a kóddal léphetsz be a {site} oldalra:",
+    validity: "A kód {minutes} percig érvényes.",
+    ignore: "Ha nem te kérted, nyugodtan hagyd figyelmen kívül ezt az e-mailt.",
+  },
+} satisfies Dictionary;
+
 export default hu;

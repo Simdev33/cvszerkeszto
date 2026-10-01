@@ -1,12 +1,12 @@
 import { FileQuestion } from "lucide-react";
 import Link from "next/link";
 import { lang } from "next/root-params";
-import { FALLBACK_LOCALE, isLocale, localePath } from "@/i18n/config";
+import { DEFAULT_LOCALE, isLocale, localePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 
 export default async function NotFound() {
   const current = await lang();
-  const locale = isLocale(current) ? current : FALLBACK_LOCALE;
+  const locale = isLocale(current) ? current : DEFAULT_LOCALE;
   const t = getDictionary(locale).common.notFound;
   return (
     <main className="grid min-h-dvh place-items-center px-5">

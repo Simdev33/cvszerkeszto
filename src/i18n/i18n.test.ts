@@ -3,12 +3,13 @@ import { SITE } from "@/config/site";
 import { getLegal } from "@/legal";
 import type { LegalBlock, LegalDoc } from "@/legal/types";
 import { sampleResume } from "@/lib/resume/defaults";
+import { priceVars } from "@/lib/plan";
 import { exportResume, normalizeResume } from "@/lib/resume/normalize";
 import { LOCALES, localePath, matchLocale, PAGE_SLUGS, pageFromSlug, type Locale } from "./config";
 import { DICTIONARIES } from "./dictionaries";
 import { fmt, plural } from "./format";
 
-const TRANSLATED: Locale[] = ["fr", "de", "es"];
+const TRANSLATED: Locale[] = ["hu", "fr", "de", "es"];
 
 const placeholders = (text: string) => [...text.matchAll(/\{(\w+)\}/g)].map((match) => match[1]).sort().join(",");
 
@@ -46,9 +47,9 @@ const strings = (value: unknown): string[] =>
 const docText = (doc: LegalDoc) => [doc.title, doc.description, ...doc.intro, ...doc.sections.flatMap((section) => [section.title, ...section.blocks.flatMap((block: LegalBlock) => (typeof block === "string" ? [block] : block.list))])];
 
 describe("dictionaries", () => {
-  it.each(LOCALES)("%s has exactly the keys and placeholders of the Hungarian master", (locale) => {
+  it.each(LOCALES)("%s has exactly the keys and placeholders of the English master", (locale) => {
     const errors: string[] = [];
-    compare(DICTIONARIES.hu, DICTIONARIES[locale], locale, errors);
+    compare(DICTIONARIES.en, DICTIONARIES[locale], locale, errors);
     expect(errors).toEqual([]);
   });
 
@@ -72,8 +73,11 @@ describe("legal texts", () => {
       expect(legal[doc].sections.map((section) => section.id)).toEqual(english[doc].sections.map((section) => section.id));
       expect(docText(legal[doc]).every((text) => text.trim().length > 0)).toBe(true);
     }
-    expect(docText(legal.terms).join(" ")).toContain(SITE.operator.email);
+    expect(docText(legal.terms).join(" ")).toContain(SITE.operator.name);
+    expect(docText(legal.terms).join(" ")).toContain(priceVars(locale).trial);
+    expect(docText(legal.terms).join(" ")).toContain(priceVars(locale).monthly);
     expect(docText(legal.privacy).join(" ")).toContain(SITE.ai.terms);
+    expect(docText(legal.privacy).join(" ")).toContain("gp_session");
   });
 
   it.each(TRANSLATED)("%s legal texts are translated", (locale) => {
@@ -114,6 +118,8 @@ describe("routing helpers", () => {
     expect(pageFromSlug("szerkeszto")).toBe("editor");
     expect(pageFromSlug("nope")).toBeNull();
     expect(localePath("fr", "editor")).toBe("/fr/editeur");
+    expect(localePath("en", "editor")).toBe("/editor");
+    expect(localePath("en")).toBe("/");
     for (const locale of LOCALES) {
       const slugs = Object.values(PAGE_SLUGS).map((slugs) => slugs[locale]);
       expect(new Set(slugs).size).toBe(slugs.length);

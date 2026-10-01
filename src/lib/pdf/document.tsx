@@ -1,4 +1,5 @@
 import { Document } from "@react-pdf/renderer";
+import { SITE } from "@/config/site";
 import { fullName } from "@/lib/resume/format";
 import { CV_LABELS } from "@/lib/resume/i18n";
 import type { Resume, TemplateId } from "@/lib/resume/types";
@@ -31,8 +32,8 @@ export function ResumeDocument({ resume }: { resume: Resume }) {
       title={documentTitle(resume)}
       author={author || undefined}
       subject={resume.basics.headline || undefined}
-      creator="CV Stúdió"
-      producer="CV Stúdió"
+      creator={SITE.name}
+      producer={SITE.name}
       language={CV_LABELS[resume.design.language].intl}
     >
       <Template resume={resume} theme={theme} />

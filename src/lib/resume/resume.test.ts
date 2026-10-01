@@ -56,7 +56,7 @@ describe("parseDescription", () => {
 
 describe("normalizeResume", () => {
   it("round-trips an export", () => {
-    const sample = sampleResume();
+    const sample = sampleResume("hu");
     const restored = normalizeResume(JSON.parse(exportResume(sample)));
     const strip = (resume: typeof sample) => JSON.parse(JSON.stringify(resume, (key, value) => (key === "id" ? undefined : value)));
     expect(strip(restored)).toEqual(strip(sample));
@@ -93,7 +93,7 @@ describe("scoreResume", () => {
     const empty = scoreResume(emptyResume());
     expect(empty.score).toBe(0);
     expect(empty.tips[0].points).toBeGreaterThanOrEqual(empty.tips.at(-1)!.points);
-    const sample = scoreResume(sampleResume());
+    const sample = scoreResume(sampleResume("hu"));
     expect(sample.score).toBeGreaterThanOrEqual(90);
     expect(sample.tips.map((tip) => tip.id)).toContain("photo");
   });

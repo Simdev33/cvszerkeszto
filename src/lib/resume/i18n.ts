@@ -56,7 +56,7 @@ export const CV_LABELS: Record<CvLanguage, CvLabels> = {
     months: ["jan.", "febr.", "márc.", "ápr.", "máj.", "jún.", "júl.", "aug.", "szept.", "okt.", "nov.", "dec."],
     namePlaceholder: "Neved",
     documentTitle: "Önéletrajz",
-    fileSuffix: "oneletrajz",
+    fileSuffix: "CV",
     intl: "hu-HU",
     lowerInlineLevels: true,
   },

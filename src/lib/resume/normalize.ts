@@ -9,10 +9,10 @@ import type { Basics, Design, Entry, LanguageLevel, LanguageSkill, Resume, Secti
 
 export const EXPORT_APP = "cv-studio";
 
-/** Thrown when an imported file is valid JSON but not a CV Stúdió export. */
+/** Thrown when an imported file is valid JSON but not a CV export of this app. */
 export class NotACvError extends Error {
   constructor() {
-    super("Not a CV Stúdió file");
+    super("Not a CV file");
     this.name = "NotACvError";
   }
 }

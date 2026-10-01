@@ -3,9 +3,13 @@
 import { Eye, PencilLine } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { CheckoutReturn } from "@/components/paywall/checkout-return";
+import { Paywall } from "@/components/paywall/paywall";
 import { Toaster } from "@/components/toaster";
 import { useI18n } from "@/i18n/client";
 import { localePath } from "@/i18n/config";
+import { currentAccount } from "@/lib/account";
+import { requestDownload } from "@/lib/download";
 import { sampleResume } from "@/lib/resume/defaults";
 import type { Resume, TemplateId } from "@/lib/resume/types";
 import { useEditor } from "@/lib/store";
@@ -17,7 +21,7 @@ import { PersonalPanel, SummaryPanel } from "./personal-panel";
 import { Preview } from "./preview";
 import { ScoreCard } from "./score-card";
 import { AddSectionMenu, SectionPanel } from "./section-panels";
-import { downloadPdf, TopBar } from "./top-bar";
+import { TopBar } from "./top-bar";
 
 /** Nothing typed in yet – safe to switch the CV language to the editor's language. */
 const isBlank = ({ basics, sections }: Resume) =>
@@ -40,11 +44,16 @@ export function EditorApp() {
     window.history.replaceState(null, "", window.location.pathname);
   }, [locale]);
 
+  // Know early whether a subscriber is signed in, so the download starts without a delay.
+  useEffect(() => {
+    void currentAccount().catch(() => undefined);
+  }, []);
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") {
         event.preventDefault();
-        downloadPdf().catch(() => toast(t.topBar.downloadFailed, "error"));
+        requestDownload().catch(() => toast(t.topBar.downloadFailed, "error"));
       }
     };
     window.addEventListener("keydown", onKeyDown);
@@ -99,6 +108,8 @@ export function EditorApp() {
           </button>
         ))}
       </nav>
+      <Paywall />
+      <CheckoutReturn />
       <Toaster closeLabel={common.close} />
     </div>
   );

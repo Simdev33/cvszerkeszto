@@ -1,7 +1,9 @@
+import type { COOKIES } from "@/config/cookies";
 import type { SiteInfo } from "@/config/site";
 
 /**
- * A paragraph, or a bullet list. Text may contain **bold** parts; URLs and
+ * A paragraph, or a bullet list. Text may contain **bold** parts and internal
+ * links like [Privacy Policy](privacy) (terms | privacy | account); URLs and
  * e-mail addresses are turned into links when rendered.
  */
 export type LegalBlock = string | { list: string[] };
@@ -26,4 +28,13 @@ export interface LegalDocs {
   privacy: LegalDoc;
 }
 
-export type LegalContent = (site: SiteInfo, cookieName: string) => LegalDocs;
+export interface LegalContext {
+  site: SiteInfo;
+  /** The operator's e-mail address, or a "to be completed" marker in the page's language. */
+  email: string;
+  /** The plan, formatted for the page's language. */
+  price: { trial: string; monthly: string; days: number; next: number };
+  cookies: typeof COOKIES;
+}
+
+export type LegalContent = (context: LegalContext) => LegalDocs;

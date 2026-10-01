@@ -1,4 +1,4 @@
-import { ArrowRight, ChevronDown, Download, Eye, FileCheck2, Globe2, LayoutTemplate, PencilLine, ShieldCheck, Sparkles, SwatchBook, WandSparkles } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, Download, Eye, FileCheck2, Globe2, LayoutTemplate, PencilLine, ShieldCheck, Sparkles, SwatchBook, WandSparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -6,6 +6,7 @@ import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { isLocale, localePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { fmt } from "@/i18n/format";
+import { priceVars } from "@/lib/plan";
 
 const TEMPLATE_IDS = ["modern", "elegant", "classic", "minimal"] as const;
 // Same order as landing.features.items and landing.steps in the dictionaries.
@@ -18,6 +19,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
   const dict = getDictionary(lang);
   const t = dict.landing;
   const editor = localePath(lang, "editor");
+  const price = priceVars(lang);
 
   return (
     <>
@@ -116,6 +118,35 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           </div>
         </section>
 
+        <section id="pricing" className="relative mx-auto max-w-6xl scroll-mt-20 px-5 py-16">
+          <div className="mx-auto mb-10 max-w-2xl text-center">
+            <p className="text-sm font-medium text-primary">{t.pricing.kicker}</p>
+            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-balance">{t.pricing.title}</h2>
+            <p className="mt-3 text-fg-muted">{t.pricing.text}</p>
+          </div>
+          <div className="relative mx-auto max-w-md overflow-hidden rounded-3xl border border-border bg-surface p-8 shadow-xl shadow-primary/10">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-linear-to-r from-primary via-[#8b5cf6] to-[#ec4899]" />
+            <p className="font-semibold">{fmt(t.pricing.label, price)}</p>
+            <p className="mt-2 text-5xl font-semibold tracking-tight tabular-nums">{price.trial}</p>
+            <ul className="mt-6 space-y-2.5">
+              {t.pricing.features.map((feature) => (
+                <li key={feature} className="flex items-start gap-3 text-[15px] text-fg-muted">
+                  <Check className="mt-0.5 size-4 shrink-0 text-success" strokeWidth={3} />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <Link
+              href={editor}
+              className="mt-8 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 text-[15px] font-medium text-primary-fg shadow-lg shadow-primary/25 transition-colors hover:bg-primary-hover"
+            >
+              {t.pricing.cta}
+              <ArrowRight className="size-4" />
+            </Link>
+            <p className="mt-4 text-xs leading-relaxed text-fg-subtle">{fmt(t.pricing.renewal, price)}</p>
+          </div>
+        </section>
+
         <section className="relative mx-auto max-w-6xl px-5 py-16">
           <div className="grid gap-4 md:grid-cols-3">
             {t.steps.map((step, index) => (
@@ -149,7 +180,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
                   {item.q}
                   <ChevronDown className="size-4 shrink-0 text-fg-subtle transition-transform group-open:rotate-180" />
                 </summary>
-                <p className="pt-2 pb-1 text-sm leading-relaxed text-fg-muted">{item.a}</p>
+                <p className="pt-2 pb-1 text-sm leading-relaxed text-fg-muted">{fmt(item.a, price)}</p>
               </details>
             ))}
           </div>

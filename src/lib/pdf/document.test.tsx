@@ -30,7 +30,7 @@ describe("ResumeDocument", () => {
   const maxPages: Record<TemplateId, number> = { modern: 1, elegant: 1, classic: 2, minimal: 2 };
   for (const template of ["modern", "classic", "minimal", "elegant"] satisfies TemplateId[]) {
     it(`renders the sample with the ${template} template`, async () => {
-      const resume = sampleResume();
+      const resume = sampleResume("hu");
       resume.design.template = template;
       const pages = await textOf(await render(resume));
       expect(pages.length).toBeLessThanOrEqual(maxPages[template]);
@@ -44,7 +44,7 @@ describe("ResumeDocument", () => {
   }
 
   it("switches labels, dates and name order for English CVs", async () => {
-    const resume = sampleResume();
+    const resume = sampleResume("hu");
     resume.design.language = "en";
     const text = (await textOf(await render(resume))).join(" ");
     expect(text).toContain("Anna Kovács");
@@ -70,7 +70,7 @@ describe("ResumeDocument", () => {
   }, 30_000);
 
   it("flows long CVs onto more pages", async () => {
-    const resume = sampleResume();
+    const resume = sampleResume("hu");
     const experience = resume.sections[0];
     if (experience.type === "experience") experience.entries = Array.from({ length: 5 }, () => experience.entries).flat().map((e, i) => ({ ...e, id: String(i) }));
     const pages = await textOf(await render(resume));
@@ -78,7 +78,7 @@ describe("ResumeDocument", () => {
   }, 30_000);
 
   it("renders an empty CV without crashing", async () => {
-    const pages = await textOf(await render(emptyResume()));
+    const pages = await textOf(await render(emptyResume("hu")));
     expect(pages).toHaveLength(1);
     expect(pages[0]).toContain("Neved");
   }, 30_000);

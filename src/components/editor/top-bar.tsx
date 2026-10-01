@@ -1,7 +1,8 @@
 "use client";
 
-import { CloudCheck, Download, FilePlus2, FileDown, FileUp, MoreHorizontal, Sparkles } from "lucide-react";
+import { CircleUserRound, CloudCheck, Download, FilePlus2, FileDown, FileUp, MoreHorizontal, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useRef, useState, type ReactNode } from "react";
 import { Logo } from "@/components/brand";
 import { LanguageSwitcher } from "@/components/language-switcher";
@@ -10,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/controls";
 import { useI18n } from "@/i18n/client";
 import { LOCALES, localePath, type Locale } from "@/i18n/config";
+import { requestDownload } from "@/lib/download";
 import { downloadBlob, fileBaseName } from "@/lib/files";
 import { emptyResume, sampleResume } from "@/lib/resume/defaults";
 import { exportResume, normalizeResume, NotACvError } from "@/lib/resume/normalize";
@@ -26,26 +28,21 @@ const hasContent = () => {
   );
 };
 
-type MenuAction = "sample" | "new" | "export" | "import";
+type MenuAction = "sample" | "new" | "export" | "import" | "account";
 
 const MENU: { id: MenuAction; icon: ReactNode }[] = [
   { id: "sample", icon: <Sparkles /> },
   { id: "new", icon: <FilePlus2 /> },
   { id: "export", icon: <FileDown /> },
   { id: "import", icon: <FileUp /> },
+  { id: "account", icon: <CircleUserRound /> },
 ];
 
 const EDITOR_LINKS = Object.fromEntries(LOCALES.map((locale) => [locale, localePath(locale, "editor")])) as Record<Locale, string>;
 
-export async function downloadPdf() {
-  const resume = useEditor.getState().resume;
-  const { renderResumePdf } = await import("@/lib/pdf/render");
-  const blob = await renderResumePdf(resume);
-  downloadBlob(blob, `${fileBaseName(resume)}.pdf`);
-}
-
 export function TopBar() {
   const { t, common, locale } = useI18n();
+  const router = useRouter();
   const replaceResume = useEditor((state) => state.replaceResume);
   const [downloading, setDownloading] = useState(false);
   const menu = useRef<HTMLDetailsElement>(null);
@@ -56,8 +53,7 @@ export function TopBar() {
   const onDownload = async () => {
     setDownloading(true);
     try {
-      await downloadPdf();
-      toast(t.topBar.downloaded, "success");
+      if ((await requestDownload()) === "downloaded") toast(t.topBar.downloaded, "success");
     } catch (error) {
       console.error(error);
       toast(t.topBar.downloadFailed, "error");
@@ -83,6 +79,9 @@ export function TopBar() {
       }
       case "import":
         importInput.current?.click();
+        break;
+      case "account":
+        router.push(localePath(locale, "account"));
         break;
     }
   };
