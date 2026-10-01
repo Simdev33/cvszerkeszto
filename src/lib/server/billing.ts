@@ -4,8 +4,8 @@
  *
  * The Stripe account is shared with other sites (DoneSignIn, ConvertPDFNow),
  * so everything that belongs to GetProCV is tagged `metadata.app = "getprocv"`:
- * own customers, subscriptions, product and portal configuration. Another
- * site's subscription gives no access here.
+ * own subscriptions, product and portal configuration, and the customer once
+ * the payment is complete. Another site's subscription gives no access here.
  */
 import Stripe from "stripe";
 import { SITE, siteOrigin } from "@/config/site";
@@ -154,21 +154,20 @@ export const isEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e
 /** GetProCV customers with this e-mail address – the one with access (or the newest) first. */
 export async function customersFor(email: string) {
   const { data } = await stripe().customers.list({ email: normalizeEmail(email), limit: 20 });
-  const mine = data.filter((customer) => !customer.deleted && ours(customer));
-  const withAccess = await Promise.all(mine.map(async (customer) => ({ customer, access: await accessFor(customer.id) })));
-  return withAccess.sort((a, b) => Number(b.access.active) - Number(a.access.active) || b.customer.created - a.customer.created);
+  const candidates = data.filter((customer) => !customer.deleted && (ours(customer) || !customer.metadata?.app));
+  const withAccess = await Promise.all(candidates.map(async (customer) => ({ customer, access: await accessFor(customer.id) })));
+  // Stripe creates the customer untagged during payment; it is ours only if it has one of our subscriptions.
+  const mine = withAccess.filter(({ customer, access }) => ours(customer) || access.status !== "none");
+  return mine.sort((a, b) => Number(b.access.active) - Number(a.access.active) || b.customer.created - a.customer.created);
 }
 
-/** An existing GetProCV customer, or a new one with our tag. */
-export async function ensureCustomer(email: string, locale: Locale) {
-  const [existing] = await customersFor(email);
-  if (existing) return existing.customer.id;
-  const created = await stripe().customers.create({
-    email: normalizeEmail(email),
-    preferred_locales: [locale],
+/** Tags the customer Stripe created during payment, so the other sites never count it as theirs. */
+export async function claimCustomer(customer: Stripe.Customer | Stripe.DeletedCustomer, locale?: string) {
+  if (customer.deleted || ours(customer)) return;
+  await stripe().customers.update(customer.id, {
     metadata: { app: APP },
+    ...(locale && !customer.preferred_locales?.length ? { preferred_locales: [locale] } : {}),
   });
-  return created.id;
 }
 
 /* ----------------------------- customer portal ---------------------------- */
