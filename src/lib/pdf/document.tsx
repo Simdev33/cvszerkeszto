@@ -4,7 +4,12 @@ import { fullName } from "@/lib/resume/format";
 import { CV_LABELS } from "@/lib/resume/i18n";
 import type { Resume, TemplateId } from "@/lib/resume/types";
 import { ClassicTemplate } from "./templates/classic";
+import { CompactTemplate } from "./templates/compact";
+import { ContrastTemplate } from "./templates/contrast";
+import { CreativeTemplate } from "./templates/creative";
 import { ElegantTemplate } from "./templates/elegant";
+import { ExecutiveTemplate } from "./templates/executive";
+import { FreshTemplate } from "./templates/fresh";
 import { MinimalTemplate } from "./templates/minimal";
 import { ModernTemplate } from "./templates/modern";
 import type { TemplateProps } from "./templates/shared";
@@ -15,6 +20,11 @@ const TEMPLATES: Record<TemplateId, (props: TemplateProps) => React.ReactElement
   classic: ClassicTemplate,
   minimal: MinimalTemplate,
   elegant: ElegantTemplate,
+  executive: ExecutiveTemplate,
+  creative: CreativeTemplate,
+  compact: CompactTemplate,
+  fresh: FreshTemplate,
+  contrast: ContrastTemplate,
 };
 
 export function documentTitle(resume: Resume) {

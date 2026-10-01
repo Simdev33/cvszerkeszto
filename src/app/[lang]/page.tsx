@@ -8,7 +8,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { fmt } from "@/i18n/format";
 import { priceVars } from "@/lib/plan";
 
-const TEMPLATE_IDS = ["modern", "elegant", "classic", "minimal"] as const;
+const TEMPLATE_IDS = ["modern", "elegant", "classic", "minimal", "executive", "creative", "compact", "fresh", "contrast"] as const;
 // Same order as landing.features.items and landing.steps in the dictionaries.
 const FEATURE_ICONS = [<Eye key="0" />, <FileCheck2 key="1" />, <Globe2 key="2" />, <WandSparkles key="3" />, <SwatchBook key="4" />, <ShieldCheck key="5" />];
 const STEP_ICONS = [<LayoutTemplate key="0" />, <PencilLine key="1" />, <Download key="2" />];
@@ -83,7 +83,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             <h2 className="mt-2 text-3xl font-semibold tracking-tight text-balance">{t.templates.title}</h2>
             <p className="mt-3 text-fg-muted">{t.templates.text}</p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {TEMPLATE_IDS.map((id) => {
               const template = t.templates.items[id];
               return (

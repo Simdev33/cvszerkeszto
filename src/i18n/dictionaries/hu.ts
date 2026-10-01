@@ -4,7 +4,7 @@ const hu = {
   meta: {
     title: "GetProCV – Készíts profi önéletrajzot percek alatt",
     description:
-      "Készíts profi önéletrajzot percek alatt: 4 modern sablon, élő PDF-előnézet, AI-szövegsegéd, öt nyelv, fotó és nyomtatásra kész, kijelölhető szövegű PDF. Az írás és az előnézet ingyenes.",
+      "Készíts profi önéletrajzot percek alatt: 9 modern sablon, élő PDF-előnézet, AI-szövegsegéd, öt nyelv, fotó és nyomtatásra kész, kijelölhető szövegű PDF. Az írás és az előnézet ingyenes.",
     keywords: ["önéletrajz", "önéletrajz készítő", "önéletrajz minta", "CV készítő", "CV sablon", "önéletrajz PDF", "angol önéletrajz", "Europass alternatíva"],
     editorTitle: "Szerkesztő",
     editorDescription: "Önéletrajz szerkesztése élő PDF-előnézettel.",
@@ -44,7 +44,7 @@ const hu = {
     },
     templates: {
       kicker: "Sablonok",
-      title: "Négy sablon, amivel jó benyomást keltesz",
+      title: "Kilenc sablon, amivel jó benyomást keltesz",
       text: "Mindegyik testre szabható színnel, betűtípussal és mérettel – és bármikor válthatsz közöttük.",
       alt: "{name} sablon",
       items: {
@@ -52,6 +52,11 @@ const hu = {
         elegant: { name: "Elegáns", text: "Karakteres fejléc talpas címekkel, finoman színezett oldalsávval." },
         classic: { name: "Klasszikus", text: "Hagyományos, egyhasábos elrendezés – bankoknak, közszférának, jogi pályára." },
         minimal: { name: "Minimál", text: "Letisztult idővonal sok levegővel, ahol a tartalom beszél." },
+        executive: { name: "Vezetői", text: "Sötét fejléc és külön címoszlop – magabiztos, nyugodt megjelenés vezetői pozíciókhoz." },
+        creative: { name: "Kreatív", text: "Merész szín, kerek szakaszcímkék és játékos sarokforma – kreatív pályákra." },
+        compact: { name: "Tömör", text: "Két sűrű hasáb kis margókkal – hosszú pályafutás is elfér egy oldalon." },
+        fresh: { name: "Friss", text: "Lágyan színezett fejléc, a tételek könnyed kártyákban – barátságos és modern." },
+        contrast: { name: "Kontraszt", text: "Sötét oldalsáv jobbra az elérhetőségeknek és a készségeknek, élénk kiemelésekkel." },
       },
     },
     features: {
@@ -62,7 +67,7 @@ const hu = {
         { title: "ATS-barát PDF", text: "Valódi, kijelölhető szöveg beágyazott betűkkel: a HR-rendszerek és állásportálok is gond nélkül beolvassák." },
         { title: "Öt nyelven", text: "Magyar, angol, francia, német és spanyol önéletrajz: a címsorok, a dátumok és a névsorrend egy kattintással váltanak." },
         { title: "AI-szövegsegéd", text: "Egy kattintással szebbé, meggyőzőbbé vagy tömörebbé teszi a bemutatkozásod és a munkaköri leírásaidat – a javaslatot te hagyod jóvá." },
-        { title: "A te stílusod", text: "4 sablon, 10 kiemelő szín vagy bármilyen egyéni szín, 5 betűtípus és igazítható fotó." },
+        { title: "A te stílusod", text: "9 sablon, 10 kiemelő szín vagy bármilyen egyéni szín, 5 betűtípus és igazítható fotó." },
         {
           title: "Automatikus mentés, adatvédelem",
           text: "Nincs regisztráció és jelszó, minden változás a böngésződben mentődik. Az AI-segéd csak az épp szerkesztett mezőt küldi el, nevet és elérhetőséget soha.",
@@ -70,7 +75,7 @@ const hu = {
       ],
     },
     steps: [
-      { title: "Válassz sablont", text: "Négy letisztult, nyomdakész sablon – bármikor válthatsz, az adataid megmaradnak." },
+      { title: "Válassz sablont", text: "Kilenc letisztult, nyomdakész sablon – bármikor válthatsz, az adataid megmaradnak." },
       { title: "Töltsd ki", text: "Egyszerű űrlapok, példákkal és tippekkel. Az erősség-mérő megmutatja, mi hiányzik még." },
       { title: "Töltsd le PDF-ben", text: "Ha elégedett vagy vele, töltsd le a tökéletes, kijelölhető szövegű PDF-et – vízjel nélkül." },
     ],
@@ -80,7 +85,7 @@ const hu = {
       title: "Egyetlen, egyszerű csomag",
       text: "Az önéletrajzod megírása, megtervezése és előnézete ingyenes. Ha elégedett vagy vele, előfizetéssel töltheted le.",
       label: "{days} napos teljes hozzáférés",
-      features: ["Korlátlan PDF-letöltés", "Mind a 4 sablon, szín és betűtípus", "Önéletrajz öt nyelven", "AI-szövegsegéd"],
+      features: ["Korlátlan PDF-letöltés", "Mind a 9 sablon, szín és betűtípus", "Önéletrajz öt nyelven", "AI-szövegsegéd"],
       cta: "Elkezdem az önéletrajzomat",
       renewal: "{days} nap után az előfizetés havi {monthly} díjjal folytatódik, amíg le nem mondod. Bármikor lemondhatod egy kattintással a „Fiókom” oldalon.",
     },
@@ -188,6 +193,11 @@ const hu = {
         classic: { name: "Klasszikus", description: "Hagyományos, egyhasábos" },
         minimal: { name: "Minimál", description: "Letisztult, idővonalas" },
         elegant: { name: "Elegáns", description: "Színes fejléc, oldalsáv" },
+        executive: { name: "Vezetői", description: "Sötét fejléc, címoszlop" },
+        creative: { name: "Kreatív", description: "Merész szín, kerek címkék" },
+        compact: { name: "Tömör", description: "Sűrű, két hasáb" },
+        fresh: { name: "Friss", description: "Lágy fejléc, kártyás tételek" },
+        contrast: { name: "Kontraszt", description: "Sötét oldalsáv jobbra" },
       },
       templateAlt: "{name} sablon",
       accent: "Kiemelő szín",

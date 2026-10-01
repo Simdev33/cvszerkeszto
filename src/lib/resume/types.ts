@@ -1,4 +1,4 @@
-export type TemplateId = "modern" | "classic" | "minimal" | "elegant";
+export type TemplateId = "modern" | "classic" | "minimal" | "elegant" | "executive" | "creative" | "compact" | "fresh" | "contrast";
 export type FontId = "inter" | "roboto" | "montserrat" | "merriweather" | "elegant";
 export type Density = "compact" | "normal" | "spacious";
 export type CvLanguage = "hu" | "en" | "fr" | "de" | "es";

@@ -8,7 +8,7 @@ const en = {
   meta: {
     title: "GetProCV – Build a professional CV in minutes",
     description:
-      "Build a professional CV in minutes: 4 modern templates, a live PDF preview, an AI writing assistant, five languages, photo support and a print-ready PDF with selectable text. Write and preview for free.",
+      "Build a professional CV in minutes: 9 modern templates, a live PDF preview, an AI writing assistant, five languages, photo support and a print-ready PDF with selectable text. Write and preview for free.",
     keywords: ["CV builder", "resume builder", "CV template", "resume template", "CV maker", "CV PDF", "free CV builder", "Europass alternative"],
     editorTitle: "Editor",
     editorDescription: "Edit your CV with a live PDF preview.",
@@ -48,7 +48,7 @@ const en = {
     },
     templates: {
       kicker: "Templates",
-      title: "Four templates that make a great first impression",
+      title: "Nine templates that make a great first impression",
       text: "Customise each one with colours, fonts and sizes – and switch between them at any time.",
       alt: "{name} template",
       items: {
@@ -56,6 +56,11 @@ const en = {
         elegant: { name: "Elegant", text: "A distinctive header with serif headings and a softly tinted sidebar." },
         classic: { name: "Classic", text: "A traditional single-column layout – for banking, the public sector and law." },
         minimal: { name: "Minimal", text: "A clean timeline with plenty of white space that lets your content speak." },
+        executive: { name: "Executive", text: "A dark header and a column of section titles – confident and calm, for senior roles." },
+        creative: { name: "Creative", text: "Bold colour, rounded section labels and a playful corner shape – for creative fields." },
+        compact: { name: "Compact", text: "Two dense columns with small margins – a long career still fits on one page." },
+        fresh: { name: "Fresh", text: "A softly tinted header and entries in light cards – friendly and modern." },
+        contrast: { name: "Contrast", text: "A dark sidebar on the right for contact details and skills, with bright accents." },
       },
     },
     features: {
@@ -66,7 +71,7 @@ const en = {
         { title: "ATS-friendly PDF", text: "Real, selectable text with embedded fonts, so applicant tracking systems and job boards read it without trouble." },
         { title: "Five languages", text: "CVs in English, French, German, Spanish and Hungarian: headings, dates and name order switch with one click." },
         { title: "AI writing assistant", text: "One click makes your profile and job descriptions clearer, more convincing or more concise – and you approve every suggestion." },
-        { title: "Your style", text: "4 templates, 10 accent colours or any custom colour, 5 font pairings and an adjustable photo." },
+        { title: "Your style", text: "9 templates, 10 accent colours or any custom colour, 5 font pairings and an adjustable photo." },
         {
           title: "Auto-save and privacy",
           text: "No registration or password; every change is saved in your browser. The AI assistant only sends the field you are editing – never your name or contact details.",
@@ -74,7 +79,7 @@ const en = {
       ],
     },
     steps: [
-      { title: "Pick a template", text: "Four clean, print-ready templates – switch at any time without losing your data." },
+      { title: "Pick a template", text: "Nine clean, print-ready templates – switch at any time without losing your data." },
       { title: "Fill it in", text: "Simple forms with examples and tips. The strength meter shows what is still missing." },
       { title: "Download as PDF", text: "When you are happy with it, download a polished PDF with selectable text – no watermark." },
     ],
@@ -84,7 +89,7 @@ const en = {
       title: "One simple plan",
       text: "Write, design and preview your CV for free. When you are happy with it, unlock the download.",
       label: "{days}-day full access",
-      features: ["Unlimited PDF downloads", "All 4 templates, colours and fonts", "CVs in five languages", "AI writing assistant"],
+      features: ["Unlimited PDF downloads", "All 9 templates, colours and fonts", "CVs in five languages", "AI writing assistant"],
       cta: "Start my CV",
       renewal: "After {days} days, the subscription continues at {monthly} a month until you cancel. You can cancel anytime in one click on the “My account” page.",
     },
@@ -192,6 +197,11 @@ const en = {
         classic: { name: "Classic", description: "Traditional, single column" },
         minimal: { name: "Minimal", description: "Clean, with a timeline" },
         elegant: { name: "Elegant", description: "Coloured header, sidebar" },
+        executive: { name: "Executive", description: "Dark header, title column" },
+        creative: { name: "Creative", description: "Bold colour, rounded labels" },
+        compact: { name: "Compact", description: "Dense, two columns" },
+        fresh: { name: "Fresh", description: "Soft header, card entries" },
+        contrast: { name: "Contrast", description: "Dark sidebar on the right" },
       },
       templateAlt: "{name} template",
       accent: "Accent colour",

@@ -4,7 +4,7 @@ const fr = {
   meta: {
     title: "GetProCV – Créez un CV professionnel en quelques minutes",
     description:
-      "Créez un CV professionnel en quelques minutes : 4 modèles modernes, un aperçu PDF en direct, un assistant IA de rédaction, cinq langues, l’ajout d’une photo et un PDF prêt à imprimer, au texte sélectionnable. Rédaction et aperçu gratuits.",
+      "Créez un CV professionnel en quelques minutes : 9 modèles modernes, un aperçu PDF en direct, un assistant IA de rédaction, cinq langues, l’ajout d’une photo et un PDF prêt à imprimer, au texte sélectionnable. Rédaction et aperçu gratuits.",
     keywords: ["CV", "créer un CV", "modèle de CV", "CV gratuit", "CV en ligne", "CV PDF", "exemple de CV", "alternative à Europass"],
     editorTitle: "Éditeur",
     editorDescription: "Modifiez votre CV avec un aperçu PDF en direct.",
@@ -44,7 +44,7 @@ const fr = {
     },
     templates: {
       kicker: "Modèles",
-      title: "Quatre modèles pour faire bonne impression",
+      title: "Neuf modèles pour faire bonne impression",
       text: "Personnalisez chacun d’eux avec vos couleurs, vos polices et vos tailles – et passez de l’un à l’autre à tout moment.",
       alt: "Modèle {name}",
       items: {
@@ -52,6 +52,11 @@ const fr = {
         elegant: { name: "Élégant", text: "Un en-tête affirmé, des titres à empattements et une barre latérale légèrement teintée." },
         classic: { name: "Classique", text: "Une mise en page traditionnelle sur une colonne – pour la banque, le secteur public et le droit." },
         minimal: { name: "Minimal", text: "Une frise chronologique épurée et aérée, qui laisse toute la place à votre contenu." },
+        executive: { name: "Exécutif", text: "Un en-tête sombre et une colonne de titres – sobre et assuré, pour les postes de direction." },
+        creative: { name: "Créatif", text: "Une couleur affirmée, des intitulés arrondis et une forme ludique dans l’angle – pour les métiers créatifs." },
+        compact: { name: "Compact", text: "Deux colonnes denses aux marges réduites – même une longue carrière tient sur une page." },
+        fresh: { name: "Frais", text: "Un en-tête légèrement teinté et des blocs présentés en cartes légères – accueillant et moderne." },
+        contrast: { name: "Contraste", text: "Une barre latérale sombre à droite pour les coordonnées et les compétences, avec des touches de couleur vives." },
       },
     },
     features: {
@@ -62,7 +67,7 @@ const fr = {
         { title: "PDF compatible ATS", text: "Du vrai texte sélectionnable, avec polices intégrées : les logiciels de recrutement et les sites d’emploi le lisent sans difficulté." },
         { title: "Cinq langues", text: "Des CV en français, anglais, allemand, espagnol et hongrois : titres, dates et ordre du nom changent en un clic." },
         { title: "Assistant IA de rédaction", text: "En un clic, votre profil et vos descriptions de poste deviennent plus clairs, plus convaincants ou plus concis – et vous validez chaque suggestion." },
-        { title: "Votre style", text: "4 modèles, 10 couleurs d’accent ou la couleur de votre choix, 5 associations de polices et une photo ajustable." },
+        { title: "Votre style", text: "9 modèles, 10 couleurs d’accent ou la couleur de votre choix, 5 associations de polices et une photo ajustable." },
         {
           title: "Enregistrement automatique et confidentialité",
           text: "Ni inscription ni mot de passe ; chaque modification est enregistrée dans votre navigateur. L’assistant IA n’envoie que le champ que vous modifiez – jamais votre nom ni vos coordonnées.",
@@ -70,7 +75,7 @@ const fr = {
       ],
     },
     steps: [
-      { title: "Choisissez un modèle", text: "Quatre modèles épurés, prêts à imprimer – changez à tout moment sans perdre vos données." },
+      { title: "Choisissez un modèle", text: "Neuf modèles épurés, prêts à imprimer – changez à tout moment sans perdre vos données." },
       { title: "Remplissez-le", text: "Des formulaires simples, avec des exemples et des conseils. La jauge de qualité vous indique ce qui manque encore." },
       { title: "Téléchargez le PDF", text: "Quand le résultat vous convient, téléchargez un PDF soigné, au texte sélectionnable – sans filigrane." },
     ],
@@ -80,7 +85,7 @@ const fr = {
       title: "Une formule simple",
       text: "Rédigez, mettez en page et prévisualisez votre CV gratuitement. Quand le résultat vous convient, débloquez le téléchargement.",
       label: "Accès complet de {days} jours",
-      features: ["Téléchargements PDF illimités", "Les 4 modèles, toutes les couleurs et polices", "Des CV en cinq langues", "Assistant IA de rédaction"],
+      features: ["Téléchargements PDF illimités", "Les 9 modèles, toutes les couleurs et polices", "Des CV en cinq langues", "Assistant IA de rédaction"],
       cta: "Commencer mon CV",
       renewal: "Après {days} jours, l’abonnement se poursuit au prix de {monthly} par mois jusqu’à sa résiliation. Vous pouvez résilier à tout moment, en un clic, sur la page « Mon compte ».",
     },
@@ -188,6 +193,11 @@ const fr = {
         classic: { name: "Classique", description: "Traditionnel, une seule colonne" },
         minimal: { name: "Minimal", description: "Épuré, avec frise chronologique" },
         elegant: { name: "Élégant", description: "En-tête coloré, barre latérale" },
+        executive: { name: "Exécutif", description: "En-tête sombre, colonne de titres" },
+        creative: { name: "Créatif", description: "Couleur affirmée, étiquettes arrondies" },
+        compact: { name: "Compact", description: "Dense, deux colonnes" },
+        fresh: { name: "Frais", description: "En-tête doux, blocs en cartes" },
+        contrast: { name: "Contraste", description: "Barre latérale sombre à droite" },
       },
       templateAlt: "Modèle {name}",
       accent: "Couleur d’accent",

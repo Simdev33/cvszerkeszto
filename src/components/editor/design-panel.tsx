@@ -13,7 +13,7 @@ import { cn, isValidHex } from "@/lib/utils";
 import { Label } from "./fields";
 import { Panel } from "./panel";
 
-export const TEMPLATE_IDS: TemplateId[] = ["modern", "classic", "minimal", "elegant"];
+export const TEMPLATE_IDS: TemplateId[] = ["modern", "classic", "minimal", "elegant", "executive", "creative", "compact", "fresh", "contrast"];
 
 const ACCENTS = [
   { value: "#1e3a8a", name: "navy" },

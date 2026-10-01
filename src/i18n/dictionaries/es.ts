@@ -4,7 +4,7 @@ const es = {
   meta: {
     title: "GetProCV – Crea un currículum profesional en minutos",
     description:
-      "Crea un currículum profesional en minutos: 4 plantillas modernas, vista previa del PDF en tiempo real, asistente de IA para redactar, cinco idiomas, foto y un PDF listo para imprimir con texto seleccionable. Redáctalo y previsualízalo gratis.",
+      "Crea un currículum profesional en minutos: 9 plantillas modernas, vista previa del PDF en tiempo real, asistente de IA para redactar, cinco idiomas, foto y un PDF listo para imprimir con texto seleccionable. Redáctalo y previsualízalo gratis.",
     keywords: ["crear currículum", "plantilla de CV", "currículum vitae", "CV gratis", "hacer CV online", "currículum PDF", "modelo de currículum", "alternativa a Europass"],
     editorTitle: "Editor",
     editorDescription: "Edita tu currículum con vista previa del PDF en tiempo real.",
@@ -44,7 +44,7 @@ const es = {
     },
     templates: {
       kicker: "Plantillas",
-      title: "Cuatro plantillas para causar una gran primera impresión",
+      title: "Nueve plantillas para causar una gran primera impresión",
       text: "Personaliza cada una con colores, tipografías y tamaños, y cambia de una a otra cuando quieras.",
       alt: "Plantilla {name}",
       items: {
@@ -52,6 +52,11 @@ const es = {
         elegant: { name: "Elegante", text: "Una cabecera con personalidad, títulos con serifa y una barra lateral en un tono suave." },
         classic: { name: "Clásica", text: "Un diseño tradicional a una columna, ideal para banca, sector público y derecho." },
         minimal: { name: "Minimalista", text: "Una línea de tiempo limpia y con mucho aire, para que tu contenido sea el protagonista." },
+        executive: { name: "Ejecutiva", text: "Una cabecera oscura y una columna de títulos: segura y sobria, para puestos directivos." },
+        creative: { name: "Creativa", text: "Color intenso, títulos redondeados y una forma divertida en la esquina: para profesiones creativas." },
+        compact: { name: "Compacta", text: "Dos columnas densas con márgenes estrechos: incluso una larga trayectoria cabe en una página." },
+        fresh: { name: "Fresca", text: "Una cabecera con un tono suave y bloques en tarjetas ligeras: cercana y moderna." },
+        contrast: { name: "Contraste", text: "Una barra lateral oscura a la derecha para el contacto y las habilidades, con acentos vivos." },
       },
     },
     features: {
@@ -62,7 +67,7 @@ const es = {
         { title: "PDF compatible con ATS", text: "Texto real y seleccionable con fuentes incrustadas, para que los sistemas de selección y los portales de empleo lo lean sin problemas." },
         { title: "Cinco idiomas", text: "Currículums en español, inglés, francés, alemán y húngaro: los títulos, las fechas y el orden del nombre cambian con un clic." },
         { title: "Asistente de IA para redactar", text: "Con un clic, tu perfil y las descripciones de tus puestos quedan más claros, convincentes o concisos, y tú apruebas cada sugerencia." },
-        { title: "Tu estilo", text: "4 plantillas, 10 colores de acento o el color que tú quieras, 5 combinaciones tipográficas y una foto ajustable." },
+        { title: "Tu estilo", text: "9 plantillas, 10 colores de acento o el color que tú quieras, 5 combinaciones tipográficas y una foto ajustable." },
         {
           title: "Guardado automático y privacidad",
           text: "Sin registro ni contraseña: cada cambio se guarda en tu navegador. El asistente de IA solo envía el campo que estás editando, nunca tu nombre ni tus datos de contacto.",
@@ -70,7 +75,7 @@ const es = {
       ],
     },
     steps: [
-      { title: "Elige una plantilla", text: "Cuatro plantillas limpias y listas para imprimir: cambia cuando quieras sin perder tus datos." },
+      { title: "Elige una plantilla", text: "Nueve plantillas limpias y listas para imprimir: cambia cuando quieras sin perder tus datos." },
       { title: "Rellénala", text: "Formularios sencillos con ejemplos y consejos. El indicador de calidad te muestra lo que aún falta." },
       { title: "Descárgala en PDF", text: "Cuando te guste el resultado, descarga un PDF impecable, con texto seleccionable y sin marca de agua." },
     ],
@@ -80,7 +85,7 @@ const es = {
       title: "Un único plan, sin complicaciones",
       text: "Redacta, diseña y previsualiza tu currículum gratis. Cuando te guste el resultado, desbloquea la descarga.",
       label: "Acceso completo de {days} días",
-      features: ["Descargas ilimitadas de PDF", "Las 4 plantillas, colores y tipografías", "Currículums en cinco idiomas", "Asistente de IA para redactar"],
+      features: ["Descargas ilimitadas de PDF", "Las 9 plantillas, colores y tipografías", "Currículums en cinco idiomas", "Asistente de IA para redactar"],
       cta: "Empezar mi currículum",
       renewal: "Pasados {days} días, la suscripción continúa por {monthly} al mes hasta que la canceles. Puedes cancelarla cuando quieras, con un solo clic, en la página «Mi cuenta».",
     },
@@ -191,6 +196,11 @@ const es = {
         classic: { name: "Clásica", description: "Tradicional, a una columna" },
         minimal: { name: "Minimalista", description: "Limpia, con línea de tiempo" },
         elegant: { name: "Elegante", description: "Cabecera de color, barra lateral" },
+        executive: { name: "Ejecutiva", description: "Cabecera oscura, columna de títulos" },
+        creative: { name: "Creativa", description: "Color intenso, etiquetas redondeadas" },
+        compact: { name: "Compacta", description: "Densa, a dos columnas" },
+        fresh: { name: "Fresca", description: "Cabecera suave, bloques en tarjetas" },
+        contrast: { name: "Contraste", description: "Barra lateral oscura a la derecha" },
       },
       templateAlt: "Plantilla {name}",
       accent: "Color de acento",

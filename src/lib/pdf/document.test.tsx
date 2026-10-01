@@ -27,8 +27,8 @@ const render = async (resume: Resume) => {
 
 describe("ResumeDocument", () => {
   // Two-column layouts fit the sample on one page; single-column ones run a little longer.
-  const maxPages: Record<TemplateId, number> = { modern: 1, elegant: 1, classic: 2, minimal: 2 };
-  for (const template of ["modern", "classic", "minimal", "elegant"] satisfies TemplateId[]) {
+  const maxPages: Record<TemplateId, number> = { modern: 1, elegant: 1, classic: 2, minimal: 2, executive: 2, creative: 2, compact: 1, fresh: 2, contrast: 1 };
+  for (const template of Object.keys(maxPages) as TemplateId[]) {
     it(`renders the sample with the ${template} template`, async () => {
       const resume = sampleResume("hu");
       resume.design.template = template;

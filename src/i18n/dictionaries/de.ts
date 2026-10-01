@@ -4,7 +4,7 @@ const de = {
   meta: {
     title: "GetProCV – Professionellen Lebenslauf in wenigen Minuten erstellen",
     description:
-      "Erstellen Sie in wenigen Minuten einen professionellen Lebenslauf: 4 moderne Vorlagen, Live-Vorschau als PDF, KI-Schreibassistent, fünf Sprachen, Foto und ein druckfertiges PDF mit markierbarem Text. Schreiben und Vorschau kostenlos.",
+      "Erstellen Sie in wenigen Minuten einen professionellen Lebenslauf: 9 moderne Vorlagen, Live-Vorschau als PDF, KI-Schreibassistent, fünf Sprachen, Foto und ein druckfertiges PDF mit markierbarem Text. Schreiben und Vorschau kostenlos.",
     keywords: [
       "Lebenslauf erstellen",
       "Lebenslauf Vorlage",
@@ -53,7 +53,7 @@ const de = {
     },
     templates: {
       kicker: "Vorlagen",
-      title: "Vier Vorlagen für einen starken ersten Eindruck",
+      title: "Neun Vorlagen für einen starken ersten Eindruck",
       text: "Jede Vorlage lässt sich mit Farben, Schriften und Größen anpassen – und Sie können jederzeit zwischen ihnen wechseln.",
       alt: "Vorlage „{name}“",
       items: {
@@ -61,6 +61,11 @@ const de = {
         elegant: { name: "Elegant", text: "Ein markanter Kopfbereich mit Serifen-Überschriften und eine dezent getönte Seitenleiste." },
         classic: { name: "Klassisch", text: "Ein traditionelles, einspaltiges Layout – für Banken, den öffentlichen Dienst und juristische Berufe." },
         minimal: { name: "Minimal", text: "Eine klare Zeitleiste mit viel Weißraum, die Ihre Inhalte für sich sprechen lässt." },
+        executive: { name: "Business", text: "Ein dunkler Kopfbereich und eine eigene Titelspalte – souverän und ruhig, für Führungspositionen." },
+        creative: { name: "Kreativ", text: "Kräftige Farbe, runde Abschnittslabels und eine verspielte Eckform – für kreative Berufe." },
+        compact: { name: "Kompakt", text: "Zwei dichte Spalten mit schmalen Rändern – auch eine lange Laufbahn passt auf eine Seite." },
+        fresh: { name: "Frisch", text: "Ein sanft getönter Kopfbereich und Einträge in leichten Karten – freundlich und modern." },
+        contrast: { name: "Kontrast", text: "Eine dunkle Seitenleiste rechts für Kontaktdaten und Kenntnisse, mit leuchtenden Akzenten." },
       },
     },
     features: {
@@ -71,7 +76,7 @@ const de = {
         { title: "ATS-freundliches PDF", text: "Echter, markierbarer Text mit eingebetteten Schriften – Bewerbermanagementsysteme und Jobportale lesen ihn problemlos aus." },
         { title: "Fünf Sprachen", text: "Lebensläufe auf Deutsch, Englisch, Französisch, Spanisch und Ungarisch: Überschriften, Datumsangaben und Namensreihenfolge wechseln mit einem Klick." },
         { title: "KI-Schreibassistent", text: "Ein Klick macht Ihr Profil und Ihre Tätigkeitsbeschreibungen klarer, überzeugender oder knapper – und Sie entscheiden über jeden Vorschlag." },
-        { title: "Ihr Stil", text: "4 Vorlagen, 10 Akzentfarben oder eine beliebige eigene Farbe, 5 Schriftkombinationen und ein frei anpassbares Foto." },
+        { title: "Ihr Stil", text: "9 Vorlagen, 10 Akzentfarben oder eine beliebige eigene Farbe, 5 Schriftkombinationen und ein frei anpassbares Foto." },
         {
           title: "Automatisches Speichern und Datenschutz",
           text: "Keine Registrierung, kein Passwort; jede Änderung wird in Ihrem Browser gespeichert. Der KI-Assistent sendet nur das Feld, das Sie gerade bearbeiten – niemals Ihren Namen oder Ihre Kontaktdaten.",
@@ -79,7 +84,7 @@ const de = {
       ],
     },
     steps: [
-      { title: "Vorlage wählen", text: "Vier klare, druckfertige Vorlagen – wechseln Sie jederzeit, ohne Ihre Daten zu verlieren." },
+      { title: "Vorlage wählen", text: "Neun klare, druckfertige Vorlagen – wechseln Sie jederzeit, ohne Ihre Daten zu verlieren." },
       { title: "Ausfüllen", text: "Einfache Formulare mit Beispielen und Tipps. Die Stärke-Anzeige zeigt Ihnen, was noch fehlt." },
       { title: "Als PDF herunterladen", text: "Wenn Sie zufrieden sind, laden Sie ein fertiges PDF mit markierbarem Text herunter – ohne Wasserzeichen." },
     ],
@@ -89,7 +94,7 @@ const de = {
       title: "Ein einfacher Tarif",
       text: "Schreiben, gestalten und prüfen Sie Ihren Lebenslauf in der Vorschau – kostenlos. Wenn Sie zufrieden sind, schalten Sie den Download frei.",
       label: "Voller Zugang für {days} Tage",
-      features: ["Unbegrenzt viele PDF-Downloads", "Alle 4 Vorlagen, Farben und Schriften", "Lebensläufe in fünf Sprachen", "KI-Schreibassistent"],
+      features: ["Unbegrenzt viele PDF-Downloads", "Alle 9 Vorlagen, Farben und Schriften", "Lebensläufe in fünf Sprachen", "KI-Schreibassistent"],
       cta: "Jetzt Lebenslauf beginnen",
       renewal: "Nach {days} Tagen läuft das Abo für {monthly} im Monat weiter, bis Sie es kündigen. Sie können jederzeit mit einem Klick auf der Seite „Mein Konto“ kündigen.",
     },
@@ -200,6 +205,11 @@ const de = {
         classic: { name: "Klassisch", description: "Traditionell, einspaltig" },
         minimal: { name: "Minimal", description: "Schlicht, mit Zeitleiste" },
         elegant: { name: "Elegant", description: "Farbiger Kopfbereich, Seitenleiste" },
+        executive: { name: "Business", description: "Dunkler Kopf, Titelspalte" },
+        creative: { name: "Kreativ", description: "Kräftige Farbe, runde Labels" },
+        compact: { name: "Kompakt", description: "Dicht, zweispaltig" },
+        fresh: { name: "Frisch", description: "Sanfter Kopf, Kartenblöcke" },
+        contrast: { name: "Kontrast", description: "Dunkle Seitenleiste rechts" },
       },
       templateAlt: "Vorlage „{name}“",
       accent: "Akzentfarbe",

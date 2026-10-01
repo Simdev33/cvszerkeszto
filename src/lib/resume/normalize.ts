@@ -5,7 +5,9 @@
 import { uid } from "@/lib/utils";
 import { DEFAULT_DESIGN, EMPTY_BASICS, emptyResume } from "./defaults";
 import { CV_LANGUAGES } from "./i18n";
-import type { Basics, Design, Entry, LanguageLevel, LanguageSkill, Resume, Section, SectionType, Skill } from "./types";
+import type { Basics, Design, Entry, LanguageLevel, LanguageSkill, Resume, Section, SectionType, Skill, TemplateId } from "./types";
+
+const TEMPLATE_IDS: TemplateId[] = ["modern", "classic", "minimal", "elegant", "executive", "creative", "compact", "fresh", "contrast"];
 
 export const EXPORT_APP = "cv-studio";
 
@@ -33,7 +35,7 @@ const LEVELS: LanguageLevel[] = ["native", "c2", "c1", "b2", "b1", "a2", "a1"];
 function normalizeDesign(input: unknown): Design {
   const d = isObject(input) ? input : {};
   return {
-    template: oneOf(d.template, ["modern", "classic", "minimal", "elegant"], DEFAULT_DESIGN.template),
+    template: oneOf(d.template, TEMPLATE_IDS, DEFAULT_DESIGN.template),
     accent: typeof d.accent === "string" && /^#[\da-f]{6}$/i.test(d.accent) ? d.accent : DEFAULT_DESIGN.accent,
     font: oneOf(d.font, ["inter", "roboto", "montserrat", "merriweather", "elegant"], DEFAULT_DESIGN.font),
     density: oneOf(d.density, ["compact", "normal", "spacious"], DEFAULT_DESIGN.density),

@@ -19,6 +19,11 @@ const VARIANTS: Pick<Design, "template" | "accent" | "font">[] = [
   { template: "classic", accent: "#7c2d12", font: "merriweather" },
   { template: "minimal", accent: "#0f766e", font: "roboto" },
   { template: "elegant", accent: "#312e81", font: "elegant" },
+  { template: "executive", accent: "#9a3412", font: "elegant" },
+  { template: "creative", accent: "#6b21a8", font: "montserrat" },
+  { template: "compact", accent: "#0369a1", font: "inter" },
+  { template: "fresh", accent: "#166534", font: "roboto" },
+  { template: "contrast", accent: "#4338ca", font: "inter" },
 ];
 
 it("renders template thumbnails", async () => {
