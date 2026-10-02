@@ -8,8 +8,8 @@ export const SITE = {
   operator: {
     name: "TourCierge s. r. o.",
     address: "Karpatské námestie 10A, 831 06 Bratislava – mestská časť Rača, Slovenská republika",
-    /** Not provided yet – while empty, the legal pages show a "to be completed" marker. */
-    email: "",
+    /** Contact address – the same for every TourCierge site. */
+    email: "help@testmyabilities.com",
     registry: "IČO 57383898 · Obchodný register Mestského súdu Bratislava III, oddiel Sro, vložka č. 194953/B",
     taxNumber: "DIČ 2122693199",
   },
