@@ -37,6 +37,12 @@ const es = {
       title1: "Un currículum profesional,",
       title2: "en minutos.",
       text: "Elige una plantilla limpia, rellena tus datos y descarga un PDF listo para imprimir. Con vista previa en tiempo real y en cinco idiomas.",
+      trust: [
+        "Cifrado de 256 bits",
+        "Tu CV se queda en tu dispositivo",
+        "Sin registro",
+        "Conforme al RGPD",
+      ],
       cta: "Crear mi currículum",
       sample: "Ver un ejemplo",
       note: "Redactar y previsualizar es gratis: solo pagas al descargar.",

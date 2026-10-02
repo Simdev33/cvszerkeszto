@@ -37,6 +37,12 @@ const fr = {
       title1: "Un CV professionnel,",
       title2: "en quelques minutes.",
       text: "Choisissez un modèle épuré, renseignez vos informations et téléchargez un PDF prêt à imprimer. Avec un aperçu en direct, en cinq langues.",
+      trust: [
+        "Chiffrement 256 bits",
+        "Votre CV reste sur votre appareil",
+        "Sans inscription",
+        "Conforme au RGPD",
+      ],
       cta: "Créer mon CV",
       sample: "Voir un exemple",
       note: "La rédaction et l’aperçu sont gratuits – vous ne payez qu’au moment du téléchargement.",

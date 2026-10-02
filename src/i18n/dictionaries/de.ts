@@ -46,6 +46,12 @@ const de = {
       title1: "Ein professioneller Lebenslauf,",
       title2: "in wenigen Minuten.",
       text: "Wählen Sie eine klare Vorlage, tragen Sie Ihre Angaben ein und laden Sie ein druckfertiges PDF herunter. Mit Live-Vorschau, in fünf Sprachen.",
+      trust: [
+        "256-Bit-Verschlüsselung",
+        "Ihr Lebenslauf bleibt auf Ihrem Gerät",
+        "Ohne Registrierung",
+        "DSGVO-konform",
+      ],
       cta: "Lebenslauf erstellen",
       sample: "Beispiel ansehen",
       note: "Schreiben und Vorschau sind kostenlos – Sie zahlen erst beim Herunterladen.",

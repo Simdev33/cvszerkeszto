@@ -37,6 +37,12 @@ const hu = {
       title1: "Profi önéletrajz,",
       title2: "percek alatt.",
       text: "Válassz egy letisztult sablont, töltsd ki az adataidat, és töltsd le nyomtatásra kész PDF-ben. Élő előnézettel, öt nyelven.",
+      trust: [
+        "256 bites titkosítás",
+        "Az önéletrajzod a gépeden marad",
+        "Regisztráció nélkül",
+        "GDPR-kompatibilis",
+      ],
       cta: "Önéletrajz készítése",
       sample: "Minta megtekintése",
       note: "Az írás és az előnézet ingyenes – csak a letöltésért fizetsz.",

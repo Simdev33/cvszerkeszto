@@ -41,6 +41,12 @@ const en = {
       title1: "A professional CV,",
       title2: "in minutes.",
       text: "Pick a clean template, fill in your details and download a print-ready PDF. With a live preview, in five languages.",
+      trust: [
+        "256-bit Encryption",
+        "Your CV stays on your device",
+        "No sign-up required",
+        "GDPR Compliant",
+      ],
       cta: "Create my CV",
       sample: "See an example",
       note: "Writing and previewing are free – you only pay when you download.",

@@ -1,4 +1,21 @@
-import { ArrowRight, Check, ChevronDown, Download, Eye, FileCheck2, Globe2, LayoutTemplate, PencilLine, ShieldCheck, Sparkles, SwatchBook, WandSparkles } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  ChevronDown,
+  Download,
+  Eye,
+  FileCheck2,
+  Globe2,
+  Laptop,
+  LayoutTemplate,
+  Lock,
+  PencilLine,
+  ShieldCheck,
+  Sparkles,
+  SwatchBook,
+  UserX,
+  WandSparkles,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -12,6 +29,8 @@ const TEMPLATE_IDS = ["modern", "elegant", "classic", "minimal", "executive", "c
 // Same order as landing.features.items and landing.steps in the dictionaries.
 const FEATURE_ICONS = [<Eye key="0" />, <FileCheck2 key="1" />, <Globe2 key="2" />, <WandSparkles key="3" />, <SwatchBook key="4" />, <ShieldCheck key="5" />];
 const STEP_ICONS = [<LayoutTemplate key="0" />, <PencilLine key="1" />, <Download key="2" />];
+// Same order as landing.hero.trust.
+const TRUST_ICONS = [Lock, Laptop, UserX, ShieldCheck];
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -40,6 +59,19 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
               <span className="bg-linear-to-r from-primary via-[#8b5cf6] to-[#ec4899] bg-clip-text text-transparent">{t.hero.title2}</span>
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-pretty text-fg-muted sm:text-lg lg:mx-0">{t.hero.text}</p>
+            <ul className="mx-auto mt-7 grid w-fit max-w-full grid-cols-[auto_auto] gap-x-5 gap-y-3 text-left sm:gap-x-10 lg:mx-0">
+              {t.hero.trust.map((label, index) => {
+                const Icon = TRUST_ICONS[index];
+                return (
+                  <li key={label} className="flex items-center gap-2 text-[13px] leading-snug font-medium text-fg-muted">
+                    <span className="grid size-6 shrink-0 place-items-center rounded-full bg-success-soft text-success">
+                      <Icon className="size-3.5" strokeWidth={2.4} />
+                    </span>
+                    {label}
+                  </li>
+                );
+              })}
+            </ul>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
               <Link
                 href={editor}
